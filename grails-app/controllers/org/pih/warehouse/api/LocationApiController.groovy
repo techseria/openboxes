@@ -36,5 +36,11 @@ class LocationApiController extends BaseDomainApiController {
         render ([data:locations] as JSON)
      }
 
+    def getLocations = {
+        Location currentLocation = Location.get(session?.warehouse?.id)
+        User currentUser = User.get(session?.user?.id)
 
+        def locations = locationService.getLocations(params, currentLocation, currentUser)
+        render ([data:locations] as JSON)
+    }
 }

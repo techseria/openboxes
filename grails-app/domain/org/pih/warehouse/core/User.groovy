@@ -78,7 +78,11 @@ class User extends Person {
     }
 
     def getEffectiveRoles(Location currentLocation) {
-        def defaultRoles = roles?.collect{it} ?: []
+        return getEffectiveRoles(currentLocation, false)
+    }
+
+    def getEffectiveRoles(Location currentLocation, excludeFinancialUser) {
+        def defaultRoles = roles?.findAll {excludeFinancialUser ? it.roleType != RoleType.ROLE_FINANCE : it }?.collect{it} ?: []
         def rolesByLocation = getRolesByCurrentLocation(currentLocation)
         defaultRoles.addAll(rolesByLocation)
         return defaultRoles

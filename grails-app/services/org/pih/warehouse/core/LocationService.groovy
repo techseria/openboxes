@@ -89,6 +89,17 @@ class LocationService {
 		return locations
 	}
 
+	def getLocations(params, Location currentLocation, User user) {
+		def locations = getLoginLocations(currentLocation).findAll { Location location -> user.getEffectiveRoles(location, true) }
+
+		if (params.locationTypeCode) {
+			LocationTypeCode locationTypeCode = params.locationTypeCode as LocationTypeCode
+			return locations.findAll { it.locationType.locationTypeCode == locationTypeCode }
+		}
+
+		return locations
+	}
+
 	def getLocations(String [] fields, Map params, Boolean isSuperuser, String direction, Location currentLocation) {
 
 		def locations = new HashSet()
@@ -167,7 +178,7 @@ class LocationService {
         def nullHigh = new NullComparator(true)
         def locations = getLoginLocations(currentLocation)
         if (locations) {
-			locations = locations.findAll { Location location -> user.getEffectiveRoles(location) }
+			locations = locations.findAll { Location location -> user.getEffectiveRoles(location, true) }
 			locations = locations.collect { Location location ->
 				[
 						id           : location?.id,

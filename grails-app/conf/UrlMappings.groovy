@@ -156,6 +156,13 @@ class UrlMappings {
             action = [POST:"exportCsv"]
         }
 
+        // Locations API
+
+        "/api/locations/getLocations"(parseRequest: true) {
+            controller = "locationApi"
+            action = [GET:"getLocations"]
+        }
+
         // Internal Locations API
 
         "/api/internalLocations/receiving"(parseRequest: true) {

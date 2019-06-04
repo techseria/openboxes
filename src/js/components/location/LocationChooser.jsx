@@ -49,7 +49,7 @@ class LocationChooser extends Component {
   }
 
   fetchLocations() {
-    const url = '/openboxes/api/locations?locationTypeCode=DEPOT';
+    const url = '/openboxes/api/locations/getLocations?locationTypeCode=DEPOT';
 
     return apiClient.get(url)
       .then((response) => {
