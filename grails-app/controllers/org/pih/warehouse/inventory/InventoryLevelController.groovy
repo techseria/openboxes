@@ -6,7 +6,7 @@
 * By using this software in any fashion, you are agreeing to be bound by
 * the terms of this license.
 * You must not remove this notice, or any other, from this software.
-**/ 
+**/
 package org.pih.warehouse.inventory
 
 import grails.orm.PagedResultList
@@ -61,7 +61,9 @@ class InventoryLevelController {
     def create = {
         def inventoryLevelInstance = new InventoryLevel()
         inventoryLevelInstance.properties = params
-        return [inventoryLevelInstance: inventoryLevelInstance]
+        def location = Location.get(session.warehouse.id)
+        def inventory = location?.inventory
+        return [inventoryLevelInstance: inventoryLevelInstance, inventory: inventory]
     }
 
     def save = {
@@ -72,7 +74,9 @@ class InventoryLevelController {
             redirect(controller: "product", action: "edit", id: inventoryLevelInstance?.product?.id )
         }
         else {
-            render(view: "create", model: [inventoryLevelInstance: inventoryLevelInstance])
+            def location = Location.get(session.warehouse.id)
+            def inventory = location?.inventory
+            render(view: "create", model: [inventoryLevelInstance: inventoryLevelInstance, inventory: inventory])
         }
     }
 
@@ -110,7 +114,7 @@ class InventoryLevelController {
         if (inventoryLevelInstance) {
             if (params.version) {
                 def version = params.version.toLong()
-                if (inventoryLevelInstance.version > version) {                    
+                if (inventoryLevelInstance.version > version) {
                     inventoryLevelInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [warehouse.message(code: 'inventoryLevel.label', default: 'InventoryLevel')] as Object[], "Another user has updated this InventoryLevel while you were editing")
                     render(view: "edit", model: [inventoryLevelInstance: inventoryLevelInstance])
                     return
@@ -153,10 +157,10 @@ class InventoryLevelController {
             redirect(action: "list")
         }
     }
-	
-	
-	def markAsSupported = { 
-		log.info "Mark as supported " + params	
+
+
+	def markAsSupported = {
+		log.info "Mark as supported " + params
 		def productIds = params.list("product.id")
 		def location = Location.get(session.warehouse.id)
         if (productIds) {
@@ -199,8 +203,8 @@ class InventoryLevelController {
 		redirect(controller: "inventory", action: "browse")
 	}
 
-	
-	def markAs(Product product, Inventory inventory, InventoryStatus inventoryStatus) { 		
+
+	def markAs(Product product, Inventory inventory, InventoryStatus inventoryStatus) {
 		def inventoryLevel = InventoryLevel.findByProductAndInventory(product, inventory)
 		// Add a new inventory level
 		if (!inventoryLevel) {

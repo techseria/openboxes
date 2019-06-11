@@ -204,10 +204,12 @@ class ProductController {
         def startTime = System.currentTimeMillis()
 		def productInstance = new Product(params)
         def rootCategory = productService.getRootCategory()
+		def location = Location.get(session.warehouse.id)
+		def inventory = location?.inventory
 
         println "Create product: " + (System.currentTimeMillis() - startTime) + " ms"
 
-		render(view: "edit", model: [productInstance : productInstance, rootCategory: rootCategory])
+		render(view: "edit", model: [productInstance : productInstance, rootCategory: rootCategory, inventory: inventory])
         println "After render create.gsp for product: " + (System.currentTimeMillis() - startTime) + " ms"
 	}
 
@@ -217,6 +219,8 @@ class ProductController {
 
 		def productInstance = new Product();
 		productInstance.properties = params
+		def location = Location.get(session.warehouse.id)
+		def inventory = location?.inventory
 
         updateTags(productInstance, params)
         //productInstance.validate()
@@ -281,7 +285,7 @@ class ProductController {
             //return;
 		}
 
-        render(view: "edit", model: [productInstance: productInstance, rootCategory: productService.getRootCategory()])
+        render(view: "edit", model: [productInstance: productInstance, rootCategory: productService.getRootCategory(), inventory: inventory])
 	}
 
 
@@ -306,13 +310,12 @@ class ProductController {
 			redirect(controller: "inventory", action: "browse")
 		}
 		else {
-
-			def inventoryLevelInstance = InventoryLevel.findByProductAndInventory(productInstance, location.inventory)
+			def inventory = location?.inventory
+			def inventoryLevelInstance = InventoryLevel.findByProductAndInventory(productInstance, inventory)
 			if (!inventoryLevelInstance) {
 				inventoryLevelInstance = new InventoryLevel();
 			}
-
-			[productInstance: productInstance, inventoryInstance: location.inventory, inventoryLevelInstance:inventoryLevelInstance]
+			[productInstance: productInstance, inventoryInstance: location.inventory, inventoryLevelInstance:inventoryLevelInstance, inventory: inventory]
 		}
 	}
 
@@ -344,6 +347,8 @@ class ProductController {
 	def update = {
 		log.info "Update called with params " + params
 		def productInstance = Product.get(params.id)
+		def location = Location.get(session.warehouse.id)
+		def inventory = location?.inventory
 
 		if (productInstance) {
             if (params.version) {
@@ -351,7 +356,7 @@ class ProductController {
                 if (productInstance.version > version) {
                     productInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [
                             warehouse.message(code: 'product.label', default: 'Product')] as Object[], "Another user has updated this product while you were editing")
-                    render(view: "edit", model: [productInstance: productInstance])
+                    render(view: "edit", model: [productInstance: productInstance], inventory: inventory)
                     return
                 }
             }
@@ -387,7 +392,7 @@ class ProductController {
                     //redirect(controller: "inventoryItem", action: "showStockCard", id: productInstance?.id)
                     redirect(controller: "product", action: "edit", id: productInstance?.id)
                 } else {
-                    render(view: "edit", model: [productInstance: productInstance])
+                    render(view: "edit", model: [productInstance: productInstance, inventory:inventory])
                 }
 
             } catch (ValidationException e) {
@@ -396,7 +401,7 @@ class ProductController {
                 productInstance.attributes.clear()
                 productInstance = Product.read(params.id)
                 productInstance.errors = e.errors
-                render view: "edit", model: [productInstance:productInstance]
+                render view: "edit", model: [productInstance:productInstance, inventory:inventory]
                 return
             }
         }
@@ -560,12 +565,13 @@ class ProductController {
 		}
 		else {
 			def location = Location.get(session.warehouse.id)
-			def inventoryLevelInstance = InventoryLevel.findByProductAndInventory(productInstance, location.inventory)
+			def inventory = location?.inventory
+			def inventoryLevelInstance = InventoryLevel.findByProductAndInventory(productInstance, inventory)
 			if (!inventoryLevelInstance) {
 				inventoryLevelInstance = new InventoryLevel();
 			}
 
-			render(view: "edit", model: [productInstance: productInstance, inventoryLevelInstance: inventoryLevelInstance, packageInstance: packageInstance, rootCategory: productService.getRootCategory()])
+			render(view: "edit", model: [productInstance: productInstance, inventoryLevelInstance: inventoryLevelInstance, packageInstance: packageInstance, rootCategory: productService.getRootCategory(), inventory: inventory])
 		}
 	}
 
@@ -750,7 +756,9 @@ class ProductController {
 					redirect(action: "edit", id: productInstance?.id)
 				}
 				else {
-					render(view: "edit", model: [productInstance: productInstance])
+					def location = Location.get(session.warehouse.id)
+					def inventory = location?.inventory
+					render(view: "edit", model: [productInstance: productInstance, inventory: inventory])
 				}
 			}
 		}
