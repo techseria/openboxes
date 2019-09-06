@@ -175,7 +175,7 @@
 
                         <div class="buttons">
 
-                            <button name="_eventId_pickShipmentItem" class="button">
+                            <button name="_eventId" value="pickShipmentItem" class="button">
                                 <img src="${createLinkTo(dir:'images/icons/silk',file:'accept.png')}" alt="Pick Item Item"/>&nbsp;
                                 <g:message code="shipping.button.pick.label"/>
                             </button>

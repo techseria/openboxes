@@ -11,8 +11,12 @@ package org.pih.warehouse.shipping
 
 class ShipperController {
 
-    def scaffold = Shipper;
+    static scaffold = Shipper;
     
-	
+	def list ={
+        def shipperInstanceList = Shipper.list()
+        def total = shipperInstanceList.size()
+        [shipperInstanceList:shipperInstanceList,shipperInstanceTotal:total]
+    }
 
 }

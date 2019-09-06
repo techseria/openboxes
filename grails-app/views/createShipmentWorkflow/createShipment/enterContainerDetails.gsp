@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="layout" content="custom" />
     <title><warehouse:message code="shipping.addShipmentItems.label"/></title>
-
+    <asset:javascript src="application.js"/>
     <style>
     .ui-autocomplete { height: 250px; overflow-y: scroll; overflow-x: hidden;}
     .draggable { cursor: move; }
@@ -60,27 +60,27 @@
     </g:elseif>
 
     <div>
-        <g:render template="../shipment/summary" />
+      %{--  <g:render template="/shipment/summary" />--}%
         <g:render template="flowHeader" model="['currentState':'Packing']"/>
 
         <!-- figure out what dialog box, if any, we need to render -->
-        <g:if test="${containerToEdit || containerTypeToAdd}">
-            <g:render template="editContainer" model="['container':containerToEdit, 'containerTypeToAdd':containerTypeToAdd]"/>
+        <g:if test="${flash.containerToEdit || flash.containerTypeToAdd}">
+            <g:render template="editContainer" model="['container':flash.containerToEdit, 'containerTypeToAdd':flash.containerTypeToAdd]"/>
         </g:if>
-        <g:if test="${containerToMove}">
-            <g:render template="moveContainer" model="['container':containerToMove]"/>
+        <g:if test="${flash.containerToMove}">
+            <g:render template="moveContainer" model="['container':flash.containerToMove]"/>
         </g:if>
-        <g:if test="${boxToEdit}">
-            <g:render template="editBox" model="['box':boxToEdit, 'addBoxToContainerId':addBoxToContainerId]"/>
+        <g:if test="${flash.boxToEdit}">
+            <g:render template="editBox" model="['box':flash.boxToEdit, 'addBoxToContainerId':flash.addBoxToContainerId]"/>
         </g:if>
-        <g:if test="${addBoxToContainerId}">
-            <g:render template="editBox" model="['box':boxToEdit, 'addBoxToContainerId':addBoxToContainerId]"/>
+        <g:if test="${flash.addBoxToContainerId}">
+            <g:render template="editBox" model="['box':flash.boxToEdit, 'addBoxToContainerId':flash.addBoxToContainerId]"/>
         </g:if>
-        <g:if test="${itemToEdit && shipmentInstance?.destination?.id == session?.warehouse?.id}">
-            <g:render template="addIncomingItem" model="['item':itemToEdit, 'addItemToContainerId':addItemToContainerId]"/>
+        <g:if test="${flash.itemToEdit && shipmentInstance?.destination?.id == session?.warehouse?.id}">
+            <g:render template="addIncomingItem" model="['item':flash.itemToEdit, 'addItemToContainerId':flash.addItemToContainerId]"/>
         </g:if>
-        <g:elseif test="${itemToEdit}">
-            <g:render template="editItem" model="['item':itemToEdit, 'addItemToContainerId':addItemToContainerId]"/>
+        <g:elseif test="${flash.itemToEdit}">
+            <g:render template="editItem" model="['item':flash.itemToEdit, 'addItemToContainerId':flash.addItemToContainerId]"/>
         </g:elseif>
         <%--
         <g:if test="${addItemToContainerId}">
@@ -90,26 +90,26 @@
             <g:render template="addItem" model="['item':itemToEdit, 'addItemToContainerId':0]"/>
         </g:if>
         --%>
-        <g:if test="${addItemToContainerId && shipmentInstance?.destination?.id == session?.warehouse?.id}">
-            <g:render template="addIncomingItem" model="['item':itemToEdit, 'addItemToContainerId':addItemToContainerId]"/>
+        <g:if test="${flash.addItemToContainerId && shipmentInstance?.destination?.id == session?.warehouse?.id}">
+            <g:render template="addIncomingItem" model="['item':flash.itemToEdit, 'addItemToContainerId':flash.addItemToContainerId]"/>
         </g:if>
-        <g:elseif test="${addItemToContainerId}">
-            <g:render template="addItem" model="['item':itemToEdit, 'addItemToContainerId':addItemToContainerId]"/>
+        <g:elseif test="${flash.addItemToContainerId}">
+            <g:render template="addItem" model="['item':flash.itemToEdit, 'addItemToContainerId':flash.addItemToContainerId]"/>
         </g:elseif>
-        <g:if test="${addItemToShipmentId && shipmentInstance?.destination?.id == session?.warehouse?.id}">
-            <g:render template="addIncomingItem" model="['item':itemToEdit, 'addItemToContainerId':0]"/>
+        <g:if test="${flash.addItemToShipmentId && shipmentInstance?.destination?.id == session?.warehouse?.id}">
+            <g:render template="addIncomingItem" model="['item':flash.itemToEdit, 'addItemToContainerId':0]"/>
         </g:if>
-        <g:elseif test="${addItemToShipmentId }">
-            <g:render template="addItem" model="['item':itemToEdit, 'addItemToContainerId':0]"/>
+        <g:elseif test="${flash.addItemToShipmentId }">
+            <g:render template="addItem" model="['item':flash.itemToEdit, 'addItemToContainerId':0]"/>
         </g:elseif>
 
-        <g:if test="${itemToMove }">
-            <g:render template="moveItem" model="['item':itemToMove]"/>
+        <g:if test="${flash.itemToMove }">
+            <g:render template="moveItem" model="['item':flash.itemToMove]"/>
         </g:if>
 
         <hr/>
         <div class="buttonBar">
-            <g:render template="shipmentButtons"/>
+            <g:render template="shipmentButtons" model="[shipmentWorkflow:shipmentWorkflow]"/>
             <g:render template="containerButtons" model="[container:selectedContainer]"/>
 
             <div class="button-group">
@@ -122,8 +122,6 @@
         <div class="yui-gd">
             <div class="yui-u first">
 
-
-                ${flow?.shipmentInstance}
                 <%-- Display the pallets & boxes in this shipment --%>
 
                 <div class="box" >
@@ -167,13 +165,13 @@
 
                                 <td class="middle">
                                     <div class="containerName">
-                                        <g:link action="createShipment" event="enterContainerDetails" style="display: block;">
+                                        <g:link controller="createShipmentWorkflow" action="trackingDeatilsNext" style="display: block;">
                                             <warehouse:message code="shipping.unpackedItems.label"/>
                                         </g:link>
                                     </div>
                                 </td>
                                 <td class="middle right">
-                                    <g:link action="createShipment" event="enterContainerDetails" params="['containerId':null]">
+                                    <g:link  controller="createShipmentWorkflow" action="trackingDeatilsNext"  params="['containerId':null]">
                                         ${shipmentInstance?.countShipmentItemsByContainer(null)} items
                                     </g:link>
                                 </td>
@@ -288,8 +286,7 @@
                             <tr>
                                 <td colspan="5">
                                     <div class="center">
-
-                                        <a href="javascript:void(0);" class="btnAddContainers button">Add packing units</a>
+                                        <g:link action="javascript:void(0);" class="btnAddContainers button">Add packing units</g:link>
                                         <g:submitButton name="deleteContainersAndItems" value="Delete Selected" class="button icon trash" onclick="return confirm('${warehouse.message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"></g:submitButton>
                                         <g:submitButton name="deleteAllContainersAndItems" value="Delete All" class="button icon trash" onclick="return confirm('${warehouse.message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"></g:submitButton>
 
@@ -493,10 +490,10 @@
     </div>
     <div class="buttons">
         <g:form action="createShipment" method="post" >
-            <button name="_eventId_back" class="button">&lsaquo; <warehouse:message code="default.button.back.label"/></button>
-            <button name="_eventId_next" class="button"><warehouse:message code="default.button.next.label"/> &rsaquo;</button>
-            <button name="_eventId_save" class="button"><warehouse:message code="default.button.saveAndExit.label"/></button>
-            <button name="_eventId_cancel" class="button"><warehouse:message code="default.button.cancel.label"/></button>
+            <button name="_eventId_back" value="backContainerDeatils" class="button">&lsaquo; <warehouse:message code="default.button.back.label"/></button>
+            <button name="_eventId_next" value="nextContainerDeatils" class="button"><warehouse:message code="default.button.next.label"/> &rsaquo;</button>
+            <button name="_eventId_save" value="saveContainerDeatils" class="button"><warehouse:message code="default.button.saveAndExit.label"/></button>
+            <button name="_eventId_cancel" value="cancel" class="button"><warehouse:message code="default.button.cancel.label"/></button>
         </g:form>
     </div>
 </div>

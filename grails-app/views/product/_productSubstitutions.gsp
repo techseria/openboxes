@@ -50,11 +50,11 @@
                                     <g:message code="default.button.edit.label"/>
                                 </g:link>
 
-                                <g:remoteLink controller="product" action="removeFromProductAssociations" class="button"
+                                <g:link controller="product" action="removeFromProductAssociations" class="button"
                                               id="${productSubstitution.id}" params="['product.id': productSubstitution.product.id]"
                                             update="productSubstitutions">
                                     <g:message code="default.button.delete.label"/>
-                                </g:remoteLink>
+                                </g:link>
                             </td>
 
                         </tr>

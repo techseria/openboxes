@@ -1,11 +1,13 @@
 <%@ page import="org.pih.warehouse.core.RoleType" %>
 <!-- Block which includes the logo and login banner -->
+
+<asset:javascript src="application.js"/>
+<asset:javascript src="application.css"/>
 <div id="header" class="yui-b">
 	<div id="banner" class="yui-gd">
         <div class="yui-u first" >
             <g:displayLogo location="${session?.warehouse?.id}" includeLink="${true}"/>
         </div>
-
         <div class="yui-u">
             <div id="loggedIn">
                 <ul>
@@ -31,6 +33,13 @@
                                             <g:message code="default.edit.label" args="[g.message(code:'user.profile.label')]"></g:message>
                                         </g:link>
                                     </li>
+                                    <li class="action-menu-item">
+                                        <g:link  controller="dashboard" action="index" style="color: #666;">
+                                            <img src="${resource(dir: 'images/icons/silk', file: 'application_view_tile.png')}"/>
+                                            <warehouse:message code="dashboard.label" default="Dashboard"/>
+                                        </g:link>
+                                    </li>
+
                                     <g:if test="${session._showTime}">
                                         <li class="action-menu-item">
                                             <g:link controller="dashboard" action="index" params="[showTime:'off']" style="color: #666;">
@@ -75,6 +84,26 @@
                                             ${warehouse.message(code:'cache.flush.label', default: 'Refresh data caches')}
                                         </g:link>
                                     </li>
+
+                                    <g:if test="${session?.warehouse}">
+                                        <%--
+                                        <li class="action-menu-item">
+                                            <g:link controller="dashboard" action="chooseLocation" style="color: #666">
+                                                <img src="${resource(dir: 'images/icons/silk', file: 'map.png')}"/>
+                                                <warehouse:message code="dashboard.changeLocation.label" default="Change location"/>
+                                            </g:link>
+                                        </li>
+                                        --%>
+                                        <li class="action-menu-item">
+                                            <a href="javascript:void(0);" class="btn-show-dialog"
+                                               data-title="${g.message(code:'dashboard.chooseLocation.label')}"
+                                               data-url="${request.contextPath}/dashboard/changeLocation?targetUri=${targetUri}"
+                                               style="color: #666">
+                                                <img src="${resource(dir: 'images/icons/silk', file: 'map.png')}"/>
+                                                <warehouse:message code="dashboard.changeLocation.label" default="Change location"/>
+                                            </a>
+                                        </li>
+                                    </g:if>
                                     <li class="action-menu-item">
                                         <g:link class="list" controller="auth" action="logout" style="color:#666">
                                             <img src="${resource(dir: 'images/icons/silk', file: 'door.png')}" class="middle"/>
@@ -96,60 +125,6 @@
                         </g:if>
 
                     </g:if>
-
-                    <li>
-                        <span class="action-menu">
-                            <img src="${resource(dir: 'images/icons/silk', file: 'help.png')}" class="action-hover-btn"/>
-                            <ul class="actions" style="text-align:left;">
-
-                                <li class="action-menu-item">
-                                    <g:link url="http://openboxes.readthedocs.org/en/latest/" style="color: #666;" target="_blank">
-                                        <img src="${resource(dir: 'images/icons/silk', file: 'book.png')}"/>
-                                        <warehouse:message code="docs.userGuide.label" default="User Guide"/>
-                                    </g:link>
-                                </li>
-                                <li class="action-menu-item">
-                                    <g:link url="http://openboxes.atlassian.net/wiki/questions" style="color: #666;" target="_blank">
-                                        <img src="${resource(dir: 'images/icons/silk', file: 'help.png')}"/>
-                                        <warehouse:message code="docs.faq.label" default="FAQ"/>
-                                    </g:link>
-                                </li>
-                                <li class="action-menu-item">
-                                    <g:link url="https://groups.google.com/forum/#!forum/openboxes" style="color: #666;" target="_blank">
-                                        <img src="${resource(dir: 'images/icons/silk', file: 'comment.png')}"/>
-                                        <warehouse:message code="docs.forum.label" default="Forum"/>
-                                    </g:link>
-                                </li>
-                                <li class="action-menu-item">
-                                    <g:link url="https://github.com/openboxes/openboxes/releases/tag/v${g.meta(name:'app.version')}" style="color: #666;" target="_blank">
-                                        <img src="${resource(dir: 'images/icons/silk', file: 'note.png')}"/>
-                                        <warehouse:message code="docs.releaseNotes.label" default="Release Notes"/> (${g.meta(name:'app.version')})
-                                    </g:link>
-                                </li>
-                                <li>
-                                    <hr/>
-                                </li>
-                                <li class="action-menu-item">
-                                    <g:link url="https://openboxes.atlassian.net/secure/CreateIssue!default.jspa" style="color: #666;" target="_blank">
-                                        <img src="${resource(dir: 'images/icons/silk', file: 'bug.png')}"/>
-                                        <warehouse:message code="docs.reportBug.label" default="Report a Bug"/>
-                                    </g:link>
-                                </li>
-                                <li class="action-menu-item">
-                                    <g:link url="mailto:support@openboxes.com" style="color: #666;" target="_blank">
-                                        <img src="${resource(dir: 'images/icons/silk', file: 'email.png')}"/>
-                                        <warehouse:message code="docs.contactSupport.label" default="Email Support"/>
-                                    </g:link>
-                                </li>
-                                <li class="action-menu-item">
-                                    <g:link url="mailto:feedback@openboxes.com" data-uv-trigger="contact" style="color: #666;" target="_blank">
-                                        <img src="${resource(dir: 'images/icons/silk', file: 'lightbulb.png')}"/>
-                                        <warehouse:message code="docs.provideFeedback.label" default="Request a New Feature"/>
-                                    </g:link>
-                                </li>
-                            </ul>
-                        </span>
-                    </li>
                 </ul>
             </div>
         </div>

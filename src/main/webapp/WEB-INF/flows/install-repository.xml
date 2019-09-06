@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+  <!--  <on-start>
+        <evaluate expression="dummyService.serviceMethod()"/>
+    </on-start>
+
+    <view-state id="dummy" view="/dummy/dummy.gsp">
+        <transition to="myEndState"/>
+    </view-state>
+
+    <end-state id="myEndState" >
+        <output name="bookingId" value="10" />
+    </end-state>-->
+
+    <view-state id="createShipment" view="/createShipmentWorkflow/createShipment/enterContainerDetails">
+        <transition on="success" to="enterShipmentDetails"/>
+        <transition on="enterShipmentDetails" to="enterShipmentDetails" />
+        <transition on="enterTrackingDetails" to="enterTrackingDetails" />
+        <transition on="enterContainerDetails" to="enterContainerDetails" />
+        <transition on="pickShipmentItems" to="pickShipmentItems" />
+        <transition on="sendShipment" to="sendShipment" />
+        <transition on="showDetails" to="showDetails" />
+    </view-state>
+
+    <view-state id="enterShipmentDetails" />
+    <view-state id="enterTrackingDetails" />
+    <view-state id="enterContainerDetails" />
+    <view-state id="pickShipmentItems" />
+    <view-state id="sendShipment" />
+    <view-state id="showDetails" />
+
+</flow>

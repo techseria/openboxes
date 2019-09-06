@@ -4,6 +4,7 @@
 	<meta name="layout" content="custom" />
 	<g:set var="entityName" value="${warehouse.message(code: 'shipment.label', default: 'Shipment')}" />
 	<title><warehouse:message code="shipping.addDocument.label" /></title>
+	<asset:javascript src="application.js"/>
 </head>
 <body>
 

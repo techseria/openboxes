@@ -10,6 +10,7 @@
 package org.pih.warehouse.core
 
 import grails.converters.JSON
+import grails.util.Holders
 import org.pih.warehouse.util.RequestUtil
 import org.springframework.validation.BeanPropertyBindingResult
 import util.ConfigHelper;
@@ -18,7 +19,7 @@ class ErrorsController {
 
 	MailService mailService
 	def userService
-    def grailsApplication
+    // def grailsApplication
 
 	def handleException = {
         if (RequestUtil.isAjax(request)) {
@@ -107,10 +108,10 @@ class ErrorsController {
 
 
     def sendFeedback = {
-        def enabled = Boolean.parseBoolean(grailsApplication.config.openboxes.mail.feedback.enabled?:"true");
+        def enabled = Boolean.parseBoolean(Holders.config.openboxes.mail.feedback.enabled?:"true");
 
         if (enabled) {
-            def recipients = grailsApplication.config.openboxes.mail.feedback.recipients
+            def recipients = Holders.config.openboxes.mail.feedback.recipients
 
             def jsonObject = JSON.parse(params.data)
             byte[] attachment = jsonObject[1].replace("data:image/png;base64,","").decodeBase64()
@@ -136,11 +137,11 @@ class ErrorsController {
 
 	def processError = {
 
-        //def enabled = Boolean.valueOf(grailsApplication.config.openboxes.mail.errors.enabled)
-        //def enabled = Boolean.parseBoolean(grailsApplication.config.openboxes.mail.errors.enabled?:"true");
-        def enabled = ConfigHelper.booleanValue(grailsApplication.config.openboxes.mail.errors.enabled)
+        //def enabled = Boolean.valueOf(Holders.config.openboxes.mail.errors.enabled)
+        //def enabled = Boolean.parseBoolean(Holders.config.openboxes.mail.errors.enabled?:"true");
+        def enabled = ConfigHelper.booleanValue(Holders.config.openboxes.mail.errors.enabled)
         if (enabled) {
-            def recipients = ConfigHelper.listValue(grailsApplication.config.openboxes.mail.errors.recipients) as List
+            def recipients = ConfigHelper.listValue(Holders.config.openboxes.mail.errors.recipients) as List
 
             def errorNotificationList = userService.findUsersByRoleType(RoleType.ROLE_ERROR_NOTIFICATION)
             errorNotificationList.each { errorNotificationUser ->

@@ -7,7 +7,8 @@
         <g:set var="entityName" value="${warehouse.message(code: 'shipmentWorkflow.label', default: 'Shipment Workflow')}" />
         <title><warehouse:message code="default.list.label" args="[entityName]" /></title>
         <!-- Specify content to overload like global navigation links, page titles, etc. -->
-
+        <asset:javascript src="application.js"/>
+        <asset:javascript src="application.css"/>
     </head>
     <body>
         <div class="body">

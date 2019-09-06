@@ -1,8 +1,9 @@
-<g:if test="${grailsApplication.config.openboxes.hotjar.enabled}">
+<%@ page import="grails.util.Holders" %>
+<g:if test="${grails.util.Holders.config.openboxes.hotjar.enabled}">
 <!-- Hotjar Tracking Code for openboxes.com -->
 <script>
-    var hjid = ${grailsApplication.config.openboxes.hotjar.hjid};
-    var hjsv = ${grailsApplication.config.openboxes.hotjar.hjsv};
+    var hjid = ${Holders.config.openboxes.hotjar.hjid};
+    var hjsv = ${Holders.config.openboxes.hotjar.hjsv};
     (function(h,o,t,j,a,r){
         h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
         h._hjSettings={hjid:hjid,hjsv:hjsv};

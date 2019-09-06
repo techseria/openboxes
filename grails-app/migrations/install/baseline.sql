@@ -21,7 +21,7 @@
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `address` (
+/*CREATE TABLE `address` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `address` varchar(255) NOT NULL,
@@ -40,11 +40,11 @@ CREATE TABLE `address` (
 -- Dumping data for table `address`
 --
 
-LOCK TABLES `address` WRITE;
+/* /*LOCK TABLES `address` WRITE; */
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
 INSERT INTO `address` VALUES ('1',0,'888 Commonwealth Avenue','Third Floor','Boston','United States','2010-08-25 00:00:00','2010-08-25 00:00:00','02215','MA'),('2',0,'1000 State Street','Building A','Miami','United States','2010-08-25 00:00:00','2010-08-25 00:00:00','33126','FL'),('3',0,'12345 Main Street','Suite 401','Tabarre','Haiti','2010-08-25 00:00:00','2010-08-25 00:00:00',NULL,NULL),('4',0,'2482 Massachusetts Ave','','Boston','United Status','2010-08-25 00:00:00','2010-08-25 00:00:00','02215','MA');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `attribute`
@@ -52,7 +52,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `attribute` (
+/*CREATE TABLE `attribute` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime NOT NULL,
@@ -60,17 +60,17 @@ CREATE TABLE `attribute` (
   `name` varchar(255) NOT NULL,
   `allow_other` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8; */
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `attribute`
 --
 
-LOCK TABLES `attribute` WRITE;
+/*LOCK TABLES `attribute` WRITE; */
 /*!40000 ALTER TABLE `attribute` DISABLE KEYS */;
 /*!40000 ALTER TABLE `attribute` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `attribute_options`
@@ -78,7 +78,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `attribute_options` (
+/* /*CREATE TABLE `attribute_options` (
   `attribute_id` char(38) DEFAULT NULL,
   `options_string` varchar(255) DEFAULT NULL,
   `options_idx` int(11) DEFAULT NULL
@@ -89,10 +89,10 @@ CREATE TABLE `attribute_options` (
 -- Dumping data for table `attribute_options`
 --
 
-LOCK TABLES `attribute_options` WRITE;
+/*/*LOCK TABLES `attribute_options` WRITE;
 /*!40000 ALTER TABLE `attribute_options` DISABLE KEYS */;
 /*!40000 ALTER TABLE `attribute_options` ENABLE KEYS */;
-UNLOCK TABLES;
+/* /*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `category`
@@ -100,7 +100,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `category` (
+/*CREATE TABLE `category` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime NOT NULL,
@@ -119,11 +119,11 @@ CREATE TABLE `category` (
 -- Dumping data for table `category`
 --
 
-LOCK TABLES `category` WRITE;
+/*LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
 INSERT INTO `category` VALUES ('1',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Medicines',NULL,0),('10',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Surgical Equipment','3',0),('11',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','IT Equipment','3',0),('12',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Furniture and Equipment','3',0),('13',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Food','4',0),('14',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','ARVS','1',0),('15',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Anesteshia','1',0),('16',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Cancer','1',0),('17',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Chronic Care','1',0),('18',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Pain','1',0),('19',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','TB','1',0),('2',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Supplies',NULL,0),('20',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Other','1',0),('21',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Lab','6',0),('22',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Surgical','6',0),('23',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','X-Ray','6',0),('24',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Dental','6',0),('25',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Other','6',0),('3',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Equipment',NULL,0),('4',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Perishables',NULL,0),('5',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Other',NULL,0),('6',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Medical Supplies','2',0),('7',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Hospital and Clinic Supplies','2',0),('8',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Office Supplies','2',0),('9',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Medical Equipment','3',0);
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
-UNLOCK TABLES;
+/*/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `comment`
@@ -131,7 +131,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `comment` (
+/*CREATE TABLE `comment` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `comment` text,
@@ -153,11 +153,11 @@ CREATE TABLE `comment` (
 -- Dumping data for table `comment`
 --
 
-LOCK TABLES `comment` WRITE;
+/*/*LOCK TABLES `comment` WRITE;
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
 INSERT INTO `comment` VALUES ('1',0,'We need to ship this as soon as possible!','2010-08-25 00:00:00',NULL,NULL,'2010-08-25 00:00:00','3','3'),('2',0,'Did you ship this yet?!?!?!?','2010-08-25 00:00:00',NULL,NULL,'2010-08-25 00:00:00','3','2'),('3',0,'What is taking so long?','2010-08-25 00:00:00',NULL,NULL,'2010-08-25 00:00:00','3','1');
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `consumption`
@@ -165,7 +165,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `consumption` (
+/*CREATE TABLE `consumption` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `day` int(11) DEFAULT NULL,
@@ -192,10 +192,10 @@ CREATE TABLE `consumption` (
 -- Dumping data for table `consumption`
 --
 
-LOCK TABLES `consumption` WRITE;
+/*/*LOCK TABLES `consumption` WRITE;
 /*!40000 ALTER TABLE `consumption` DISABLE KEYS */;
 /*!40000 ALTER TABLE `consumption` ENABLE KEYS */;
-UNLOCK TABLES;
+/*/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `container`
@@ -203,7 +203,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `container` (
+/*CREATE TABLE `container` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `container_number` varchar(255) DEFAULT NULL,
@@ -239,10 +239,10 @@ CREATE TABLE `container` (
 -- Dumping data for table `container`
 --
 
-LOCK TABLES `container` WRITE;
+/*/*LOCK TABLES `container` WRITE;
 /*!40000 ALTER TABLE `container` DISABLE KEYS */;
 /*!40000 ALTER TABLE `container` ENABLE KEYS */;
-UNLOCK TABLES;
+/*/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `container_type`
@@ -250,7 +250,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `container_type` (
+/*CREATE TABLE `container_type` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime NOT NULL,
@@ -266,11 +266,11 @@ CREATE TABLE `container_type` (
 -- Dumping data for table `container_type`
 --
 
-LOCK TABLES `container_type` WRITE;
+/*/*LOCK TABLES `container_type` WRITE;
 /*!40000 ALTER TABLE `container_type` DISABLE KEYS */;
 INSERT INTO `container_type` VALUES ('1',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Container|fr:Conteneur',0),('2',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Pallet|fr:Palette',0),('3',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Suitcase|fr:Valise/Malette',0),('4',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Box|fr:Boite',0),('5',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Trunk|fr:Coffre',0),('6',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Item|fr:Element',0),('7',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Other|fr:Autre',0),('8',0,'2011-02-25 00:00:00',NULL,'2011-02-25 00:00:00','Crate|fr:Caisse',0);
 /*!40000 ALTER TABLE `container_type` ENABLE KEYS */;
-UNLOCK TABLES;
+/*/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `document`
@@ -278,7 +278,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `document` (
+/*CREATE TABLE `document` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `content_type` varchar(255) DEFAULT NULL,
@@ -301,11 +301,11 @@ CREATE TABLE `document` (
 -- Dumping data for table `document`
 --
 
-LOCK TABLES `document` WRITE;
+/*/*LOCK TABLES `document` WRITE;
 /*!40000 ALTER TABLE `document` DISABLE KEYS */;
 INSERT INTO `document` VALUES ('1',0,'text/plain','2010-08-25 00:00:00',NULL,'3',NULL,'This page intentionally left blank.',NULL,'packing-list.pdf','2010-08-25 00:00:00',NULL),('2',0,'text/plain','2010-08-25 00:00:00',NULL,'5',NULL,'This page intentionally left blank.',NULL,'invoice.pdf','2010-08-25 00:00:00',NULL);
 /*!40000 ALTER TABLE `document` ENABLE KEYS */;
-UNLOCK TABLES;
+/*/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `document_type`
@@ -313,7 +313,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `document_type` (
+/*CREATE TABLE `document_type` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime NOT NULL,
@@ -329,11 +329,11 @@ CREATE TABLE `document_type` (
 -- Dumping data for table `document_type`
 --
 
-LOCK TABLES `document_type` WRITE;
+/*/*LOCK TABLES `document_type` WRITE;
 /*!40000 ALTER TABLE `document_type` DISABLE KEYS */;
 INSERT INTO `document_type` VALUES ('1',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Facture donnée par la ligne aérienne|fr:Conteneur',0),('2',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Bill of Lading|fr:Facture de la cargaison',0),('3',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Packing List|fr:Lisde de chargement',0),('4',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Certificate of Donation|fr:Certificat de don',0),('5',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Commercial Invoice|fr:Facture Commerciale',0),('6',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Material Safey Data Sheet|fr:Fiche signalétique',0),('7',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Certificate of Analysis|fr:Certificat d\'analyse',0),('8',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Manifest|fr:Manifeste',0),('9',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Other|fr:Autre',0);
 /*!40000 ALTER TABLE `document_type` ENABLE KEYS */;
-UNLOCK TABLES;
+/*/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `donor`
@@ -341,7 +341,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `donor` (
+/*CREATE TABLE `donor` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime DEFAULT NULL,
@@ -356,11 +356,11 @@ CREATE TABLE `donor` (
 -- Dumping data for table `donor`
 --
 
-LOCK TABLES `donor` WRITE;
+/*/*LOCK TABLES `donor` WRITE;
 /*!40000 ALTER TABLE `donor` DISABLE KEYS */;
 INSERT INTO `donor` VALUES ('1',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Donor Organization ABC'),('2',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Donor Organization XYZ'),('3',0,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Donor Organization 123');
 /*!40000 ALTER TABLE `donor` ENABLE KEYS */;
-UNLOCK TABLES;
+/*/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `event`
@@ -368,7 +368,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `event` (
+/*CREATE TABLE `event` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime NOT NULL,
@@ -388,10 +388,10 @@ CREATE TABLE `event` (
 -- Dumping data for table `event`
 --
 
-LOCK TABLES `event` WRITE;
+/*/*LOCK TABLES `event` WRITE;
 /*!40000 ALTER TABLE `event` DISABLE KEYS */;
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
-UNLOCK TABLES;
+/*/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `event_type`
@@ -399,7 +399,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `event_type` (
+/*CREATE TABLE `event_type` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime NOT NULL,
@@ -416,11 +416,11 @@ CREATE TABLE `event_type` (
 -- Dumping data for table `event_type`
 --
 
-LOCK TABLES `event_type` WRITE;
+/*/*LOCK TABLES `event_type` WRITE;
 /*!40000 ALTER TABLE `event_type` DISABLE KEYS */;
 INSERT INTO `event_type` VALUES ('2',0,'2011-03-03 00:00:00','Shipment has been shipped','SHIPPED','2011-03-03 00:00:00','Shipped|fr:Expédié',2),('3',0,'2011-03-03 00:00:00','Shipment has been received','RECEIVED','2011-03-03 00:00:00','Received|fr:Reçu',3);
 /*!40000 ALTER TABLE `event_type` ENABLE KEYS */;
-UNLOCK TABLES;
+/*/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `fulfillment`
@@ -428,7 +428,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `fulfillment` (
+/*CREATE TABLE `fulfillment` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime NOT NULL,
@@ -446,10 +446,10 @@ CREATE TABLE `fulfillment` (
 -- Dumping data for table `fulfillment`
 --
 
-LOCK TABLES `fulfillment` WRITE;
+/*/*LOCK TABLES `fulfillment` WRITE;
 /*!40000 ALTER TABLE `fulfillment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `fulfillment` ENABLE KEYS */;
-UNLOCK TABLES;
+/*/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `fulfillment_item`
@@ -457,7 +457,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `fulfillment_item` (
+/*CREATE TABLE `fulfillment_item` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime NOT NULL,
@@ -480,10 +480,10 @@ CREATE TABLE `fulfillment_item` (
 -- Dumping data for table `fulfillment_item`
 --
 
-LOCK TABLES `fulfillment_item` WRITE;
+/*/*LOCK TABLES `fulfillment_item` WRITE;
 /*!40000 ALTER TABLE `fulfillment_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `fulfillment_item` ENABLE KEYS */;
-UNLOCK TABLES;
+/*/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `fulfillment_item_shipment_item`
@@ -491,7 +491,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `fulfillment_item_shipment_item` (
+/*CREATE TABLE `fulfillment_item_shipment_item` (
   `fulfillment_item_shipment_items_id` char(38) DEFAULT NULL,
   `shipment_item_id` char(38) DEFAULT NULL,
   KEY `FKE071DE6DB06EC4FB` (`shipment_item_id`),
@@ -505,10 +505,10 @@ CREATE TABLE `fulfillment_item_shipment_item` (
 -- Dumping data for table `fulfillment_item_shipment_item`
 --
 
-LOCK TABLES `fulfillment_item_shipment_item` WRITE;
+/*/*LOCK TABLES `fulfillment_item_shipment_item` WRITE;
 /*!40000 ALTER TABLE `fulfillment_item_shipment_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `fulfillment_item_shipment_item` ENABLE KEYS */;
-UNLOCK TABLES;
+/*/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `inventory`
@@ -516,7 +516,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `inventory` (
+/*CREATE TABLE `inventory` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `last_inventory_date` datetime DEFAULT NULL,
@@ -530,11 +530,11 @@ CREATE TABLE `inventory` (
 -- Dumping data for table `inventory`
 --
 
-LOCK TABLES `inventory` WRITE;
+/*/*LOCK TABLES `inventory` WRITE;
 /*!40000 ALTER TABLE `inventory` DISABLE KEYS */;
 INSERT INTO `inventory` VALUES ('1',0,NULL,'2011-02-17 00:00:00','2011-02-17 00:00:00'),('ff8081813a512a91013a512f140a0001',0,NULL,'2012-10-11 14:56:10','2012-10-11 14:56:10');
 /*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
-UNLOCK TABLES;
+/*/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `inventory_item`
@@ -542,7 +542,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `inventory_item` (
+/*CREATE TABLE `inventory_item` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime NOT NULL,
@@ -561,10 +561,10 @@ CREATE TABLE `inventory_item` (
 -- Dumping data for table `inventory_item`
 --
 
-LOCK TABLES `inventory_item` WRITE;
+/*/*LOCK TABLES `inventory_item` WRITE;
 /*!40000 ALTER TABLE `inventory_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `inventory_item` ENABLE KEYS */;
-UNLOCK TABLES;
+/*/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `inventory_level`
@@ -572,7 +572,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `inventory_level` (
+/*CREATE TABLE `inventory_level` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `inventory_id` char(38) DEFAULT NULL,
@@ -594,10 +594,10 @@ CREATE TABLE `inventory_level` (
 -- Dumping data for table `inventory_level`
 --
 
-LOCK TABLES `inventory_level` WRITE;
+/*LOCK TABLES `inventory_level` WRITE;
 /*!40000 ALTER TABLE `inventory_level` DISABLE KEYS */;
 /*!40000 ALTER TABLE `inventory_level` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `local_transfer`
@@ -605,7 +605,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `local_transfer` (
+/*CREATE TABLE `local_transfer` (
   `id` char(38) NOT NULL DEFAULT '',
   `source_transaction_id` char(38) DEFAULT NULL,
   `destination_transaction_id` char(38) DEFAULT NULL,
@@ -624,10 +624,10 @@ CREATE TABLE `local_transfer` (
 -- Dumping data for table `local_transfer`
 --
 
-LOCK TABLES `local_transfer` WRITE;
+/*LOCK TABLES `local_transfer` WRITE;
 /*!40000 ALTER TABLE `local_transfer` DISABLE KEYS */;
 /*!40000 ALTER TABLE `local_transfer` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `location`
@@ -635,7 +635,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `location` (
+/*CREATE TABLE `location` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `address_id` char(38) DEFAULT NULL,
@@ -674,11 +674,11 @@ CREATE TABLE `location` (
 -- Dumping data for table `location`
 --
 
-LOCK TABLES `location` WRITE;
+/*LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
 INSERT INTO `location` VALUES ('1',0,'1','2010-08-25 00:00:00','2010-08-25 00:00:00','http://a3.twimg.com/profile_images/134665083/BOS_Red_Sox_normal.PNG','Boston Headquarters','1','2',NULL,'','','2',NULL,'',NULL,NULL,NULL),('2',0,'2','2010-08-25 00:00:00','2010-08-25 00:00:00','http://pihemr.files.wordpress.com/2008/01/pih-hands.jpg','Miami Warehouse',NULL,'2',NULL,'','','2',NULL,'',NULL,NULL,NULL),('3',0,'3','2010-08-25 00:00:00','2010-08-25 00:00:00','http://pihemr.files.wordpress.com/2008/01/pih-hands.jpg','Tabarre Depot',NULL,'2',NULL,'','','2',NULL,'',NULL,NULL,NULL),('4',1,'4','2010-08-25 00:00:00','2012-10-11 14:56:10','http://pihemr.files.wordpress.com/2008/01/pih-hands.jpg','ZZZ Supply Company','ff8081813a512a91013a512f140a0001','2',NULL,'','','2',NULL,'',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `location_group`
@@ -686,7 +686,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `location_group` (
+/*CREATE TABLE `location_group` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime NOT NULL,
@@ -700,10 +700,10 @@ CREATE TABLE `location_group` (
 -- Dumping data for table `location_group`
 --
 
-LOCK TABLES `location_group` WRITE;
+/*LOCK TABLES `location_group` WRITE;
 /*!40000 ALTER TABLE `location_group` DISABLE KEYS */;
 /*!40000 ALTER TABLE `location_group` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `location_supported_activities`
@@ -711,7 +711,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `location_supported_activities` (
+/*CREATE TABLE `location_supported_activities` (
   `location_id` char(38) DEFAULT NULL,
   `supported_activities_string` varchar(255) DEFAULT NULL,
   KEY `FKF58372688ABEBD5` (`location_id`),
@@ -723,10 +723,10 @@ CREATE TABLE `location_supported_activities` (
 -- Dumping data for table `location_supported_activities`
 --
 
-LOCK TABLES `location_supported_activities` WRITE;
+/*LOCK TABLES `location_supported_activities` WRITE;
 /*!40000 ALTER TABLE `location_supported_activities` DISABLE KEYS */;
 /*!40000 ALTER TABLE `location_supported_activities` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `location_type`
@@ -734,7 +734,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `location_type` (
+/*CREATE TABLE `location_type` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime NOT NULL,
@@ -750,11 +750,11 @@ CREATE TABLE `location_type` (
 -- Dumping data for table `location_type`
 --
 
-LOCK TABLES `location_type` WRITE;
+/*LOCK TABLES `location_type` WRITE;
 /*!40000 ALTER TABLE `location_type` DISABLE KEYS */;
 INSERT INTO `location_type` VALUES ('2',0,'2010-12-06 00:00:00','Depot','2010-12-06 00:00:00','Depot|fr:Dépot',0),('3',0,'2010-12-06 00:00:00','Dispensary','2011-11-14 00:00:00','Dispensary|fr:Dispensaire',0),('4',0,'2010-12-06 00:00:00','Supplier','2010-12-06 00:00:00','Supplier|fr:Fournisseurs',0);
 /*!40000 ALTER TABLE `location_type` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `location_type_supported_activities`
@@ -762,7 +762,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `location_type_supported_activities` (
+/*CREATE TABLE `location_type_supported_activities` (
   `location_type_id` char(38) DEFAULT NULL,
   `supported_activities_string` varchar(255) DEFAULT NULL,
   KEY `FK7AFF67F928F75F00` (`location_type_id`),
@@ -774,11 +774,11 @@ CREATE TABLE `location_type_supported_activities` (
 -- Dumping data for table `location_type_supported_activities`
 --
 
-LOCK TABLES `location_type_supported_activities` WRITE;
+/*LOCK TABLES `location_type_supported_activities` WRITE;
 /*!40000 ALTER TABLE `location_type_supported_activities` DISABLE KEYS */;
 INSERT INTO `location_type_supported_activities` VALUES ('2','MANAGE_INVENTORY'),('2','PLACE_ORDER'),('2','PLACE_REQUEST'),('2','FULFILL_REQUEST'),('2','SEND_STOCK'),('2','RECEIVE_STOCK'),('2','EXTERNAL'),('3','SEND_STOCK'),('3','RECEIVE_STOCK'),('4','FULFILL_ORDER'),('4','SEND_STOCK'),('4','EXTERNAL');
 /*!40000 ALTER TABLE `location_type_supported_activities` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `order`
@@ -786,7 +786,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `order` (
+/*CREATE TABLE `order` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime DEFAULT NULL,
@@ -815,10 +815,10 @@ CREATE TABLE `order` (
 -- Dumping data for table `order`
 --
 
-LOCK TABLES `order` WRITE;
+/*LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `order_comment`
@@ -826,7 +826,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `order_comment` (
+/*CREATE TABLE `order_comment` (
   `order_comments_id` char(38) DEFAULT NULL,
   `comment_id` char(38) DEFAULT NULL,
   KEY `FK2DE9EE6EB8839C0F` (`order_comments_id`),
@@ -840,10 +840,10 @@ CREATE TABLE `order_comment` (
 -- Dumping data for table `order_comment`
 --
 
-LOCK TABLES `order_comment` WRITE;
+/*LOCK TABLES `order_comment` WRITE;
 /*!40000 ALTER TABLE `order_comment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `order_comment` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `order_document`
@@ -851,7 +851,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `order_document` (
+/*CREATE TABLE `order_document` (
   `order_documents_id` char(38) DEFAULT NULL,
   `document_id` char(38) DEFAULT NULL,
   KEY `FKE698D2ECC800AA15` (`document_id`),
@@ -865,10 +865,10 @@ CREATE TABLE `order_document` (
 -- Dumping data for table `order_document`
 --
 
-LOCK TABLES `order_document` WRITE;
+/*LOCK TABLES `order_document` WRITE;
 /*!40000 ALTER TABLE `order_document` DISABLE KEYS */;
 /*!40000 ALTER TABLE `order_document` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `order_event`
@@ -876,7 +876,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `order_event` (
+/*CREATE TABLE `order_event` (
   `order_events_id` char(38) DEFAULT NULL,
   `event_id` char(38) DEFAULT NULL,
   KEY `FK74D92A69786431F` (`event_id`),
@@ -890,10 +890,10 @@ CREATE TABLE `order_event` (
 -- Dumping data for table `order_event`
 --
 
-LOCK TABLES `order_event` WRITE;
+/*LOCK TABLES `order_event` WRITE;
 /*!40000 ALTER TABLE `order_event` DISABLE KEYS */;
 /*!40000 ALTER TABLE `order_event` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `order_item`
@@ -901,7 +901,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `order_item` (
+/*CREATE TABLE `order_item` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `category_id` char(38) DEFAULT NULL,
@@ -932,10 +932,10 @@ CREATE TABLE `order_item` (
 -- Dumping data for table `order_item`
 --
 
-LOCK TABLES `order_item` WRITE;
+/*LOCK TABLES `order_item` WRITE;
 /*!40000 ALTER TABLE `order_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `order_item` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `order_item_comment`
@@ -943,7 +943,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `order_item_comment` (
+/*CREATE TABLE `order_item_comment` (
   `order_item_comments_id` char(38) DEFAULT NULL,
   `comment_id` char(38) DEFAULT NULL,
   KEY `FKB5A4FE84C4A49BBF` (`comment_id`)
@@ -954,10 +954,10 @@ CREATE TABLE `order_item_comment` (
 -- Dumping data for table `order_item_comment`
 --
 
-LOCK TABLES `order_item_comment` WRITE;
+/*LOCK TABLES `order_item_comment` WRITE;
 /*!40000 ALTER TABLE `order_item_comment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `order_item_comment` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `order_shipment`
@@ -965,7 +965,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `order_shipment` (
+/*CREATE TABLE `order_shipment` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `order_item_id` char(38) DEFAULT NULL,
@@ -982,10 +982,10 @@ CREATE TABLE `order_shipment` (
 -- Dumping data for table `order_shipment`
 --
 
-LOCK TABLES `order_shipment` WRITE;
+/*LOCK TABLES `order_shipment` WRITE;
 /*!40000 ALTER TABLE `order_shipment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `order_shipment` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `person`
@@ -993,7 +993,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `person` (
+/*CREATE TABLE `person` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime NOT NULL,
@@ -1010,11 +1010,11 @@ CREATE TABLE `person` (
 -- Dumping data for table `person`
 --
 
-LOCK TABLES `person` WRITE;
+/*LOCK TABLES `person` WRITE;
 /*!40000 ALTER TABLE `person` DISABLE KEYS */;
 INSERT INTO `person` VALUES ('1',1,'2010-08-25 00:00:00','admin@pih.org','Miss','Administrator','2010-08-25 00:00:00',NULL),('2',5,'2010-08-25 00:00:00','manager@pih.org','Mister','Manager','2010-08-25 00:00:00',NULL),('3',1,'2010-08-25 00:00:00','jmiranda@pih.org','Justin','Miranda','2010-08-25 00:00:00',NULL),('4',1,'2010-08-25 00:00:00','inactive@pih.org','In','Active','2010-08-25 00:00:00',NULL);
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `picklist`
@@ -1022,7 +1022,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `picklist` (
+/*CREATE TABLE `picklist` (
   `id` char(38) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
@@ -1041,10 +1041,10 @@ CREATE TABLE `picklist` (
 -- Dumping data for table `picklist`
 --
 
-LOCK TABLES `picklist` WRITE;
+/*LOCK TABLES `picklist` WRITE;
 /*!40000 ALTER TABLE `picklist` DISABLE KEYS */;
 /*!40000 ALTER TABLE `picklist` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `picklist_item`
@@ -1052,7 +1052,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `picklist_item` (
+/*CREATE TABLE `picklist_item` (
   `id` char(38) DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL,
   `picklist_id` char(38) DEFAULT NULL,
@@ -1073,10 +1073,10 @@ CREATE TABLE `picklist_item` (
 -- Dumping data for table `picklist_item`
 --
 
-LOCK TABLES `picklist_item` WRITE;
+/*LOCK TABLES `picklist_item` WRITE;
 /*!40000 ALTER TABLE `picklist_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `picklist_item` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `product`
@@ -1084,7 +1084,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `product` (
+/*CREATE TABLE `product` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `category_id` char(38) DEFAULT NULL,
@@ -1118,7 +1118,7 @@ CREATE TABLE `product` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `product_attribute` (
+/*CREATE TABLE `product_attribute` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `attribute_id` char(38) DEFAULT NULL,
@@ -1137,10 +1137,10 @@ CREATE TABLE `product_attribute` (
 -- Dumping data for table `product_attribute`
 --
 
-LOCK TABLES `product_attribute` WRITE;
+/*LOCK TABLES `product_attribute` WRITE;
 /*!40000 ALTER TABLE `product_attribute` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product_attribute` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `product_category`
@@ -1148,7 +1148,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `product_category` (
+/*CREATE TABLE `product_category` (
   `product_id` char(38) DEFAULT NULL,
   `category_id` char(38) DEFAULT NULL,
   `categories_idx` int(11) DEFAULT NULL,
@@ -1162,10 +1162,10 @@ CREATE TABLE `product_category` (
 -- Dumping data for table `product_category`
 --
 
-LOCK TABLES `product_category` WRITE;
+/*LOCK TABLES `product_category` WRITE;
 /*!40000 ALTER TABLE `product_category` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product_category` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `product_document`
@@ -1173,7 +1173,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `product_document` (
+/*CREATE TABLE `product_document` (
   `product_id` char(38) DEFAULT NULL,
   `document_id` char(38) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1183,10 +1183,10 @@ CREATE TABLE `product_document` (
 -- Dumping data for table `product_document`
 --
 
-LOCK TABLES `product_document` WRITE;
+/*LOCK TABLES `product_document` WRITE;
 /*!40000 ALTER TABLE `product_document` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product_document` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `product_group`
@@ -1194,7 +1194,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `product_group` (
+/*CREATE TABLE `product_group` (
   `id` char(38) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `version` bigint(20) NOT NULL,
@@ -1209,10 +1209,10 @@ CREATE TABLE `product_group` (
 -- Dumping data for table `product_group`
 --
 
-LOCK TABLES `product_group` WRITE;
+/*LOCK TABLES `product_group` WRITE;
 /*!40000 ALTER TABLE `product_group` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product_group` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `product_group_product`
@@ -1220,7 +1220,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `product_group_product` (
+/*CREATE TABLE `product_group_product` (
   `product_group_id` char(38) DEFAULT NULL,
   `product_id` char(38) DEFAULT NULL,
   `products_idx` int(11) DEFAULT NULL
@@ -1231,10 +1231,10 @@ CREATE TABLE `product_group_product` (
 -- Dumping data for table `product_group_product`
 --
 
-LOCK TABLES `product_group_product` WRITE;
+/*LOCK TABLES `product_group_product` WRITE;
 /*!40000 ALTER TABLE `product_group_product` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product_group_product` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `product_package`
@@ -1242,7 +1242,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `product_package` (
+/*CREATE TABLE `product_package` (
   `id` char(38) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `gtin` varchar(255) DEFAULT NULL,
@@ -1262,10 +1262,10 @@ CREATE TABLE `product_package` (
 -- Dumping data for table `product_package`
 --
 
-LOCK TABLES `product_package` WRITE;
+/*LOCK TABLES `product_package` WRITE;
 /*!40000 ALTER TABLE `product_package` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product_package` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `product_tags`
@@ -1273,7 +1273,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `product_tags` (
+/*CREATE TABLE `product_tags` (
   `product_id` char(38) DEFAULT NULL,
   `tags_string` varchar(255) DEFAULT NULL,
   KEY `FK3C78DD69DED5FAE7` (`product_id`),
@@ -1285,10 +1285,10 @@ CREATE TABLE `product_tags` (
 -- Dumping data for table `product_tags`
 --
 
-LOCK TABLES `product_tags` WRITE;
+/*LOCK TABLES `product_tags` WRITE;
 /*!40000 ALTER TABLE `product_tags` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product_tags` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `receipt`
@@ -1296,7 +1296,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `receipt` (
+/*CREATE TABLE `receipt` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `actual_delivery_date` datetime DEFAULT NULL,
@@ -1314,10 +1314,10 @@ CREATE TABLE `receipt` (
 -- Dumping data for table `receipt`
 --
 
-LOCK TABLES `receipt` WRITE;
+/*LOCK TABLES `receipt` WRITE;
 /*!40000 ALTER TABLE `receipt` DISABLE KEYS */;
 /*!40000 ALTER TABLE `receipt` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `receipt_item`
@@ -1325,7 +1325,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `receipt_item` (
+/*CREATE TABLE `receipt_item` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `comment_id` char(38) DEFAULT NULL,
@@ -1355,10 +1355,10 @@ CREATE TABLE `receipt_item` (
 -- Dumping data for table `receipt_item`
 --
 
-LOCK TABLES `receipt_item` WRITE;
+/*LOCK TABLES `receipt_item` WRITE;
 /*!40000 ALTER TABLE `receipt_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `receipt_item` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `reference_number`
@@ -1366,7 +1366,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `reference_number` (
+/*CREATE TABLE `reference_number` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `identifier` varchar(255) DEFAULT NULL,
@@ -1381,10 +1381,10 @@ CREATE TABLE `reference_number` (
 -- Dumping data for table `reference_number`
 --
 
-LOCK TABLES `reference_number` WRITE;
+/*LOCK TABLES `reference_number` WRITE;
 /*!40000 ALTER TABLE `reference_number` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reference_number` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `reference_number_type`
@@ -1392,7 +1392,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `reference_number_type` (
+/*CREATE TABLE `reference_number_type` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime NOT NULL,
@@ -1408,11 +1408,11 @@ CREATE TABLE `reference_number_type` (
 -- Dumping data for table `reference_number_type`
 --
 
-LOCK TABLES `reference_number_type` WRITE;
+/*LOCK TABLES `reference_number_type` WRITE;
 /*!40000 ALTER TABLE `reference_number_type` DISABLE KEYS */;
 INSERT INTO `reference_number_type` VALUES ('1',0,'2010-08-25 00:00:00','Purchase Order Number','2010-08-25 00:00:00','Purchase Order Number|fr:Nombre de commande',0),('2',0,'2010-08-25 00:00:00','Customer name','2010-08-25 00:00:00','Customer name|fr:Nom du client',0),('3',0,'2010-08-25 00:00:00','Internal Identifier','2010-08-25 00:00:00','Internal Identifier|fr:Identificateur interne',0),('4',0,'2010-08-25 00:00:00','Bill of Lading Number','2010-08-25 00:00:00','Bill of Lading Number|fr:Nombre de connaissement',0),('5',0,'2011-03-01 00:00:00','Air Waybill Number','2011-03-01 00:00:00','Air Waybill Number|fr:Nombre de lettre de transport aérien',0),('6',0,'2011-03-01 00:00:00','Container Number','2011-03-01 00:00:00','Container Number|fr:Nombre de conteneur',0),('7',0,'2011-03-01 00:00:00','Seal Number','2011-03-01 00:00:00','Seal Number|fr:Nombre de sceau',0),('8',0,'2011-03-01 00:00:00','Flight Number','2011-03-01 00:00:00','Flight Number|fr:Nombre de vol',0),('9',0,'2012-01-26 00:00:00','License Plate Number|fr:Plaque','2012-01-26 00:00:00','License Plate Number',0);
 /*!40000 ALTER TABLE `reference_number_type` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `request`
@@ -1420,7 +1420,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `request` (
+/*CREATE TABLE `request` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime DEFAULT NULL,
@@ -1458,10 +1458,10 @@ CREATE TABLE `request` (
 -- Dumping data for table `request`
 --
 
-LOCK TABLES `request` WRITE;
+/*LOCK TABLES `request` WRITE;
 /*!40000 ALTER TABLE `request` DISABLE KEYS */;
 /*!40000 ALTER TABLE `request` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `request_comment`
@@ -1469,7 +1469,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `request_comment` (
+/*CREATE TABLE `request_comment` (
   `request_comments_id` char(38) DEFAULT NULL,
   `comment_id` char(38) DEFAULT NULL,
   KEY `FK5BAC88AF87AC2D52` (`request_comments_id`),
@@ -1483,10 +1483,10 @@ CREATE TABLE `request_comment` (
 -- Dumping data for table `request_comment`
 --
 
-LOCK TABLES `request_comment` WRITE;
+/*LOCK TABLES `request_comment` WRITE;
 /*!40000 ALTER TABLE `request_comment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `request_comment` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `request_document`
@@ -1494,7 +1494,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `request_document` (
+/*CREATE TABLE `request_document` (
   `request_documents_id` char(38) DEFAULT NULL,
   `document_id` char(38) DEFAULT NULL,
   KEY `FK712980CB2777B76E` (`request_documents_id`),
@@ -1508,10 +1508,10 @@ CREATE TABLE `request_document` (
 -- Dumping data for table `request_document`
 --
 
-LOCK TABLES `request_document` WRITE;
+/*LOCK TABLES `request_document` WRITE;
 /*!40000 ALTER TABLE `request_document` DISABLE KEYS */;
 /*!40000 ALTER TABLE `request_document` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `request_event`
@@ -1519,7 +1519,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `request_event` (
+/*CREATE TABLE `request_event` (
   `request_events_id` char(38) DEFAULT NULL,
   `event_id` char(38) DEFAULT NULL,
   KEY `FK674F60EA786431F` (`event_id`),
@@ -1533,10 +1533,10 @@ CREATE TABLE `request_event` (
 -- Dumping data for table `request_event`
 --
 
-LOCK TABLES `request_event` WRITE;
+/*LOCK TABLES `request_event` WRITE;
 /*!40000 ALTER TABLE `request_event` DISABLE KEYS */;
 /*!40000 ALTER TABLE `request_event` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `request_item`
@@ -1544,7 +1544,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `request_item` (
+/*CREATE TABLE `request_item` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `category_id` char(38) DEFAULT NULL,
@@ -1576,10 +1576,10 @@ CREATE TABLE `request_item` (
 -- Dumping data for table `request_item`
 --
 
-LOCK TABLES `request_item` WRITE;
+/*LOCK TABLES `request_item` WRITE;
 /*!40000 ALTER TABLE `request_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `request_item` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `request_shipment`
@@ -1587,7 +1587,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `request_shipment` (
+/*CREATE TABLE `request_shipment` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `request_item_id` char(38) DEFAULT NULL,
@@ -1604,10 +1604,10 @@ CREATE TABLE `request_shipment` (
 -- Dumping data for table `request_shipment`
 --
 
-LOCK TABLES `request_shipment` WRITE;
+/*LOCK TABLES `request_shipment` WRITE;
 /*!40000 ALTER TABLE `request_shipment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `request_shipment` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `role`
@@ -1615,7 +1615,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `role` (
+/*CREATE TABLE `role` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
@@ -1628,11 +1628,11 @@ CREATE TABLE `role` (
 -- Dumping data for table `role`
 --
 
-LOCK TABLES `role` WRITE;
+/*LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
 INSERT INTO `role` VALUES ('1',0,NULL,'ROLE_ADMIN'),('2',0,NULL,'ROLE_MANAGER'),('3',0,NULL,'ROLE_USER');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `shipment`
@@ -1640,7 +1640,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shipment` (
+/*CREATE TABLE `shipment` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `carrier_id` char(38) DEFAULT NULL,
@@ -1686,10 +1686,10 @@ CREATE TABLE `shipment` (
 -- Dumping data for table `shipment`
 --
 
-LOCK TABLES `shipment` WRITE;
+/*LOCK TABLES `shipment` WRITE;
 /*!40000 ALTER TABLE `shipment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `shipment` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `shipment_comment`
@@ -1697,7 +1697,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shipment_comment` (
+/*CREATE TABLE `shipment_comment` (
   `shipment_comments_id` char(38) DEFAULT NULL,
   `comment_id` char(38) DEFAULT NULL,
   `comments_idx` int(11) DEFAULT NULL,
@@ -1710,10 +1710,10 @@ CREATE TABLE `shipment_comment` (
 -- Dumping data for table `shipment_comment`
 --
 
-LOCK TABLES `shipment_comment` WRITE;
+/*LOCK TABLES `shipment_comment` WRITE;
 /*!40000 ALTER TABLE `shipment_comment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `shipment_comment` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `shipment_document`
@@ -1721,7 +1721,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shipment_document` (
+/*CREATE TABLE `shipment_document` (
   `shipment_documents_id` char(38) DEFAULT NULL,
   `document_id` char(38) DEFAULT NULL,
   `documents_idx` int(11) DEFAULT NULL,
@@ -1734,10 +1734,10 @@ CREATE TABLE `shipment_document` (
 -- Dumping data for table `shipment_document`
 --
 
-LOCK TABLES `shipment_document` WRITE;
+/*LOCK TABLES `shipment_document` WRITE;
 /*!40000 ALTER TABLE `shipment_document` DISABLE KEYS */;
 /*!40000 ALTER TABLE `shipment_document` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `shipment_event`
@@ -1745,7 +1745,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shipment_event` (
+/*CREATE TABLE `shipment_event` (
   `shipment_events_id` char(38) DEFAULT NULL,
   `event_id` char(38) DEFAULT NULL,
   KEY `FK6D032BB53B350242` (`shipment_events_id`),
@@ -1759,10 +1759,10 @@ CREATE TABLE `shipment_event` (
 -- Dumping data for table `shipment_event`
 --
 
-LOCK TABLES `shipment_event` WRITE;
+/*LOCK TABLES `shipment_event` WRITE;
 /*!40000 ALTER TABLE `shipment_event` DISABLE KEYS */;
 /*!40000 ALTER TABLE `shipment_event` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `shipment_item`
@@ -1770,7 +1770,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shipment_item` (
+/*CREATE TABLE `shipment_item` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `container_id` char(38) DEFAULT NULL,
@@ -1803,10 +1803,10 @@ CREATE TABLE `shipment_item` (
 -- Dumping data for table `shipment_item`
 --
 
-LOCK TABLES `shipment_item` WRITE;
+/*LOCK TABLES `shipment_item` WRITE;
 /*!40000 ALTER TABLE `shipment_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `shipment_item` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `shipment_method`
@@ -1814,7 +1814,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shipment_method` (
+/*CREATE TABLE `shipment_method` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime NOT NULL,
@@ -1834,10 +1834,10 @@ CREATE TABLE `shipment_method` (
 -- Dumping data for table `shipment_method`
 --
 
-LOCK TABLES `shipment_method` WRITE;
+/*LOCK TABLES `shipment_method` WRITE;
 /*!40000 ALTER TABLE `shipment_method` DISABLE KEYS */;
 /*!40000 ALTER TABLE `shipment_method` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `shipment_reference_number`
@@ -1845,7 +1845,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shipment_reference_number` (
+/*CREATE TABLE `shipment_reference_number` (
   `shipment_reference_numbers_id` char(38) DEFAULT NULL,
   `reference_number_id` char(38) DEFAULT NULL,
   `reference_numbers_idx` int(11) DEFAULT NULL,
@@ -1858,10 +1858,10 @@ CREATE TABLE `shipment_reference_number` (
 -- Dumping data for table `shipment_reference_number`
 --
 
-LOCK TABLES `shipment_reference_number` WRITE;
+/*LOCK TABLES `shipment_reference_number` WRITE;
 /*!40000 ALTER TABLE `shipment_reference_number` DISABLE KEYS */;
 /*!40000 ALTER TABLE `shipment_reference_number` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `shipment_type`
@@ -1869,7 +1869,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shipment_type` (
+/*CREATE TABLE `shipment_type` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime NOT NULL,
@@ -1885,11 +1885,11 @@ CREATE TABLE `shipment_type` (
 -- Dumping data for table `shipment_type`
 --
 
-LOCK TABLES `shipment_type` WRITE;
+/*LOCK TABLES `shipment_type` WRITE;
 /*!40000 ALTER TABLE `shipment_type` DISABLE KEYS */;
 INSERT INTO `shipment_type` VALUES ('1',1,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Air|fr:Air',1),('2',1,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Sea|fr:Mer',2),('3',0,'2011-08-22 00:00:00','','2011-08-22 00:00:00','Land|fr:Terrains',3),('4',1,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Suitcase|fr:Valise/Malette',4);
 /*!40000 ALTER TABLE `shipment_type` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `shipment_workflow`
@@ -1897,7 +1897,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shipment_workflow` (
+/*CREATE TABLE `shipment_workflow` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime NOT NULL,
@@ -1917,11 +1917,11 @@ CREATE TABLE `shipment_workflow` (
 -- Dumping data for table `shipment_workflow`
 --
 
-LOCK TABLES `shipment_workflow` WRITE;
+/*LOCK TABLES `shipment_workflow` WRITE;
 /*!40000 ALTER TABLE `shipment_workflow` DISABLE KEYS */;
 INSERT INTO `shipment_workflow` VALUES ('1',0,'2011-02-28 00:00:00','2011-02-28 00:00:00','Air shipment workflow','1','carrier,recipient',NULL),('2',0,'2011-02-28 00:00:00','2011-02-28 00:00:00','Sea shipment workflow','2','carrier,recipient',NULL),('3',0,'2011-02-28 00:00:00','2011-02-28 00:00:00','Suitcase shipment workflow','4','shipmentMethod.shipper','suitcaseLetter'),('4',0,'2012-01-26 00:00:00','2012-01-26 00:00:00','Land shipment workflow','3',NULL,NULL);
 /*!40000 ALTER TABLE `shipment_workflow` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `shipment_workflow_container_type`
@@ -1929,7 +1929,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shipment_workflow_container_type` (
+/*CREATE TABLE `shipment_workflow_container_type` (
   `shipment_workflow_container_types_id` char(38) DEFAULT NULL,
   `container_type_id` char(38) DEFAULT NULL,
   `container_types_idx` int(11) DEFAULT NULL,
@@ -1942,11 +1942,11 @@ CREATE TABLE `shipment_workflow_container_type` (
 -- Dumping data for table `shipment_workflow_container_type`
 --
 
-LOCK TABLES `shipment_workflow_container_type` WRITE;
+/*LOCK TABLES `shipment_workflow_container_type` WRITE;
 /*!40000 ALTER TABLE `shipment_workflow_container_type` DISABLE KEYS */;
 INSERT INTO `shipment_workflow_container_type` VALUES ('1','2',0),('1','8',1),('2','2',0),('2','8',1),('3','3',0);
 /*!40000 ALTER TABLE `shipment_workflow_container_type` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `shipment_workflow_reference_number_type`
@@ -1954,7 +1954,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shipment_workflow_reference_number_type` (
+/*CREATE TABLE `shipment_workflow_reference_number_type` (
   `shipment_workflow_reference_number_types_id` char(38) DEFAULT NULL,
   `reference_number_type_id` char(38) DEFAULT NULL,
   `reference_number_types_idx` int(11) DEFAULT NULL,
@@ -1967,11 +1967,11 @@ CREATE TABLE `shipment_workflow_reference_number_type` (
 -- Dumping data for table `shipment_workflow_reference_number_type`
 --
 
-LOCK TABLES `shipment_workflow_reference_number_type` WRITE;
+/*LOCK TABLES `shipment_workflow_reference_number_type` WRITE;
 /*!40000 ALTER TABLE `shipment_workflow_reference_number_type` DISABLE KEYS */;
 INSERT INTO `shipment_workflow_reference_number_type` VALUES ('1','5',0),('1','6',1),('1','7',2),('2','4',0),('2','6',1),('2','7',2),('3','8',0),('4','9',0);
 /*!40000 ALTER TABLE `shipment_workflow_reference_number_type` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `shipper`
@@ -1979,7 +1979,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shipper` (
+/*CREATE TABLE `shipper` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime DEFAULT NULL,
@@ -1997,11 +1997,11 @@ CREATE TABLE `shipper` (
 -- Dumping data for table `shipper`
 --
 
-LOCK TABLES `shipper` WRITE;
+/*LOCK TABLES `shipper` WRITE;
 /*!40000 ALTER TABLE `shipper` DISABLE KEYS */;
 INSERT INTO `shipper` VALUES ('1',1,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','FedEx',NULL,'999999999999','http://www.fedex.com/Tracking?ascend_header=1&clienttype=dotcom&cntry_code=us&language=english&tracknumbers=%s'),('2',1,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','UPS',NULL,'1Z9999W99999999999','http://wwwapps.ups.com/WebTracking/processInputRequest?sort_by=status&tracknums_displayed=1&TypeOfInquiryNumber=T&loc=en_US&InquiryNumber1=%s&track.x=0&track.y=0'),('3',1,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','DHL','q',NULL,'http://www.google.com/search?hl=en&site=&q='),('4',1,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','USPS','q',NULL,'http://www.google.com/search?hl=en&site=&q='),('5',1,'2010-08-25 00:00:00',NULL,'2010-08-25 00:00:00','Courier','q',NULL,'http://www.google.com/search?hl=en&site=&q=');
 /*!40000 ALTER TABLE `shipper` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `shipper_service`
@@ -2009,7 +2009,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shipper_service` (
+/*CREATE TABLE `shipper_service` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
@@ -2025,11 +2025,11 @@ CREATE TABLE `shipper_service` (
 -- Dumping data for table `shipper_service`
 --
 
-LOCK TABLES `shipper_service` WRITE;
+/*LOCK TABLES `shipper_service` WRITE;
 /*!40000 ALTER TABLE `shipper_service` DISABLE KEYS */;
 INSERT INTO `shipper_service` VALUES ('1',1,'Same Day Delivery','Same Day Air','1'),('10',1,'3-5 Business Days','Ground','4'),('11',1,NULL,'International Flight','5'),('2',1,'Next Day Delivery','Express Freight','1'),('3',1,'3-5 Business Days','Ground','1'),('4',1,'Same Day Delivery','Same Day Air','2'),('5',1,'Next Day Delivery','Express Freight','2'),('6',1,'3-5 Business Days','Ground','2'),('7',1,'Same Day Delivery','Same Day Air','3'),('8',1,'Next Day Delivery','Express Freight','3'),('9',1,'3-5 Business Days','Ground','3');
 /*!40000 ALTER TABLE `shipper_service` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `transaction`
@@ -2037,7 +2037,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `transaction` (
+/*CREATE TABLE `transaction` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `created_by_id` char(38) DEFAULT NULL,
@@ -2075,10 +2075,10 @@ CREATE TABLE `transaction` (
 -- Dumping data for table `transaction`
 --
 
-LOCK TABLES `transaction` WRITE;
+/*LOCK TABLES `transaction` WRITE;
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `transaction_entry`
@@ -2086,7 +2086,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `transaction_entry` (
+/*CREATE TABLE `transaction_entry` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `inventory_item_id` char(38) DEFAULT NULL,
@@ -2106,10 +2106,10 @@ CREATE TABLE `transaction_entry` (
 -- Dumping data for table `transaction_entry`
 --
 
-LOCK TABLES `transaction_entry` WRITE;
+/*LOCK TABLES `transaction_entry` WRITE;
 /*!40000 ALTER TABLE `transaction_entry` DISABLE KEYS */;
 /*!40000 ALTER TABLE `transaction_entry` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `transaction_type`
@@ -2117,7 +2117,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `transaction_type` (
+/*CREATE TABLE `transaction_type` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `date_created` datetime NOT NULL,
@@ -2134,11 +2134,11 @@ CREATE TABLE `transaction_type` (
 -- Dumping data for table `transaction_type`
 --
 
-LOCK TABLES `transaction_type` WRITE;
+/*LOCK TABLES `transaction_type` WRITE;
 /*!40000 ALTER TABLE `transaction_type` DISABLE KEYS */;
 INSERT INTO `transaction_type` VALUES ('10',0,'2011-04-05 00:00:00',NULL,'2011-04-05 00:00:00','Adjustment - Debit|fr:Ajustement - Débit',0,'DEBIT'),('11',0,'2011-04-06 00:00:00',NULL,'2011-04-06 00:00:00','Product Inventory|fr:Inventaire de Produits',0,'PRODUCT_INVENTORY'),('2',0,'2010-11-08 00:00:00',NULL,'2010-11-08 00:00:00','Consumption|fr:Consommation',0,'DEBIT'),('3',0,'2010-11-08 00:00:00',NULL,'2010-11-08 00:00:00','Adjustment - Credit|fr:Ajustement - Crédit',0,'CREDIT'),('4',0,'2010-11-08 00:00:00',NULL,'2010-11-08 00:00:00','Expired|fr:Espiré',0,'DEBIT'),('5',0,'2010-11-08 00:00:00',NULL,'2010-11-08 00:00:00','Damaged|fr:Endommagé',0,'DEBIT'),('7',0,'2010-12-06 00:00:00','Inventory','2010-12-06 00:00:00','Inventory|fr:Inventaire',0,'INVENTORY'),('8',0,'2011-03-17 00:00:00',NULL,'2011-03-17 00:00:00','Transfer In|fr:Transférer en',0,'CREDIT'),('9',0,'2011-03-17 00:00:00',NULL,'2011-03-17 00:00:00','Transfer Out|fr:Transférer hors',0,'DEBIT');
 /*!40000 ALTER TABLE `transaction_type` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `unit_of_measure`
@@ -2146,7 +2146,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `unit_of_measure` (
+/*CREATE TABLE `unit_of_measure` (
   `id` char(38) NOT NULL DEFAULT '',
   `version` bigint(20) NOT NULL,
   `code` varchar(255) NOT NULL,
@@ -2165,10 +2165,10 @@ CREATE TABLE `unit_of_measure` (
 -- Dumping data for table `unit_of_measure`
 --
 
-LOCK TABLES `unit_of_measure` WRITE;
+/*LOCK TABLES `unit_of_measure` WRITE;
 /*!40000 ALTER TABLE `unit_of_measure` DISABLE KEYS */;
 /*!40000 ALTER TABLE `unit_of_measure` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `unit_of_measure_class`
@@ -2176,7 +2176,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `unit_of_measure_class` (
+/*CREATE TABLE `unit_of_measure_class` (
   `id` char(38) DEFAULT NULL,
   `active` bit(1) DEFAULT b'1',
   `name` varchar(255) DEFAULT NULL,
@@ -2196,10 +2196,10 @@ CREATE TABLE `unit_of_measure_class` (
 -- Dumping data for table `unit_of_measure_class`
 --
 
-LOCK TABLES `unit_of_measure_class` WRITE;
+/*LOCK TABLES `unit_of_measure_class` WRITE;
 /*!40000 ALTER TABLE `unit_of_measure_class` DISABLE KEYS */;
 /*!40000 ALTER TABLE `unit_of_measure_class` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `user`
@@ -2207,7 +2207,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
+/*CREATE TABLE `user` (
   `id` char(38) NOT NULL DEFAULT '',
   `active` bit(1) DEFAULT NULL,
   `last_login_date` datetime DEFAULT NULL,
@@ -2231,11 +2231,11 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-LOCK TABLES `user` WRITE;
+/*LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` VALUES ('1','',NULL,NULL,'password','admin','1',NULL,NULL,NULL),('2','',NULL,'1','password','manager','4',NULL,NULL,NULL),('3','',NULL,'2','password','jmiranda','1',NULL,NULL,NULL),('4','\0',NULL,'2','password','inactive','1',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 
 --
 -- Table structure for table `user_role`
@@ -2243,7 +2243,7 @@ UNLOCK TABLES;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_role` (
+/*CREATE TABLE `user_role` (
   `user_id` char(38) DEFAULT NULL,
   `role_id` char(38) DEFAULT NULL,
   KEY `FK143BF46AA462C195` (`user_id`),
@@ -2257,11 +2257,11 @@ CREATE TABLE `user_role` (
 -- Dumping data for table `user_role`
 --
 
-LOCK TABLES `user_role` WRITE;
+/*LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
 INSERT INTO `user_role` VALUES ('1','1'),('2','2'),('3','3'),('4','3');
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
-UNLOCK TABLES;
+/*UN/*LOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

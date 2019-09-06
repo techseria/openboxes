@@ -105,9 +105,9 @@ class ProductGroupController {
 			}
 			productGroupInstance.properties = params
 			
-			log.info("Products to add " + params['product.id'])
+			println("Products to add " + params['product.id'])
 			
-			log.info("Products before " + productGroupInstance.products)
+			println("Products before " + productGroupInstance.products)
 			
 			def products = productService.getProducts(params['product.id'])
 			println "Products: " + products
@@ -115,7 +115,7 @@ class ProductGroupController {
 				productGroupInstance.addToProducts(product)
 			}
 
-			log.info("Products after " + productGroupInstance.products)
+			println("Products after " + productGroupInstance.products)
 			
 			if (!productGroupInstance.hasErrors() && productGroupInstance.save(flush: true)) {
 				flash.message = "${warehouse.message(code: 'default.updated.message', args: [warehouse.message(code: 'productGroup.label', default: 'ProductGroup'), productGroupInstance.id])}"

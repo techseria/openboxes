@@ -9,37 +9,22 @@
 **/ 
 package org.pih.warehouse.report
 
+import grails.util.Holders
 import groovy.sql.Sql
-import groovyx.gpars.GParsPool
-import org.apache.commons.lang.StringEscapeUtils
 import org.apache.http.client.HttpClient
 import org.apache.http.client.ResponseHandler
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.impl.client.BasicResponseHandler
 import org.apache.http.impl.client.DefaultHttpClient
-import org.codehaus.groovy.grails.plugins.DomainClassGrailsPlugin
 import org.docx4j.org.xhtmlrenderer.pdf.ITextRenderer
-import org.hibernate.FetchMode
-import org.hibernate.classic.Session
 import org.pih.warehouse.core.Constants
 import org.pih.warehouse.core.Location
 import org.pih.warehouse.inventory.Inventory
 import org.pih.warehouse.inventory.InventoryItem
-import org.pih.warehouse.inventory.InventoryLevel
-import org.pih.warehouse.inventory.InventoryStatus
 import org.pih.warehouse.inventory.Transaction
-import org.pih.warehouse.inventory.TransactionCode
 import org.pih.warehouse.inventory.TransactionEntry
-import org.pih.warehouse.inventory.TransactionType
 import org.pih.warehouse.product.Product
-import org.pih.warehouse.reporting.ConsumptionFact
 import org.pih.warehouse.reporting.DateDimension
-import org.pih.warehouse.reporting.LocationDimension
-import org.pih.warehouse.reporting.LotDimension
-import org.pih.warehouse.reporting.ProductDimension
-import org.pih.warehouse.reporting.TransactionFact
-import org.pih.warehouse.reporting.TransactionTypeDimension
-import org.pih.warehouse.requisition.Requisition
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 import org.w3c.dom.Document
@@ -59,10 +44,9 @@ class ReportService implements ApplicationContextAware {
 	def inventoryService
 	def dashboardService
 	def shipmentService
-	def localizationService
+//	def localizationService
 	def grailsApplication
-    def persistenceInterceptor
-    def propertyInstanceMap = DomainClassGrailsPlugin.PROPERTY_INSTANCE_MAP
+   // def persistenceInterceptor
 	def userService
 
 
@@ -70,12 +54,12 @@ class ReportService implements ApplicationContextAware {
 	
 	boolean transactional = false
 
-    def cleanUpGorm() {
+   /* def cleanUpGorm() {
         def session = sessionFactory.currentSession
         session.flush()
         session.clear()
         propertyInstanceMap.get().clear()
-    }
+    }*/
 
 
     public void generateShippingReport(ChecklistReportCommand command) {
@@ -467,7 +451,7 @@ class ReportService implements ApplicationContextAware {
 
         NumberFormat numberFormat = NumberFormat.getNumberInstance()
         //numberFormat.maximumFractionDigits = 2
-		String currencyCode = grailsApplication.config.openboxes.locale.defaultCurrencyCode?:"USD"
+		String currencyCode = Holders.config.openboxes.locale.defaultCurrencyCode?:"USD"
 		numberFormat.currency = Currency.getInstance(currencyCode)
         numberFormat.maximumFractionDigits = 2
         numberFormat.minimumFractionDigits = 2
@@ -614,8 +598,7 @@ class ReportService implements ApplicationContextAware {
             def startTime = System.currentTimeMillis()
             log.info "Executing statement: " + dmlStatement
 			sql.execute(dmlStatement)
-            log.info("Executed in ${(System.currentTimeMillis()-startTime)} ms")
-		}
+        }
 	}
 
 	void buildTransactionTypeDimension() {

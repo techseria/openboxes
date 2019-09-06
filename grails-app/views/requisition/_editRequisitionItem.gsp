@@ -35,13 +35,13 @@ shouldSubstitute=${shouldSubstitute}
                     <div class="button-container">
                         <div class="button-group">
 
-                            <g:remoteLink controller="requisition" action="showRequisitionItems" id="${requisitionItem?.requisition?.id }" update="requisitionItems" class="button icon log">
+                            <g:link controller="requisition" action="showRequisitionItems" id="${requisitionItem?.requisition?.id }" update="requisitionItems" class="button icon log">
                                 <warehouse:message code="default.button.list.label" default="Back to list"/>
-                            </g:remoteLink>
-                            <g:remoteLink controller="requisition" action="editRequisitionItem" id="${requisitionItem?.requisition?.id }"
+                            </g:link>
+                            <g:link controller="requisition" action="editRequisitionItem" id="${requisitionItem?.requisition?.id }"
                                           params="['requisitionItem.id':requisitionItem?.id, actionType:'show']" update="requisitionItems" class="button icon reload">
                                 <warehouse:message code="default.button.refresh.label" default="Refresh"/>
-                            </g:remoteLink>
+                            </g:link>
 
                         </div>
                     </div>
@@ -58,21 +58,21 @@ shouldSubstitute=${shouldSubstitute}
                 <td class="middle right">
                     <div class="button-container">
                         <div class="button-group">
-                            <g:remoteLink controller="requisition" action="previousRequisitionItem" id="${requisitionItem?.requisition?.id }"
+                            <g:link controller="requisition" action="previousRequisitionItem" id="${requisitionItem?.requisition?.id }"
                                           onFailure="alert('An error has occurred.  Please contact your system administrator (${requisition.requestNumber}).')"
                                           params="['requisitionItem.id':requisitionItem?.id, actionType:'show']" update="requisitionItems" class="button icon arrowleft">
                                 <warehouse:message code="default.button.previous.label" default="Previous"/>
-                            </g:remoteLink>
-                            <g:remoteLink controller="requisition" action="nextRequisitionItem" id="${requisitionItem?.requisition?.id }"
+                            </g:link>
+                            <g:link controller="requisition" action="nextRequisitionItem" id="${requisitionItem?.requisition?.id }"
                                           onFailure="alert('An error has occurred.  Please contact your system administrator (${requisition.requestNumber}).')"
                                           params="['requisitionItem.id':requisitionItem?.id, actionType:'show']" update="requisitionItems" class="button icon arrowright">
                                 <warehouse:message code="default.button.next.label" default="Next"/>
-                            </g:remoteLink>
+                            </g:link>
                         </div>
 
-                        <g:remoteLink controller="requisition" action="showRequisitionItems" id="${requisitionItem?.requisition?.id }" update="requisitionItems" class="button icon remove">
+                        <g:link controller="requisition" action="showRequisitionItems" id="${requisitionItem?.requisition?.id }" update="requisitionItems" class="button icon remove">
                             <warehouse:message code="default.button.close.label" default="Close"/>
-                        </g:remoteLink>
+                        </g:link>
                     </div>
                 </td>
             </tr>
@@ -270,36 +270,36 @@ shouldSubstitute=${shouldSubstitute}
                 <div class="button-container">
                     <g:if test="${requisitionItem.canUndoChanges()}">
                         <div class="button-group">
-                            <g:remoteLink controller="requisition" action="undoChanges" id="${requisitionItem?.requisition?.id }"
+                            <g:link controller="requisition" action="undoChanges" id="${requisitionItem?.requisition?.id }"
                                           onFailure="alert('An error has occurred.  Please contact your system administrator (${requisition.requestNumber}).')"
                                           params="['requisitionItem.id':requisitionItem?.id, actionType:'show']"
                                           update="requisitionItems" class="button icon reload">
                                 <warehouse:message code="default.button.undo.label" default="Undo changes"/>
-                            </g:remoteLink>
+                            </g:link>
                         </div>
                     </g:if>
                     <g:else>
                         <div class="">
-                            <g:remoteLink controller="requisition" action="approveQuantity" id="${requisitionItem?.requisition?.id }"
+                            <g:link controller="requisition" action="approveQuantity" id="${requisitionItem?.requisition?.id }"
                                           onFailure="alert('An error has occurred.  Please contact your system administrator (${requisition.requestNumber}).')"
                                           params="['requisitionItem.id':requisitionItem?.id, actionType:'show']" update="requisitionItems" class="button icon add ${requisitionItem.canApproveQuantity()?'':'disabled'} ${shouldApprove?'primary':''}">
                                 ${warehouse.message(code:'verify.button.approve.label', default: 'Approve item') }
-                            </g:remoteLink>
-                            <g:remoteLink controller="requisition" action="editRequisitionItem" id="${requisitionItem?.requisition?.id }"
+                            </g:link>
+                            <g:link controller="requisition" action="editRequisitionItem" id="${requisitionItem?.requisition?.id }"
                                           onFailure="alert('An error has occurred.  Please contact your system administrator (${requisition.requestNumber}).')"
                                           params="['requisitionItem.id':requisitionItem?.id, actionType:'change']" update="requisitionItems" class="button icon edit ${requisitionItem.canChangeQuantity()?'':'disabled'} ${shouldChange?'primary':''}">
                                 <warehouse:message code="verify.button.change.label" default="Change quantity"/>
-                            </g:remoteLink>
-                            <g:remoteLink controller="requisition" action="editRequisitionItem" id="${requisitionItem?.requisition?.id }"
+                            </g:link>
+                            <g:link controller="requisition" action="editRequisitionItem" id="${requisitionItem?.requisition?.id }"
                                           onFailure="alert('An error has occurred.  Please contact your system administrator (${requisition.requestNumber}).')"
                                           params="['requisitionItem.id':requisitionItem?.id, actionType:'substitute']" update="requisitionItems" class="button icon edit ${requisitionItem.canChooseSubstitute()?'':'disabled'} ${shouldSubstitute?'primary':''}">
                                 <warehouse:message code="verify.button.substitute.label" default="Substitute product"/>
-                            </g:remoteLink>
-                            <g:remoteLink controller="requisition" action="editRequisitionItem" id="${requisitionItem?.requisition?.id }"
+                            </g:link>
+                            <g:link controller="requisition" action="editRequisitionItem" id="${requisitionItem?.requisition?.id }"
                                           onFailure="alert('An error has occurred.  Please contact your system administrator (${requisition.requestNumber}).')"
                                           params="['requisitionItem.id':requisitionItem?.id, actionType:'cancel']" update="requisitionItems" class="button icon trash ${requisitionItem.canCancelQuantity()?'':'disabled'} ${shouldCancel?'primary':''}">
                                 <warehouse:message code="verify.button.cancel.label" default="Cancel item"/>
-                            </g:remoteLink>
+                            </g:link>
                         </div>
                     </g:else>
                 </div>
@@ -329,7 +329,7 @@ shouldSubstitute=${shouldSubstitute}
 <g:if test="${params.actionType=='change'}">
     <div class="box">
         <h2><warehouse:message code="requisitionItem.changeQuantity.label" default="Change quantity"/></h2>
-        <g:formRemote id="changeQuantityForm" name="changeQuantityForm"
+        <g:form id="changeQuantityForm" name="changeQuantityForm"
                       onFailure="alert('failure')"
                       url="[controller: 'requisition', action:'saveRequisitionItem']"
                       update="requisitionItems" >
@@ -483,25 +483,25 @@ shouldSubstitute=${shouldSubstitute}
                             ${warehouse.message(code:'default.button.save.label') }
                         </button>
 
-                        <g:remoteLink controller="requisition" action="editRequisitionItem" id="${requisitionItem?.requisition?.id }"
+                        <g:link controller="requisition" action="editRequisitionItem" id="${requisitionItem?.requisition?.id }"
                                       class="button icon trash"
                                       onFailure="alert('An error has occurred.  Please contact your system administrator (${requisition.requestNumber}).')"
                                       params="['requisitionItem.id':requisitionItem?.id, actionType:'show']" update="requisitionItems">
                             <warehouse:message code="default.button.discard.label" default="Discard changes"/>
-                        </g:remoteLink>
+                        </g:link>
                         </div>
 
                     </td>
                 </tr>
             </table>
-        </g:formRemote>
+        </g:form>
     </div>
 </g:if>
 
 <g:if test="${params.actionType=='substitute'}">
     <div class="box">
         <h2><warehouse:message code="requisitionItem.substitution.label" default="Substitution"/></h2>
-        <g:formRemote id="substitutionForm" name="substitutionForm"
+        <g:form id="substitutionForm" name="substitutionForm"
                       onFailure="alert('failure')"
                       url="[controller: 'requisition', action:'saveRequisitionItem']"
                       update="requisitionItems" >
@@ -711,18 +711,18 @@ shouldSubstitute=${shouldSubstitute}
                                 </button>
                             </g:else>
 
-                            <g:remoteLink controller="requisition" action="editRequisitionItem" id="${requisitionItem?.requisition?.id }"
+                            <g:link controller="requisition" action="editRequisitionItem" id="${requisitionItem?.requisition?.id }"
                                           class="button icon trash"
                                           onFailure="alert('An error has occurred.  Please contact your system administrator (${requisition.requestNumber}).')"
                                           params="['requisitionItem.id':requisitionItem?.id, actionType:'show']" update="requisitionItems">
                                 <warehouse:message code="default.button.discard.label" default="Discard changes"/>
-                            </g:remoteLink>
+                            </g:link>
                         </div>
 
                     </td>
                 </tr>
             </table>
-        </g:formRemote>
+        </g:form>
     </div>
 </g:if>
 
@@ -730,7 +730,7 @@ shouldSubstitute=${shouldSubstitute}
     <div class='box'>
         <h2>Cancel requisition item</h2>
         <%--onSuccess="alert('success')" onComplete="alert('complete')" onFailure="alert('failure')"--%>
-        <g:formRemote id="changeQuantityForm" name="changeQuantityForm"
+        <g:form id="changeQuantityForm" name="changeQuantityForm"
                       onFailure="alert('failure')"
                       url="[controller: 'requisition', action:'saveRequisitionItem']"
                       update="requisitionItems" >
@@ -820,18 +820,18 @@ shouldSubstitute=${shouldSubstitute}
                         <button class="button icon approve">
                             ${warehouse.message(code:'default.button.save.label') }
                         </button>
-                        <g:remoteLink controller="requisition" action="editRequisitionItem" id="${requisitionItem?.requisition?.id }"
+                        <g:link controller="requisition" action="editRequisitionItem" id="${requisitionItem?.requisition?.id }"
                                       class="button icon trash"
                                       onFailure="alert('An error has occurred.  Please contact your system administrator (${requisition.requestNumber}).')"
                                       params="['requisitionItem.id':requisitionItem?.id, actionType:'show']" update="requisitionItems">
                             <warehouse:message code="default.button.discard.label" default="Discard changes"/>
-                        </g:remoteLink>
+                        </g:link>
 
 
                     </td>
                 </tr>
             </table>
-        </g:formRemote>
+        </g:form>
     </div>
 </g:if>
 <script type="text/javascript">

@@ -9,11 +9,10 @@
 **/ 
 package org.pih.warehouse.core
 
+import grails.util.Holders
 import groovy.text.Template
-import groovyx.net.http.HTTPBuilder
-import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
+import org.grails.gsp.GroovyPagesTemplateEngine
 import org.springframework.web.context.request.RequestContextHolder
-import org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage
 import org.pih.warehouse.inventory.InventoryItem
 import org.pih.warehouse.order.Order
@@ -28,7 +27,6 @@ import javax.activation.MimetypesFileTypeMap
 class DocumentController {
 
     def fileService
-    def grailsApplication
     GroovyPagesTemplateEngine groovyPagesTemplateEngine
 
 
@@ -424,10 +422,10 @@ class DocumentController {
 
     def printZebraTemplate = {
         Document document = Document.load(params.id)
+        InventoryItem inventoryItem = InventoryItem.load(params.inventoryItemId)
         Location location = Location.load(session.warehouse.id)
-        InventoryItem inventoryItem = InventoryItem.load(params?.inventoryItem?.id)
 
-        String lptPort = grailsApplication.config.openboxes.linePrinterTerminal.port
+        String lptPort = Holders.config.openboxes.linePrinterTerminal.port
 
         Map model = [document:document, inventoryItem:inventoryItem, location:location]
         String renderedContent = renderTemplate(document, model)
@@ -447,7 +445,7 @@ class DocumentController {
         redirect(controller: "inventoryItem", action: "showStockCard", id: inventoryItem?.id)
     }
 
-    def buildZebraTemplate = {
+    def renderZebraTemplate = {
         Document document = Document.load(params.id)
         InventoryItem inventoryItem = InventoryItem.load(params.inventoryItem?.id)
         Location location = Location.load(session.warehouse.id)
@@ -457,26 +455,7 @@ class DocumentController {
         render (renderedContent)
     }
 
-    def renderZebraTemplate = {
-
-        Document document = Document.load(params.id)
-        InventoryItem inventoryItem = InventoryItem.load(params.inventoryItem?.id)
-        Location location = Location.load(session.warehouse.id)
-        Map model = [document:document, inventoryItem:inventoryItem, location:location]
-        String body = renderTemplate(document, model)
-        String contentType = "image/png"
-
-        def http = new HTTPBuilder("http://api.labelary.com/v1/printers/8dpmm/labels/4x6/0/".toString())
-        def html = http.post(body: body)
-
-        response.contentType = contentType
-        response.outputStream << html
-        response.flush()
-    }
-
-
-
-    def exportZebraTemplate = {
+    def viewZebraTemplate = {
         Document document = Document.load(params.id)
         InventoryItem inventoryItem = InventoryItem.load(params.inventoryItem?.id)
         Location location = Location.load(session.warehouse.id)

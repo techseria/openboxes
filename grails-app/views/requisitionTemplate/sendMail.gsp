@@ -8,6 +8,8 @@
     <title><warehouse:message code='default.button.email.label'/></title>
     <link rel="stylesheet" href="${createLinkTo(dir:'js/jquery.tagsinput/',file:'jquery.tagsinput.css')}" type="text/css" media="screen, projection" />
     <script src="${createLinkTo(dir:'js/jquery.tagsinput/', file:'jquery.tagsinput.js')}" type="text/javascript" ></script>
+    <asset:javascript src="application.js"/>
+    <asset:javascript src="application.css"/>
 </head>
 <body>
 
@@ -47,7 +49,7 @@
                             <label><warehouse:message code="mail.subject.label" default="Subject"/></label>
                         </td>
                         <td class="value">
-                            <g:textField name="subject" value="${params.subject?:warehouse.message(code: 'stockList.emailSubject.label')}" class="text" size="60"/>
+                            <g:textField name="subject" value="${params.subject?:'STOCK LIST UPDATE'}" class="text" size="60"/>
                         </td>
                     </tr>
                     <tr class="prop">
@@ -55,7 +57,8 @@
                             <label><warehouse:message code="mail.message.label" default="Message"/></label>
                         </td>
                         <td class="value">
-                            <g:textArea name="body" value="${params?.body?:warehouse.message(code: 'stockList.emailMessage.label')}" class="text" cols="60" rows="10"/>
+                            <g:textArea name="body" value="${params?.body?:'Please find attached a new version of your stock list reflecting ' +
+                                    'recent updates. Please use this version for your next replenishment request.'}" class="text" cols="60" rows="10"/>
                         </td>
                     </tr>
                     <tr class="prop">

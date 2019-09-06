@@ -10,6 +10,7 @@
     </title>
     <content tag="pageTitle">${entityName}</content>
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jquery-date-range-picker/0.16.1/daterangepicker.min.css" />
+    <asset:javascript src="application.js"/>
 </head>
 <body>
 
@@ -178,7 +179,7 @@
             <g:if test="${stockMovements}">
                 <g:render template="list" model="[stockMovements:stockMovements,
                                                   entityName:entityName,
-                                                  totalCount:stockMovements.totalCount,
+                                                  totalCount:stockMovements.size(),
                                                   pageParams:pageParams]"/>
             </g:if>
             <g:else>

@@ -10,6 +10,7 @@
 package org.pih.warehouse.core
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException
+import grails.util.Holders
 import org.apache.commons.lang.RandomStringUtils
 import org.hibernate.ObjectNotFoundException
 import org.pih.warehouse.inventory.Transaction
@@ -45,16 +46,16 @@ class IdentifierService {
 		for (int i = 0; i < format.length(); i++) {
 			switch(format[i]) {
 				case 'N':
-					identifier += RandomStringUtils.random(1, grailsApplication.config.openboxes.identifier.numeric)
+					identifier += RandomStringUtils.random(1, Holders.config.openboxes.identifier.numeric)
 					break;
 				case 'D':
-					identifier += RandomStringUtils.random(1, grailsApplication.config.openboxes.identifier.numeric)
+					identifier += RandomStringUtils.random(1, Holders.config.openboxes.identifier.numeric)
 					break;
 				case 'L':
-					identifier += RandomStringUtils.random(1, grailsApplication.config.openboxes.identifier.alphabetic)
+					identifier += RandomStringUtils.random(1, Holders.config.openboxes.identifier.alphabetic)
 					break;
 				case 'A':
-					identifier += RandomStringUtils.random(1, grailsApplication.config.openboxes.identifier.alphanumeric)
+					identifier += RandomStringUtils.random(1, Holders.config.openboxes.identifier.alphanumeric)
 					break;
 				default:
 					identifier += format[i]
@@ -72,7 +73,7 @@ class IdentifierService {
 	 * @param length
 	 */
 	def generateIdentifier(int length) {
-		return RandomStringUtils.random(length, grailsApplication.config.openboxes.identifier.alphanumeric)
+		return RandomStringUtils.random(length, Holders.config.openboxes.identifier.alphanumeric)
 	}
 
 	
@@ -80,21 +81,21 @@ class IdentifierService {
 	 * @return
 	 */
 	def generateOrderIdentifier() {
-		return generateIdentifier(grailsApplication.config.openboxes.identifier.order.format)
+		return generateIdentifier(Holders.config.openboxes.identifier.order.format)
 	}
 
 	/**
 	 * @return
 	 */
 	def generateProductIdentifier() {
-		return generateIdentifier(grailsApplication.config.openboxes.identifier.product.format)
+		return generateIdentifier(Holders.config.openboxes.identifier.product.format)
 	}
 
     /**
      * @return
      */
     def generateProductSupplierIdentifier() {
-        return generateIdentifier(grailsApplication.config.openboxes.identifier.product.format)
+        return generateIdentifier(Holders.config.openboxes.identifier.product.format)
     }
 
 
@@ -102,28 +103,28 @@ class IdentifierService {
 	 * @return
 	 */
 	def generateRequisitionIdentifier() {
-		return generateIdentifier(grailsApplication.config.openboxes.identifier.requisition.format)
+		return generateIdentifier(Holders.config.openboxes.identifier.requisition.format)
 	}
 
 	/**
 	 * @return
 	 */
 	def generateShipmentIdentifier() {
-		return generateIdentifier(grailsApplication.config.openboxes.identifier.shipment.format)
+		return generateIdentifier(Holders.config.openboxes.identifier.shipment.format)
 	}
 
     /**
      * @return
      */
     def generateReceiptIdentifier() {
-        return generateIdentifier(grailsApplication.config.openboxes.identifier.receipt.format)
+        return generateIdentifier(Holders.config.openboxes.identifier.receipt.format)
     }
 
     /**
 	 * @return
 	 */
 	def generateTransactionIdentifier() {
-		return generateIdentifier(grailsApplication.config.openboxes.identifier.transaction.format)
+		return generateIdentifier(Holders.config.openboxes.identifier.transaction.format)
 	}
 
 

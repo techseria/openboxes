@@ -4,6 +4,8 @@
         <meta name="layout" content="custom" />
         <g:set var="messagePrefix" value="${incoming ? 'shipping.shipmentsTo' : 'shipping.shipmentsFrom'}"/>
         <title><warehouse:message code="${messagePrefix}.label" args="[session.warehouse.name]"/></title>
+        <asset:javascript src="application.js"/>
+        <asset:javascript src="application.css"/>
    </head>
     <body>
         <div class="body">

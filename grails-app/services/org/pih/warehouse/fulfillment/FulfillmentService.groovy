@@ -24,7 +24,7 @@ class FulfillmentService {
 	 */
 	void addToFulfillmentItems(Fulfillment fulfillment, FulfillmentItem fulfillmentItem) { 
 		
-		log.info("Request: " + fulfillment.request);
+		println("Request: " + fulfillment.request);
 		
 		fulfillment.addToFulfillmentItems(fulfillmentItem);
 		fulfillment.save();
@@ -48,8 +48,8 @@ class FulfillmentService {
 		// Populate the command object with the 
 		command.request = requestInstance
 		
-		log.info("Request: " + requestInstance)
-		log.info("Fulfillment: " + requestInstance.fulfillment);
+		println("Request: " + requestInstance)
+		println("Fulfillment: " + requestInstance.fulfillment);
 
 		def fulfillment 
 		// Use existing fulfillment object

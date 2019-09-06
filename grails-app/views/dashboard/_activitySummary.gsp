@@ -29,7 +29,6 @@
             //"bServerSide": true,
             "sServerMethod": "GET",
             "iDisplayLength": 25,
-            "bSort": false,
             "bSearch": false,
             "bScrollInfinite": true,
             "bScrollCollapse": true,
@@ -48,13 +47,13 @@
                     "url": sSource,
                     "data": aoData,
                     "success": fnCallback,
-                    "timeout": 15000,   // optional if you want to handle timeouts (which you should)
+                    "timeout": 10000,   // optional if you want to handle timeouts (which you should)
                     "error": handleAjaxError // this sets up jQuery to give me errors
                 } );
             },
             "oLanguage": {
                 "sZeroRecords": "No records found",
-                "sProcessing": "Loading ... <img alt='spinner' src='${request.contextPath}/images/spinner.gif' />"
+                "sProcessing": "Loading ... <img alt='spinner' src='${request.contextPath}/static/images/spinner.gif' />"
             },
             //"fnInitComplete": fnInitComplete,
             //"iDisplayLength" : -1,
@@ -70,7 +69,7 @@
             ],
             "bUseRendered": false,
             "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
-                $('td:eq(0)', nRow).html('<img src="${request.contextPath}/images/icons/silk/' + aData["type"] + '.png" />');
+                $('td:eq(0)', nRow).html('<img src="${request.contextPath}/static/images/icons/silk/' + aData["type"] + '.png" />');
                 return nRow;
             }
 

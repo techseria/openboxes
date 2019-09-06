@@ -1,3 +1,4 @@
+<%@ page import="grails.util.Holders" %>
 <div class="box">
     <div id="productComponents">
 
@@ -44,7 +45,7 @@
                     </td>
                     <td>
                         <g:formatNumber number="${productComponent?.componentProduct?.pricePerUnit?:0.0}" />
-                        ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                        ${grails.util.Holders.config.openboxes.locale.defaultCurrencyCode}
                     </td>
                     <td>
                         <%--
@@ -52,10 +53,10 @@
                             <warehouse:message code="default.button.edit.label"/>
                         </a>
                         --%>
-                        <g:remoteLink controller="product" action="deleteProductComponent" id="${productComponent.id }" class="button icon trash"
+                        <g:link controller="product" action="deleteProductComponent" id="${productComponent.id }" class="button icon trash"
                                       update="productComponents" onSuccess="onSuccess(data,textStatus)" onComplete="onComplete()">
                             <warehouse:message code="default.button.delete.label" args="[warehouse.message(code:'package.label')]"/>
-                        </g:remoteLink>
+                        </g:link>
                     </td>
                 </tr>
             </g:each>
@@ -74,7 +75,7 @@
                 <tr>
                     <td colspan="6" class="center">
 
-                        <g:formRemote id="addProductComponent" name="addProductComponent"
+                        <g:form id="addProductComponent" name="addProductComponent"
                                       update="productComponents" onSuccess="onSuccess(data,textStatus)" onComplete="onComplete()"
                                       url="[controller: 'product', action:'addProductComponent']">
 
@@ -103,7 +104,7 @@
                                     </td>
                                 </tr>
                             </table>
-                        </g:formRemote>
+                        </g:form>
                     </td>
                 </tr>
             </tfoot>

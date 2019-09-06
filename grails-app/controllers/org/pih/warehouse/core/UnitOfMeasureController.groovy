@@ -7,10 +7,11 @@
 * the terms of this license.
 * You must not remove this notice, or any other, from this software.
 **/ 
-package org.pih.warehouse.core;
+package org.pih.warehouse.core
+
 
 class UnitOfMeasureController {
 
-	def scaffold = UnitOfMeasure;
-	
+	static scaffold = UnitOfMeasure
+
 }

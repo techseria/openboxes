@@ -13,15 +13,15 @@
 </script>
 
 <div id="dlgMoveItem" title="${warehouse.message(code:'shipping.moveItem.label')}" style="padding: 10px; display: none;" >
-	<g:if test="${itemToMove}">
-		<g:form name="moveItem" action="createShipment">
+	<g:if test="${flash.itemToMove}">
+		<g:form name="moveItem" action="moveItemToContainer">
 			<table>
 				<tbody>
 					<tr class="prop">
 						<td valign="top" class="name"><label><warehouse:message code="item.label" /></label></td>                            
 						<td valign="top" class="value">
-							<g:hiddenField name="item.id" value="${itemToMove.id }"/>
-							<b>${itemToMove?.quantity }</b> x <format:product product="${itemToMove?.product}"/>
+							<g:hiddenField name="item.id" value="${flash.itemToMove.id }"/>
+							<b>${flash.itemToMove?.quantity }</b> x <format:product product="${flash.itemToMove?.product}"/>
 						</td>
 					</tr>
 					<tr class="prop">
@@ -36,16 +36,16 @@
 									</tr>
 									<tr>
 										<td>
-											<g:if test="${!itemToMove.container}">
+											<g:if test="${!flash.itemToMove.container}">
 												<warehouse:message code="shipping.unpackedItems.label"/>
 											</g:if>
-											<g:if test="${itemToMove?.container?.parentContainer }">
-												${itemToMove?.container?.parentContainer?.name } &rsaquo;
+											<g:if test="${flash.itemToMove?.container?.parentContainer }">
+												${flash.itemToMove?.container?.parentContainer?.name } &rsaquo;
 											</g:if> 
-											${itemToMove?.container?.name }
+											${flash.itemToMove?.container?.name }
 										</td>
 										<td>
-                                            <div id="totalItemQuantity">${itemToMove?.quantity}</div>
+                                            <div id="totalItemQuantity">${flash.itemToMove?.quantity}</div>
 										</td>									
 									</tr>
 								</table>
@@ -69,11 +69,11 @@
 											<warehouse:message code="shipping.unpackedItems.label" default="Unpacked Items" />
 										</td>
 										<td>
-											<g:if test="${itemToMove.container}">
+											<g:if test="${flash.itemToMove.container}">
 												<g:textField id="newQuantity-0" class="updateQuantity text" name="quantity-0" size="8" value="0"></g:textField>
 											</g:if>
 											<g:else>
-												<g:textField id="currentQuantity" class="currentQuantity readonly text" name="quantity-0" size="8" readonly="readonly" value="${itemToMove?.quantity}"></g:textField>
+												<g:textField id="currentQuantity" class="currentQuantity readonly text" name="quantity-0" size="8" readonly="readonly" value="${flash.itemToMove?.quantity}"></g:textField>
 											</g:else>
 										</td>
 									</tr>
@@ -82,15 +82,15 @@
 									<g:each var="containerTo" in="${shipmentInstance?.containers?.sort{it.sortOrder}}">
 										<tr class="${count++ % 2 ? 'odd':'even' }">
 											<td>
-												<g:set var="selected" test="${itemToMove?.container?.id == containerTo?.id}"/>
+												<g:set var="selected" test="${flash.itemToMove?.container?.id == containerTo?.id}"/>
 												<g:if test="${containerTo?.parentContainer }">${containerTo?.parentContainer?.name } &rsaquo;</g:if> ${containerTo?.name }
 											</td>
 											<td>
-												<g:if test="${containerTo != itemToMove.container}">
+												<g:if test="${containerTo != flash.itemToMove.container}">
 													<g:textField id="newQuantity-${containerTo?.id}" class="updateQuantity text" name="quantity-${containerTo?.id}" size="8" value="0"></g:textField>
 												</g:if>
 												<g:else>
-													<g:textField id="currentQuantity" class="currentQuantity readonly text" name="quantity-${containerTo?.id}" size="8" readonly="readonly" value="${itemToMove?.quantity}"></g:textField>
+													<g:textField id="currentQuantity" class="currentQuantity readonly text" name="quantity-${containerTo?.id}" size="8" readonly="readonly" value="${flash.itemToMove?.quantity}"></g:textField>
 												</g:else>
 											</td>
 										</tr>									
@@ -98,7 +98,7 @@
 								</table>
 								
 							</div>
-							<g:hiddenField id="totalQuantity" class="totalQuantity" name="totalQuantity" disabled="disabled" value="${itemToMove?.quantity}"/>
+							<g:hiddenField id="totalQuantity" class="totalQuantity" name="totalQuantity" disabled="disabled" value="${flash.itemToMove?.quantity}"/>
 						</td>
 					</tr>
 					<tr>

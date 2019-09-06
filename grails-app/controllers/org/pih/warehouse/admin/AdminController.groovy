@@ -10,9 +10,9 @@
 package org.pih.warehouse.admin
 
 import grails.util.GrailsUtil
-import net.sf.ehcache.Cache
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import grails.util.Holders
 import org.pih.warehouse.core.MailService
+import org.springframework.cache.Cache
 import org.springframework.web.multipart.MultipartFile
 
 import javax.print.Doc
@@ -28,8 +28,8 @@ class AdminController {
 
     def sessionFactory // inject Hibernate sessionFactory
 	MailService mailService;
-	def grailsApplication
-	def config = ConfigurationHolder.config
+	def getGrailsApplication = Holders
+	def config = Holders.config
     def quartzScheduler
 	def springcacheService
 
@@ -39,8 +39,8 @@ class AdminController {
     def controllerActions = {
 			
 		List actionNames = []
-		grailsApplication.controllerClasses.sort { it.logicalPropertyName }.each { controller ->
-			
+        getGrailsApplication.controllerClasses.sort { it.logicalPropertyName }.each { controller ->
+
 			controller.reference.propertyDescriptors.each { pd ->
 				def closure = controller.getPropertyOrStaticPropertyOrFieldValue(pd.name, Closure)
 				if (closure) {
@@ -75,7 +75,7 @@ class AdminController {
 	}
 
     def evictDomainCache = {
-        def domainClass = grailsApplication.getDomainClass(params.name)
+        def domainClass = getGrailsApplication.getDomainClass(params.name)
         if (domainClass) {
             sessionFactory.evict(domainClass.clazz)
             flash.message = "Domain cache '${params.name}' was invalidated"
@@ -217,7 +217,7 @@ class AdminController {
 	
 	def showSettings = { 		
 		def externalConfigProperties = []
-		grailsApplication.config.grails.config.locations.each { filename ->			
+        Holders.config.grails.config.locations.each { filename ->
 			try { 
 				// Hack to remove the file: protocol from the URL string
 				filename -= "file:"
@@ -251,7 +251,7 @@ class AdminController {
 			externalConfigProperties: externalConfigProperties,
 			systemProperties : System.properties,
 			env: GrailsUtil.environment,
-			enabled: Boolean.valueOf(grailsApplication.config.grails.mail.enabled),
+			enabled: Boolean.valueOf(Holders.config.grails.mail.enabled),
 			from: "${config.grails.mail.from}",
 			host: "${config.grails.mail.host}",
 			port: "${config.grails.mail.port}"
@@ -261,7 +261,7 @@ class AdminController {
 	
 	def downloadWar = { 
 		log.info params
-		log.info("Updating war file " + params)
+		println("Updating war file " + params)
 		// def url = "http://ci.pih-emr.org/downloads/openboxes.war"
 
 		// Requires executor plugin
@@ -299,12 +299,12 @@ class AdminController {
 
 	Integer doDownloadWar(String remoteUrl, File localFile) { 
 		try { 
-			log.info("Downloading war file " + remoteUrl + " .... ")
+			println("Downloading war file " + remoteUrl + " .... ")
 			def outputStream = new BufferedOutputStream(new FileOutputStream(localFile))		
 			def url = new URL(remoteUrl)
 			outputStream << url.openStream()
 			outputStream.close();
-			log.info("... done downloading remote file " + remoteUrl + " to " + localFile.absolutePath)
+			println("... done downloading remote file " + remoteUrl + " to " + localFile.absolutePath)
 			//return file.absolutePath
 			return 0
 		} catch (Exception e) { 
@@ -317,7 +317,7 @@ class AdminController {
 	
 	/*
 	def reloadWar = {
-		log.info("Reloading war file")
+		println("Reloading war file")
 		def future = callAsync {
 			log.info "Within call async"
 			return reloadWar()

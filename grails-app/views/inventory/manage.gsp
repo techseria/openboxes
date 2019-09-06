@@ -12,6 +12,8 @@
         .dataTable tr.even:hover { background-color: #b2d1ff; }
         .dataTable tr.odd:hover { background-color: #b2d1ff; }
         </style>
+        <asset:javascript src="application.js"/>
+        <asset:javascript src="application.css"/>
     </head>
     <body>
         <div class="body">

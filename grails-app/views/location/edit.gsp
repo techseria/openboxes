@@ -10,6 +10,8 @@
 		<content tag="pageTitle"><warehouse:message code="default.edit.label" args="[entityName]" /></content>
 		<link rel="stylesheet" href="${createLinkTo(dir:'js/jquery',file:'jquery.colorpicker.css')}" type="text/css" media="screen, projection" />
 		<script src="${createLinkTo(dir:'js/jquery/', file:'jquery.colorpicker.js')}" type="text/javascript" ></script>
+        <asset:javascript src="application.js"/>
+        <asset:javascript src="application.css"/>
     </head>
     <body>
         <div class="body">

@@ -9,7 +9,7 @@
 **/
 package org.pih.warehouse.user
 
-import grails.plugin.springcache.annotations.CacheFlush
+import grails.util.Holders
 import grails.validation.ValidationException
 import org.apache.commons.collections.ListUtils
 import org.pih.warehouse.core.*
@@ -266,7 +266,7 @@ class UserController {
 
    def disableLocalizationMode = {
 	   session.useDebugLocale = false
-       if (!grailsApplication.config.openboxes.locale.custom.enabled) {
+       if (!Holders.config.openboxes.locale.custom.enabled) {
            flash.message = "${g.message(code: 'localization.invalid.custom.message')}"
        }
 
@@ -281,7 +281,7 @@ class UserController {
 
    def enableLocalizationMode = {
 	   session.useDebugLocale = true
-       if (!grailsApplication.config.openboxes.locale.custom.enabled) {
+       if (!Holders.config.openboxes.locale.custom.enabled) {
            flash.message = "${g.message(code: 'localization.invalid.custom.message')}"
        }
 
@@ -299,7 +299,7 @@ class UserController {
 	 * Updates the locale of the default user
 	 * Used by the locale selectors in the footer
 	 */
-    @CacheFlush(["megamenuCache"])
+  //  @CacheFlush(["megamenuCache"])
 	def updateAuthUserLocale = {
 
 		log.info "update auth user locale " + params
@@ -363,7 +363,7 @@ class UserController {
      */
     def delete = {
 
-		log.info(params)
+		println(params)
 
         def userInstance = User.get(params.id)
         if (userInstance) {

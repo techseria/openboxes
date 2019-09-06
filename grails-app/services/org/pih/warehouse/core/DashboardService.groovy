@@ -9,7 +9,9 @@
 **/ 
 package org.pih.warehouse.core
 
-import org.grails.plugins.csv.CSVWriter
+import grails.plugins.csv.CSVWriter
+
+// import org.grails.plugins.csv.CSVWriter
 import org.pih.warehouse.inventory.InventoryItem
 import org.pih.warehouse.inventory.InventoryLevel
 import org.pih.warehouse.inventory.InventoryStatus
@@ -135,8 +137,6 @@ class DashboardService {
 
         // Stock that has already expired
         def expiredStock = InventoryItem.findAllByExpirationDateLessThan(new Date(), [sort: 'expirationDate', order: 'desc']);
-
-        log.debug expiredStock
 
         Map<InventoryItem, Integer> quantityMap =
                 inventorySnapshotService.getQuantityOnHandByInventoryItem(location)

@@ -9,11 +9,11 @@
 **/ 
 package org.pih.warehouse.data
 
+import grails.plugins.csv.CSVWriter
 import grails.validation.ValidationException
 import groovy.sql.Sql
 import org.apache.commons.lang.StringEscapeUtils
-import org.grails.plugins.csv.CSVWriter
-import org.grails.plugins.excelimport.ExcelImportUtils
+//import org.grails.plugins.excelimport.ExcelImportUtils
 import org.pih.warehouse.auth.AuthService
 import org.pih.warehouse.core.Constants
 import org.pih.warehouse.core.RoleType
@@ -41,14 +41,11 @@ class DataService {
     def sessionFactory
     def userService
 
-    def propertyInstanceMap = org.codehaus.groovy.grails.plugins.DomainClassGrailsPlugin.PROPERTY_INSTANCE_MAP
-
-
     private void cleanUpGorm()  {
-        def session = sessionFactory.currentSession
+        def session = sessionFactory.getCurrentSession()
         session.flush()
-        session.clear()
-        propertyInstanceMap.get().clear()
+      //  session.clear()
+      //  propertyInstanceMap.get().clear()
     }
 
     static transactional = true
@@ -58,8 +55,10 @@ class DataService {
      * Validate inventory levels
      */
     def validateInventoryLevels(ImportDataCommand command) {
-        println "validate inventory levels " + command.filename
-        validateInventoryLevels(command.location, command.filename)
+        for (int i=0;i<command.filename.size();i++){
+        println "validate inventory levels " + command.filename.get(i)
+        validateInventoryLevels(command.location, command.filename.get(i))
+        }
     }
 
     /**
@@ -107,7 +106,9 @@ class DataService {
 
     def importInventoryLevels(ImportDataCommand command) {
         println "Import inventory levels " + command.filename
-        importInventoryLevels(command.location, command.filename)
+        for(int i=0;i<command.filename.size();i++){
+            importInventoryLevels(command.location, command.filename[i])
+        }
     }
 
 
@@ -140,7 +141,7 @@ class DataService {
      */
     def importInventoryLevel(location, row, index) {
         println "Import inventory levels " + location + " row " + row + " index " + index
-        Product.withNewSession {
+      // Product.withNewSession {
 
             def product = findProduct(row)
             //def tags = findOrCreateTags(row.tags)
@@ -167,11 +168,8 @@ class DataService {
             product.save()
 
             // Clean up session after 50 products
-            if (index % 50 == 0) {
                 cleanUpGorm()
-            }
-
-        }
+     //   }
 
     }
 
@@ -270,17 +268,21 @@ class DataService {
         def inventoryLevel = InventoryLevel.findByProductAndInventory(product, inventory)
         if (!inventoryLevel) {
             inventoryLevel = new InventoryLevel();
-            inventoryLevel.inventory = inventory
-            product.addToInventoryLevels(inventoryLevel)
-
+            inventoryLevel.product = product
+            inventoryLevel.lastUpdated = new Date()
+            inventoryLevel.dateCreated = new Date()
+            inventory.addToConfiguredProducts(inventoryLevel)
         }
-
         inventoryLevel.status = InventoryStatus.SUPPORTED
         inventoryLevel.binLocation = binLocation
         inventoryLevel.minQuantity = minQuantity
         inventoryLevel.reorderQuantity = reorderQuantity
         inventoryLevel.maxQuantity = maxQuantity
         inventoryLevel.preferred = Boolean.valueOf(preferredForReorder)
+
+        if(inventoryLevel.hasErrors()||!inventoryLevel.merge()) {
+            throw new ValidationException("Inventory level is invalid", inventoryLevel.errors)
+        }
 
         return inventoryLevel
     }
@@ -582,44 +584,6 @@ class DataService {
         }
         return sw.toString()
     }
-
-    String exportInventoryLevels(List inventoryLevels) {
-        def sw = new StringWriter()
-        def csv = new CSVWriter(sw, {
-            "Product Code" {it.productCode}
-            "Product Name" {it.productName}
-            "Inventory" {it.inventory}
-            "Status" {it.status}
-            "Bin Location" {it.binLocation}
-            "Preferred" {it.preferred}
-            "ABC Class" {it.abcClass}
-            "Min Quantity" {it.minQuantity}
-            "Reorder Quantity" {it.reorderQuantity}
-            "Max Quantity" {it.maxQuantity}
-            "Forecast Quantity" {it.forecastQuantity}
-            "Forecast Period" {it.forecastPeriodDays}
-            "UOM" {it.unitOfMeasure}
-        })
-        inventoryLevels.each { inventoryLevel ->
-            csv << [
-                    productCode: inventoryLevel.product.productCode,
-                    productName: inventoryLevel.product.name,
-                    inventory: inventoryLevel.inventory.warehouse.name,
-                    status: inventoryLevel.status,
-                    binLocation: inventoryLevel.binLocation?:"",
-                    preferred: inventoryLevel.preferred?:"",
-                    abcClass: inventoryLevel.abcClass?:"",
-                    minQuantity: inventoryLevel.minQuantity?:"",
-                    reorderQuantity: inventoryLevel.reorderQuantity?:"",
-                    maxQuantity: inventoryLevel.maxQuantity?:"",
-                    forecastQuantity: inventoryLevel.forecastQuantity?:"",
-                    forecastPeriodDays: inventoryLevel.forecastPeriodDays?:"",
-                    unitOfMeasure: inventoryLevel?.product?.unitOfMeasure?:"EA"
-            ]
-        }
-        return csv.writer.toString()
-    }
-
 
     /**
      * Export the given requisitions to CSV.

@@ -5,6 +5,8 @@
         <meta name="layout" content="custom" />
         <g:set var="entityName" value="${warehouse.message(code: 'requisition.label', default: 'Requisition').toLowerCase()}" />
         <title><warehouse:message code="default.view.label" args="[entityName]" /></title>
+        <asset:javascript src="application.js"/>
+        <asset:javascript src="application.css"/>
     </head>
     <body>
         <div class="body">

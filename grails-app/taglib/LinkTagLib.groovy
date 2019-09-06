@@ -1,4 +1,4 @@
-import org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib
+import org.grails.plugins.web.taglib.ApplicationTagLib
 
 class LinkTagLib extends ApplicationTagLib {
 
@@ -18,11 +18,14 @@ class LinkTagLib extends ApplicationTagLib {
 
             // If user is not authorized to access link we just display the link body (text)
             if (missManager || missAdmin || missSuperuser || disabled) {
-                attrs.onclick = "alert('${disabledMessage}'); return false;"
+                if(!(missSuperuser == true && (actionName == "editTransaction" || controllerName == "console" )))
+                {
+                    attrs.onclick = "alert('${disabledMessage}'); return false;"
+                }
             }
         }
 
-        def applicationTagLib = grailsApplication.mainContext.getBean('org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib')
+        def applicationTagLib = grails.util.Holders.getGrailsApplication().mainContext.getBean('org.grails.plugins.web.taglib.ApplicationTagLib')
         applicationTagLib.link.call(attrs, body)
     }
 }

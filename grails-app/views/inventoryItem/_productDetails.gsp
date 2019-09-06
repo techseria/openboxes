@@ -1,4 +1,4 @@
-<%@ page import="org.pih.warehouse.inventory.InventoryStatus" %>
+<%@ page import="grails.util.Holders; org.pih.warehouse.inventory.InventoryStatus" %>
 <style>
 .nailthumb-container {
     width: 100%;
@@ -56,7 +56,7 @@
                     </g:if>
                 </td>
             </tr>
-            <g:if test="${grailsApplication.config.openboxes.forecasting.enabled}">
+            <g:if test="${grails.util.Holders.config.openboxes.forecasting.enabled}">
                 <tr class="prop">
                     <td class="label">
                         <label><warehouse:message code="forecasting.onHandMonths.label"/></label>
@@ -188,7 +188,7 @@
                 <td class="value middle">
                     <g:hasRoleFinance onAccessDenied="${g.message(code:'errors.blurred.message', args: [g.message(code:'default.none.label')])}">
                         ${g.formatNumber(number: (productInstance?.pricePerUnit?:0), format: '###,###,##0.00##')}
-                        ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                        ${Holders.config.openboxes.locale.defaultCurrencyCode}
                     </g:hasRoleFinance>
                 </td>
             </tr>
@@ -199,7 +199,7 @@
                 <td class="value middle">
                     <g:hasRoleFinance onAccessDenied="${g.message(code:'errors.blurred.message', args: [g.message(code:'default.none.label')])}">
                         ${g.formatNumber(number: (totalQuantity?:0) * (productInstance?.pricePerUnit?:0), format: '###,###,##0.00') }
-                        ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                        ${Holders.config.openboxes.locale.defaultCurrencyCode}
                     </g:hasRoleFinance>
                 </td>
             </tr>

@@ -9,25 +9,24 @@
 **/ 
 package org.pih.warehouse
 
-// import java.text.SimpleDateFormat;
-// import java.util.Date;
 
-import com.ocpsoft.pretty.time.PrettyTime
-import grails.plugin.springcache.annotations.Cacheable
+
+
 import groovy.time.TimeDuration
+import org.ocpsoft.prettytime.PrettyTime
 import org.pih.warehouse.core.Constants
 
 class DateTagLib {
 
     static namespace = "g"
 
-	@Cacheable("copyrightYear")
+
 	def copyrightYear = { attrs, body ->
 		out << (new Date().format(org.pih.warehouse.core.Constants.DEFAULT_YEAR_FORMAT))
 	}
 
 	def formatDate = { attrs, body ->
-        def formatTagLib = grailsApplication.mainContext.getBean('org.codehaus.groovy.grails.plugins.web.taglib.FormatTagLib')
+        def formatTagLib = grailsApplication.mainContext.getBean('org.grails.plugins.web.taglib.FormatTagLib')
 
         def today = new Date()
         if (!attrs.format) {

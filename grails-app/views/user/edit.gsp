@@ -1,4 +1,4 @@
-<%@ page import="org.pih.warehouse.core.*" %>
+<%@ page import="grails.util.Holders; org.pih.warehouse.core.*" %>
 <g:set var="adminAndBrowser" value="${[Role.browser(), Role.assistant(), Role.manager(), Role.admin(), Role.superuser()]}" />
 <g:set var="allRoles" value="${[Role.admin(), Role.browser(), Role.manager()]}" />
 <g:set var="locationRolePairs" value="${userInstance?.locationRolePairs()}" />
@@ -8,6 +8,8 @@
     <meta name="layout" content="custom" />
     <g:set var="entityName" value="${warehouse.message(code: 'user.label', default: 'User')}" />
     <title><warehouse:message code="default.edit.label" args="[entityName]" /></title>
+    <asset:javascript src="application.js"/>
+    <asset:javascript src="application.css"/>
 </head>
 <body>
 <div class="body">
@@ -93,7 +95,7 @@
                                               <label for="locale"><warehouse:message code="default.locale.label"/></label>
                                             </td>
                                             <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'locale', 'errors')}">
-                                                <g:select name="locale" from="${ grailsApplication.config.openboxes.locale.supportedLocales.collect{ new Locale(it) } }"
+                                                <g:select name="locale" from="${ grails.util.Holders.config.openboxes.locale.supportedLocales.collect{ new Locale(it) } }"
                                                           optionValue="displayName" value="${userInstance?.locale}" noSelection="['null':'']" class="chzn-select-deselect"/>
                                             </td>
                                         </tr>

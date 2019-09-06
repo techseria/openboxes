@@ -14,6 +14,8 @@
 <content tag="pageTitle">
 <warehouse:message code="requisition.process.label" /></content>
 </head>
+<asset:javascript src="application.js"/>
+<asset:javascript src="application.css"/>
 <body>
 	<div class="body">
 		<g:if test="${flash.message}">

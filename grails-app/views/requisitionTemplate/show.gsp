@@ -1,4 +1,4 @@
-<%@ page import="org.pih.warehouse.requisition.RequisitionItemSortByCode; grails.converters.JSON; org.pih.warehouse.core.RoleType"%>
+<%@ page import="grails.util.Holders; org.pih.warehouse.requisition.RequisitionItemSortByCode; grails.converters.JSON; org.pih.warehouse.core.RoleType"%>
 <%@ page import="org.pih.warehouse.requisition.RequisitionType"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
@@ -86,11 +86,11 @@
                                 <g:hasRoleFinance>
                                     <td>
                                         ${g.formatNumber(number: (requisitionItem?.product?.pricePerUnit?:0), format: '###,###,##0.00##')}
-                                        ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                                        ${grails.util.Holders.config.openboxes.locale.defaultCurrencyCode}
                                     </td>
                                     <td>
                                         ${g.formatNumber(number: (requisitionItem?.totalCost?:0), format: '###,###,##0.00##')}
-                                        ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                                        ${Holders.config.openboxes.locale.defaultCurrencyCode}
                                     </td>
                                 </g:hasRoleFinance>
                             </tr>

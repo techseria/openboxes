@@ -32,6 +32,7 @@ class InventorySnapshot implements java.io.Serializable {
 	Integer quantityOnHand
 	Integer quantityInbound
 	Integer quantityOutbound
+	Date expirationDate
 	
 		// Auditing
 	Date dateCreated;
@@ -52,6 +53,7 @@ class InventorySnapshot implements java.io.Serializable {
 		quantityOnHand(nullable:true)
 		quantityInbound(nullable:true)
 		quantityOutbound(nullable:true)
+		expirationDate(nullable: true)
     }
 	
 }

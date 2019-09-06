@@ -15,7 +15,7 @@ import groovy.sql.Sql
 import groovyx.gpars.GParsPool
 import org.apache.commons.lang.StringEscapeUtils
 import org.apache.commons.lang.StringUtils
-import org.grails.plugins.csv.CSVWriter
+// import org.grails.plugins.csv.CSVWriter
 import org.hibernate.criterion.CriteriaSpecification
 import org.joda.time.LocalDate
 import org.pih.warehouse.api.AvailableItem
@@ -39,7 +39,6 @@ import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.validation.Errors
-
 import java.sql.BatchUpdateException
 import java.sql.Timestamp
 import java.text.ParseException
@@ -49,9 +48,7 @@ class InventoryService implements ApplicationContextAware {
 
 	def dataSource
     def sessionFactory
-    def propertyInstanceMap = org.codehaus.groovy.grails.plugins.DomainClassGrailsPlugin.PROPERTY_INSTANCE_MAP
     def startTime = System.currentTimeMillis()
-    def lastBatchStarted = startTime
     def persistenceInterceptor
 
     def dataService
@@ -78,36 +75,6 @@ class InventoryService implements ApplicationContextAware {
 	def getOrderService() {
 		return applicationContext.getBean("orderService")
 	}
-/**
- * Return the inventory item by product id
- */
-	InventoryItem getInventoryItemByProduct(String id){
-		Product product = Product.findById(id)
-		InventoryItem inventoryItem = InventoryItem.findByProduct(product)
-		return inventoryItem
-	}
-	/**
-	 * Return the inventory item by id
-	 */
-
-	InventoryItem getInvetoryItemById(String id){
-		InventoryItem inventoryItem = InventoryItem.findById(id)
-		return  inventoryItem
-	}
-
-	/**
-	 * delete inventory item
-	 */
-
-	void deleteInvetoryItem(String id){
-		InventoryItem inventoryItem = getInvetoryItemById(id)
-		inventoryItem.delete()
-	}
-
-	InventoryItem updateInvetoryItem(InventoryItem inventoryItem){
-		InventoryItem inventoryItem1 =  inventoryItem.merge()
-		return  inventoryItem1
-	}
 
 
 	/**
@@ -132,6 +99,38 @@ class InventoryService implements ApplicationContextAware {
         }
 
         location.save()
+	}
+
+	/**
+	 * Return the inventory item by product id
+	 */
+		InventoryItem getInventoryItemByProduct(String id){
+			Product product = Product.findById(id)
+			InventoryItem inventoryItem = InventoryItem.findByProduct(product)
+			return inventoryItem
+		}
+
+	/**
+	 * Return the inventory item by id
+	 */
+
+	InventoryItem getInvetoryItemById(String id){
+		InventoryItem inventoryItem = InventoryItem.findById(id)
+		return  inventoryItem
+	}
+
+	/**
+	 * delete inventory item
+	 */
+
+	void deleteInvetoryItem(String id){
+		InventoryItem inventoryItem = getInvetoryItemById(id)
+		inventoryItem.delete()
+	}
+
+	InventoryItem updateInvetoryItem(InventoryItem inventoryItem){
+		InventoryItem inventoryItem1 =  inventoryItem.merge()
+		return  inventoryItem1
 	}
 
 	/**
@@ -712,7 +711,7 @@ class InventoryService implements ApplicationContextAware {
 			products = products.reverse()
 		}
 
-		return new PagedResultList(products, totalCount);
+		return products
 	}
 
 
@@ -883,7 +882,6 @@ class InventoryService implements ApplicationContextAware {
 	 */
 	Integer getQuantity(Location location, Product product, String lotNumber) {
 
-		log.info("Get quantity for product " + product?.name + " lotNumber " + lotNumber + " at location " + location?.name)
 		if (!location) {
 			throw new RuntimeException("Must specify location in order to calculate quantity on hand");
 		}
@@ -1842,7 +1840,6 @@ class InventoryService implements ApplicationContextAware {
 	 * @return a single inventory item
 	 */
 	InventoryItem findInventoryItemByProductAndLotNumber(Product product, String lotNumber) {
-		log.info("Find inventory item by product " + product?.id + " and lot number '" + lotNumber + "'")
 		def inventoryItems = InventoryItem.createCriteria().list() {
 			and {
 				eq("product.id", product?.id)
@@ -2083,7 +2080,6 @@ class InventoryService implements ApplicationContextAware {
             transaction.addToTransactionEntries(transactionEntry);
 
             if (!transaction.save()) {
-                log.info("Errors saving transaction: " + transaction.errors)
                 command.errors.addAllErrors(transaction.errors)
             }
         }
@@ -2128,7 +2124,7 @@ class InventoryService implements ApplicationContextAware {
 		}
 
 		if (!transaction.hasErrors() && transaction.save()) {
-			log.info("Transaction saved: " + transaction)
+			println("Transaction saved: " + transaction)
 		}
 
 		return transaction;
@@ -2874,9 +2870,9 @@ class InventoryService implements ApplicationContextAware {
 			//def sql = "select te from TransactionEntry as te where te.transaction.inventory.id='${inventory.id}' and te.inventoryItem.product.id in (${ids}) " +
             //        "order by te.transaction.transactionDate asc, te.transaction.dateCreated asc"
 
-            def sql = "select te from TransactionEntry as te where te.transaction.inventory.id='${inventory.id}' and te.inventoryItem.product.id in (${ids})"
+            String sql = "test"
             log.debug "SQL: " + sql
-			def transactionEntries = TransactionEntry.executeQuery(sql)
+			def transactionEntries = TransactionEntry.executeQuery("select te from TransactionEntry as te where te.transaction.inventory.id='"+ inventory.id +"' and te.inventoryItem.product.id in ("+ ids +")")
 			log.debug "transactionEntries " + transactionEntries
             //transactionEntries.each{ println(it)}
 			//transactionEntries.each{

@@ -24,9 +24,11 @@ import com.unboundid.ldap.sdk.SearchResult
 import com.unboundid.ldap.sdk.SearchResultEntry
 import com.unboundid.ldap.sdk.SearchScope
 import com.unboundid.ldap.sdk.SimpleBindRequest
+import grails.util.Holders
 import grails.validation.ValidationException
 import groovy.sql.Sql
 import org.apache.commons.collections.ListUtils
+import org.omg.PortableInterceptor.HOLDING
 import org.pih.warehouse.auth.AuthService
 
 import util.StringUtil
@@ -298,7 +300,7 @@ class UserService {
      */
     def authenticate(username, password) {
         //def authenticated = false
-        //def ldapEnabled = grailsApplication.config.openboxes.ldap.enabled?:false;
+        //def ldapEnabled = Holders.config.openboxes.ldap.enabled?:false;
         //if (ldapEnabled) {
         //    authenticated = authenticateUsingLdap(username, password)
         //}
@@ -328,13 +330,13 @@ class UserService {
      * @return
      */
     def authenticateUsingLdap(username, password) {
-        def host = grailsApplication.config.openboxes.ldap.context.server.host?:"ldap.forumsys.com"
-        def port = grailsApplication.config.openboxes.ldap.context.server.port?:389
-        def bindUserDn = grailsApplication.config.openboxes.ldap.context.managerDn?:"cn=read-only-admin,dc=example,dc=com"
-        def bindUserPassword = grailsApplication.config.openboxes.ldap.context.managerPassword?:"password"
-        long responseTimeoutMillis = grailsApplication.config.openboxes.ldap.responseTimeoutMillis?:1000;
-        def searchSubtree = grailsApplication.config.openboxes.ldap.search.searchSubtree
-        String [] attributesToReturn = ["displayName", "password", "mail", "cn"] //grailsApplication.config.openboxes.ldap.search.attributesToReturn
+        def host = Holders.config.openboxes.ldap.context.server.host?:"ldap.forumsys.com"
+        def port = Holders.config.openboxes.ldap.context.server.port?:389
+        def bindUserDn = Holders.config.openboxes.ldap.context.managerDn?:"cn=read-only-admin,dc=example,dc=com"
+        def bindUserPassword = Holders.config.openboxes.ldap.context.managerPassword?:"password"
+        long responseTimeoutMillis = Holders.config.openboxes.ldap.responseTimeoutMillis?:1000;
+        def searchSubtree = Holders.config.openboxes.ldap.search.searchSubtree
+        String [] attributesToReturn = ["displayName", "password", "mail", "cn"] //Holders.config.openboxes.ldap.search.attributesToReturn
 
         LDAPConnection ldapConnection
 
@@ -347,14 +349,14 @@ class UserService {
             //ldapConnection = new LDAPConnection("ldap.forumsys.com", 389, "cn=read-only-admin,dc=example,dc=com", "password");
 
             //Search user DN:
-            def searchBaseDn = grailsApplication.config.openboxes.ldap.search.base;
+            def searchBaseDn = Holders.config.openboxes.ldap.search.base;
             //def searchBaseDn = "dc=example,dc=com"
 
             // Search filter
             def filter
 
             // Check if the search filter has been overridden in Config.groovy or openboxes-config.properties
-            def searchFilter = grailsApplication.config.openboxes.ldap.search.filter; // "(uid={0})"
+            def searchFilter = Holders.config.openboxes.ldap.search.filter; // "(uid={0})"
             if (searchFilter) {
                 filter = StringUtil.format(searchFilter, username);
                 log.info ("Using custom filter ${searchFilter} => ${filter}")
@@ -369,12 +371,10 @@ class UserService {
             // Perform search request
             SearchRequest searchRequest = new SearchRequest(searchBaseDn, SearchScope.SUB, DereferencePolicy.NEVER, 0, 0, false, filter, attributesToReturn);
             SearchResult searchResult = ldapConnection.search(searchRequest);
-            log.info("Search result: ${searchResult}")
 
             result.searchResult = searchResult
 
             // If we find any entries we'll try to bind using the found DN and the given password
-            log.info(searchResult.getEntryCount() + " entries returned.");
             if (searchResult.entryCount >= 1) {
                 String dn = searchResult.searchEntries[0].getDN()
                 SimpleBindRequest bindRequest = new SimpleBindRequest(dn, password);
@@ -386,17 +386,17 @@ class UserService {
                 result.resultCode = bindResult.resultCode
 
                 if(bindResult.resultCode == ResultCode.SUCCESS) {
-                    log.info("LDAP authentication successful dn=${dn}");
+                    println("LDAP authentication successful dn=${dn}");
                     //return result
                     return true
                 }
                 else {
-                    log.info("LDAP authentication unsuccessful dn=${dn}, resultCode=${bindResult?.resultCode?.name}");
+                   println("LDAP authentication unsuccessful dn=${dn}, resultCode=${bindResult?.resultCode?.name}");
                 }
             }
 
         } catch(LDAPException e) {
-            log.info("LDAP exception on bind: "  + e.message);
+           println("LDAP exception on bind: "  + e.message);
 
         } finally {
             ldapConnection.close()
@@ -478,18 +478,18 @@ class UserService {
             BindResult bindResult = ldapConnection.bind(bindRequest);
 
             if(bindResult.resultCode == ResultCode.SUCCESS) {
-                log.info("authentication successful");
+                println("authentication successful");
                 return true
             }
 
-            log.info("bindResult: " + bindResult);
-            log.info("diagnosticMessage: " + bindResult.diagnosticMessage);
-            log.info("properties: " + bindResult.properties);
-            log.info("resultCode: " + bindResult.resultCode);
+            println("bindResult: " + bindResult);
+            println("diagnosticMessage: " + bindResult.diagnosticMessage);
+            println("properties: " + bindResult.properties);
+            println("resultCode: " + bindResult.resultCode);
 
 
         } catch(LDAPException e) {
-            log.info("LDAP exception on bind: "  + e.message);
+            println("LDAP exception on bind: "  + e.message);
             return false
         } finally {
             ldapConnection.close();
@@ -509,14 +509,14 @@ class UserService {
         try {
             ldapConnection = new LDAPConnection("ldap.forumsys.com", 389, "cn=read-only-admin,dc=example,dc=com", "password");
             Entry groupEntry = ldapConnection.getEntry(groupDn);
-            log.info("groupDn: " + groupDn)
+            println("groupDn: " + groupDn)
 
             String[] memberValues = groupEntry.getAttributeValues("uniqueMember");
-            log.info("memberValues: " + memberValues)
+            println("memberValues: " + memberValues)
             if (memberValues != null) {
                 DN ldapUserDn = new DN(userDn);
                 for (String memberEntryDnString : memberValues) {
-                    log.info("memberEntryDnString: " + memberEntryDnString)
+                    println("memberEntryDnString: " + memberEntryDnString)
                     DN memberEntryDn = new DN(memberEntryDnString);
                     if (memberEntryDn.equals(ldapUserDn)) {
                         ret = true;
@@ -545,9 +545,9 @@ class UserService {
             SearchRequest searchRequest = new SearchRequest(rolesDN, SearchScope.SUB, Filter.createEqualityFilter("uniqueMember", userDN));
 
             SearchResult sr = ldapConnection.search(searchRequest);
-            log.info("Search result: ${sr}")
+            println("Search result: ${sr}")
             for (SearchResultEntry sre : sr.getSearchEntries()) {
-                log.info("Search result entry: ${sre}")
+                println("Search result entry: ${sre}")
                 aclList.add(sre.getDN());
             }
         } catch (LDAPException e) {
@@ -566,17 +566,17 @@ class UserService {
         LDAPConnection ldapConnection
         try {
             ldapConnection = new LDAPConnection("ldap.forumsys.com", 389, "cn=read-only-admin,dc=example,dc=com", "password");
-            long responseTimeoutMillis = grailsApplication.config.openboxes.ldap.responseTimeoutMillis?:1000;
+            long responseTimeoutMillis = Holders.config.openboxes.ldap.responseTimeoutMillis?:1000;
             SearchRequest searchRequest = new SearchRequest(groupDn, SearchScope.BASE, "(&)", "isMemberOf");
             searchRequest.setResponseTimeoutMillis(responseTimeoutMillis);
 
             def userEntry = ldapConnection.getEntry(groupDn)
-            log.info("userEntry: ${userEntry}")
+            println("userEntry: ${userEntry}")
             String[] memberValues = userEntry.getAttributeValues("uniqueMember");
-            log.info("memberValues: ${memberValues}")
+            println("memberValues: ${memberValues}")
             if (memberValues != null) {
                 DNEntrySource entrySource = new DNEntrySource(ldapConnection, memberValues);
-                log.info("entrySource: ${entrySource}")
+                println("entrySource: ${entrySource}")
                 while (true) {
                     Entry memberEntry = entrySource.nextEntry();
                     if (memberEntry == null) {
@@ -587,14 +587,14 @@ class UserService {
             }
             /*
             SearchResult searchResult = ldapConnection.search(searchRequest);
-            log.info("searchResult: ${searchResult}")
+            println("searchResult: ${searchResult}")
             if(searchResult.getEntryCount() == 1) {
                 Entry entry = searchResult.getSearchEntry(userDN);
-                log.info("entry: ${entry}")
+                println("entry: ${entry}")
                 //return getAttributeValues("isMemberOf");
             }
             else {
-                log.info("No search results found")
+                println("No search results found")
 
             }
             */
@@ -612,18 +612,18 @@ class UserService {
         LDAPConnection ldapConnection
         try {
             ldapConnection = new LDAPConnection("ldap.forumsys.com", 389, "cn=read-only-admin,dc=example,dc=com", "password");
-            long responseTimeoutMillis = grailsApplication.config.openboxes.ldap.responseTimeoutMillis?:1000;
+            long responseTimeoutMillis = Holders.config.openboxes.ldap.responseTimeoutMillis?:1000;
             SearchRequest searchRequest = new SearchRequest(userDn, SearchScope.BASE, "(&)", "isMemberOf");
             searchRequest.setResponseTimeoutMillis(responseTimeoutMillis);
 
             /*
             def userEntry = ldapConnection.getEntry(userDn)
-            log.info("userEntry: ${userEntry}")
+            println("userEntry: ${userEntry}")
             String[] memberValues = userEntry.getAttributeValues("isMemberOf");
-            log.info("memberValues: ${memberValues}")
+            println("memberValues: ${memberValues}")
             if (memberValues != null) {
                 DNEntrySource entrySource = new DNEntrySource(ldapConnection, memberValues);
-                log.info("entrySource: ${entrySource}")
+                println("entrySource: ${entrySource}")
                 while (true) {
                     Entry memberEntry = entrySource.nextEntry();
                     if (memberEntry == null) {
@@ -635,14 +635,14 @@ class UserService {
             */
 
             SearchResult searchResult = ldapConnection.search(searchRequest);
-            log.info("searchResult: ${searchResult}")
+            println("searchResult: ${searchResult}")
             if(searchResult.getEntryCount() == 1) {
                 Entry entry = searchResult.getSearchEntry(userDn);
-                log.info("entry: ${entry}")
+                println("entry: ${entry}")
                 //return getAttributeValues("isMemberOf");
             }
             else {
-                log.info("No search results found")
+                println("No search results found")
 
             }
 

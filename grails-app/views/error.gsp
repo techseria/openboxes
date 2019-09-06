@@ -1,3 +1,4 @@
+<%@ page import="grails.util.Holders" %>
 <html>
   <head>
 	  <title>General Error</title>
@@ -30,8 +31,6 @@
   <body>
   
   	<div class="" style="padding: 10px;">
-
-
         <button class="open-dialog">
             <img src="${createLinkTo(dir: 'images/icons/silk', file: 'bug.png')}" style="vertical-align: middle" />&nbsp;
             <warehouse:message code="default.reportAsBug.label"/>
@@ -72,7 +71,7 @@
 	</g:if>
 	<g:set var="targetUri" value="${(request.forwardURI - request.contextPath) + (request.queryString?'?':'') + (request.queryString?:'') }"/>
 	<div id="error-dialog" class="dialog" title="Report a Bug">
-        <g:if test="${util.ConfigHelper.booleanValue(grailsApplication.config.openboxes.mail.errors.enabled)}">
+        <g:if test="${util.ConfigHelper.booleanValue(grails.util.Holders.config.openboxes.mail.errors.enabled)}">
             <div id="errors"></div>
             <g:form controller="errors" action="processError" onsubmit="return checkFormSubmission();">
                 <g:hiddenField id="dom" name="dom" value=""/>
@@ -92,7 +91,7 @@
                             <label><warehouse:message code="error.reportedTo.label"/></label>
                         </td>
                         <td class="value">
-                            <g:set var="recipients" value="${util.ConfigHelper.listValue(grailsApplication.config.openboxes.mail.errors.recipients)}"/>
+                            <g:set var="recipients" value="${util.ConfigHelper.listValue(Holders.config.openboxes.mail.errors.recipients)}"/>
                             <g:if test="${recipients}">
                                 ${recipients.join(";")}
                             </g:if>
@@ -117,7 +116,7 @@
 
                             </g:if>
                             <g:else>
-                                ${grailsApplication.config.grails.mail.from}
+                                ${Holders.config.grails.mail.from}
                             </g:else>
                         </td>
                     </tr>

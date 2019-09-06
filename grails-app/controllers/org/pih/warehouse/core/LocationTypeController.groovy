@@ -11,6 +11,12 @@ package org.pih.warehouse.core;
 
 class LocationTypeController {
 
-	def scaffold = LocationType;
+	static scaffold = LocationType
+
+	def list ={
+		def locationTypeInstanceList = LocationType.list()
+		def total =locationTypeInstanceList.size()
+		[locationTypeInstanceList:locationTypeInstanceList,locationTypeInstanceTotal:total]
+	}
 	
 }

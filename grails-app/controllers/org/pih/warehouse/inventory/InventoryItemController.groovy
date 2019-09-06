@@ -72,13 +72,10 @@ class InventoryItemController {
 			// now populate the rest of the commmand object
 			inventoryService.getStockCardCommand(cmd, params)
 
-			def demand = [:]
-			boolean forecastingEnabled = grailsApplication.config.openboxes.forecastingEnabled?:false
-			if (forecastingEnabled) {
-				demand = forecastingService.getDemand(cmd.warehouse, cmd.product)
-			}
 
-            [ commandInstance: cmd, demand: demand ]
+		//	def demand = forecastingService.getDemand(cmd.warehouse, cmd.product)
+
+            [ commandInstance: cmd ]
         } catch (ProductException e) {
             flash.message = e.message
             redirect(controller: "dashboard", action: "index")
@@ -740,7 +737,7 @@ class InventoryItemController {
 				chain(controller: "inventoryItem", action: "showStockCard", id: inventoryItem?.product?.id, model:[transaction:transaction, itemInstance:inventoryItem])
 				return
 			}
-			log.info("transaction " + transaction + " " + transaction?.id)
+			println("transaction " + transaction + " " + transaction?.id)
 			
 			
 		}
@@ -819,8 +816,8 @@ class InventoryItemController {
 		shipmentInstance = Shipment.get(shipmentContainer[0]);
 		containerInstance = Container.get(shipmentContainer[1]);
 		
-		log.info("shipment "  + shipmentInstance);
-		log.info("container "  + containerInstance);
+		println("shipment "  + shipmentInstance);
+		println("container "  + containerInstance);
 		
 		
 		

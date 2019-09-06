@@ -9,17 +9,13 @@
 **/ 
 package org.pih.warehouse
 
-import grails.plugin.springcache.annotations.Cacheable
-
-//import grails.plugin.springcache.annotations.Cacheable
-import java.text.MessageFormat;
-
-import org.pih.warehouse.core.Localization;
+import grails.util.Holders
+import java.text.MessageFormat
+import org.pih.warehouse.core.Localization
 
 class MessageTagLib {
 
 	static namespace = "warehouse"
-    def grailsApplication
 	def messageSource
 
 
@@ -29,7 +25,7 @@ class MessageTagLib {
         def defaultTagLib = grailsApplication.mainContext.getBean('org.codehaus.groovy.grails.plugins.web.taglib.ValidationTagLib')
 
         // If we just want the default behavior, uncomment the next three lines and comment out the rest of the method
-        Locale defaultLocale = new Locale(grailsApplication.config.openboxes.locale.defaultLocale)
+        Locale defaultLocale = new Locale(Holders.config.openboxes.locale.defaultLocale)
         attrs.locale = attrs.locale ?: session?.user?.locale ?: session.locale ?: defaultLocale;
         out << defaultTagLib.message.call(attrs)
         return;
@@ -39,13 +35,12 @@ class MessageTagLib {
     //@Cacheable("messageCache")
     def message = { attrs, body ->
 
-        def defaultTagLib = grailsApplication.mainContext.getBean('org.codehaus.groovy.grails.plugins.web.taglib.ValidationTagLib')
-
-        boolean databaseStoreEnabled = grailsApplication.config.openboxes.locale.custom.enabled
+        def defaultTagLib = Holders.getGrailsApplication().mainContext.getBean('org.grails.plugins.web.taglib.ValidationTagLib')
+        boolean databaseStoreEnabled = Holders.config.openboxes.locale.custom.enabled
         if (!databaseStoreEnabled) {
-            Locale defaultLocale = new Locale(grailsApplication.config.openboxes.locale.defaultLocale)
+            Locale defaultLocale = new Locale(Holders.config.openboxes.locale.defaultLocale)
             attrs.locale = attrs.locale ?: session?.user?.locale ?: session.locale ?: defaultLocale;
-            out << defaultTagLib.message.call(attrs)
+            out << defaultTagLib.message(attrs)
             return
         }
 
@@ -93,7 +88,7 @@ class MessageTagLib {
 
         // Display message in debug mode
         if (session.useDebugLocale) {
-            def locales = grailsApplication.config.openboxes.locale.supportedLocales
+            def locales = Holders.config.openboxes.locale.supportedLocales
             def localized = [:]
             def message = ""
             locales.each {
@@ -104,7 +99,7 @@ class MessageTagLib {
             }
             def hasOthers = localized.values().findAll { word -> word != localized['en'] }
 
-            Locale defaultLocale = new Locale(grailsApplication.config.openboxes.locale.defaultLocale)
+            Locale defaultLocale = new Locale(Holders.config.openboxes.locale.defaultLocale)
             attrs.locale = attrs.locale ?: session?.user?.locale ?: session.locale ?: defaultLocale;
 
             def image = (!hasOthers) ? 'decline' : 'accept';
@@ -129,7 +124,7 @@ class MessageTagLib {
         }
         // Display message normally
         else {
-            Locale defaultLocale = new Locale(grailsApplication.config.openboxes.locale.defaultLocale)
+            Locale defaultLocale = new Locale(Holders.config.openboxes.locale.defaultLocale)
             attrs.locale = attrs.locale ?: session?.user?.locale ?: session.locale ?: defaultLocale;
             out << defaultTagLib.message.call(attrs)
         }

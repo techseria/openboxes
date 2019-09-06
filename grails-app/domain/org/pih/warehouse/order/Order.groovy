@@ -9,7 +9,9 @@
 **/
 package org.pih.warehouse.order
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import grails.databinding.BindingFormat
+
+//import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.pih.warehouse.core.*
 
 class Order implements Serializable {
@@ -24,6 +26,7 @@ class Order implements Serializable {
 	Location destination 	// the customer location
 	Person recipient
 	Person orderedBy
+	@BindingFormat("MM/dd/yyyy")
 	Date dateOrdered
 	Person completedBy
 	Date dateCompleted

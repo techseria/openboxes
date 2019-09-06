@@ -10,7 +10,7 @@
 package org.pih.warehouse.api
 
 import grails.converters.JSON
-import org.codehaus.groovy.grails.web.json.JSONObject
+import org.grails.web.json.JSONObject
 import org.pih.warehouse.core.Constants
 import org.pih.warehouse.importer.ImportDataCommand
 import org.pih.warehouse.product.Product

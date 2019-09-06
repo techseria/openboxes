@@ -18,17 +18,19 @@ class RoleFilters {
     def static adminActions = [
             'product': ['create'],
             'person': ['list'],
+            'inventory': ['createInboundTransfer', 'createOutboundTransfer', 'createConsumed', 'editTransaction', 'deleteTransaction', 'saveTransaction'],
             'user': ['list'],
             'location': ['edit'],
             'shipper': ['create'],
             'locationGroup': ['create'],
-            'locationType': ['create']
+            'locationType': ['create'],
+            'inventoryItem': ['adjustStock', 'transferStock'],
+            'productCatalog':['create', 'importProductCatalog']
     ]
 
     def static superuserControllers = []
     def static superuserActions = [
             '*': ['delete'],
-            'console':['index','execute'],
             'inventory': ['createInboundTransfer', 'createOutboundTransfer', 'createConsumed', 'editTransaction', 'deleteTransaction', 'saveTransaction'],
             'inventoryItem': ['adjustStock', 'transferStock'],
             'productCatalog':['create', 'importProductCatalog'],
@@ -53,9 +55,12 @@ class RoleFilters {
                 def missSuperuser = needSuperuser(controllerName, actionName) && !userService.isSuperuser(session.user)
 
                 if (missBrowser || missManager || missAdmin || missSuperuser) {
-                    log.info ("User ${session?.user?.username} does not have access to ${controllerName}/${actionName} in location ${session?.warehouse?.name}")
-                    redirect(controller:"errors", action:"handleForbidden")
-                    return false
+                    if(!(missSuperuser == true && (actionName == "editTransaction" || controllerName == "console")))
+                    {
+                        log.info ("User ${session?.user?.username} does not have access to ${controllerName}/${actionName} in location ${session?.warehouse?.name}")
+                        redirect(controller:"errors", action:"handleForbidden")
+                        return false
+                    }
                 }
                 return true
             }

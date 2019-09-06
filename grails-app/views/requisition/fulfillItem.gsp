@@ -61,7 +61,7 @@
 		
 		<br/><br/>
 		<%-- 		
-		<g:formRemote url="[controller: 'request', action: 'fulfillItemPost']" name="fulfillmentForm" update="message">
+		<g:form url="[controller: 'request', action: 'fulfillItemPost']" name="fulfillmentForm" update="message">
 		--%>
 		<g:form action="fulfillRequest" autocomplete="false">
 			<fieldset>

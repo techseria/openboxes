@@ -14,7 +14,6 @@ class InitializationFilters {
 	def productService
 	
 	def filters = {
-
 		sessionCheck(controller:'*', action:'*') {
 			before = {
 				try {

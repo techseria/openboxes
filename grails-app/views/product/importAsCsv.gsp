@@ -9,6 +9,8 @@
 		</title>
 		<link rel="stylesheet" href="${createLinkTo(dir:'js/jquery.tagsinput/',file:'jquery.tagsinput.css')}" type="text/css" media="screen, projection" />
 		<script src="${createLinkTo(dir:'js/jquery.tagsinput/', file:'jquery.tagsinput.js')}" type="text/javascript" ></script>
+        <asset:javascript src="application.js"/>
+        <asset:javascript src="application.css"/>
 	</head>
 	<body>
 		<div class="body">

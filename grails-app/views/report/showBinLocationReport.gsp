@@ -4,6 +4,8 @@
     <title><g:message code="report.binLocationReport.label" default="Bin Location Report"/></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="layout" content="custom" />
+    <asset:javascript src="application.js"/>
+    <asset:javascript src="application.css"/>
 </head>
 <body>
 <div class="body">

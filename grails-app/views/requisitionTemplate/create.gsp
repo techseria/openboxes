@@ -9,6 +9,8 @@
 <script src="${createLinkTo(dir:'js/knockout/', file:'knockout-2.2.0.js')}" type="text/javascript"></script>
 <script src="${createLinkTo(dir:'js/', file:'knockout_binding.js')}" type="text/javascript"></script>
 <script src="${createLinkTo(dir:'js/', file:'requisition.js')}" type="text/javascript"></script>
+<asset:javascript src="application.js"/>
+<asset:javascript src="application.css"/>
 </head>
 <body>
 

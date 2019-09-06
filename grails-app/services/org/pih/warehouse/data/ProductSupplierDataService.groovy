@@ -28,6 +28,7 @@ class ProductSupplierDataService {
         command.data.eachWithIndex { params, index ->
 
             def id = params.id
+            def code = params.code
             def productCode = params.productCode
             def supplierId = params.supplierId
             def supplierName = params.supplierName
@@ -85,7 +86,6 @@ class ProductSupplierDataService {
         }
 
         productSupplier.name = params["productName"]
-        productSupplier.productCode = params["legacyProductCode"]
         productSupplier.product = Product.findByProductCode(params["productCode"])
         productSupplier.supplier = Organization.get(params["supplierId"])
         productSupplier.manufacturer = Organization.get(params["manufacturerId"])

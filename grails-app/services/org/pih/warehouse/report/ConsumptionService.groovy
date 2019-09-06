@@ -12,7 +12,6 @@ package org.pih.warehouse.report
 import groovyx.gpars.GParsPool
 import org.apache.commons.lang.StringEscapeUtils
 import org.hibernate.FetchMode
-import org.hibernate.classic.Session
 import org.hibernate.criterion.CriteriaSpecification
 import org.pih.warehouse.core.Constants
 import org.pih.warehouse.core.Location

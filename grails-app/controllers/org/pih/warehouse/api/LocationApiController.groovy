@@ -10,6 +10,7 @@
 package org.pih.warehouse.api
 
 import grails.converters.JSON
+import grails.util.Holders
 import org.hibernate.ObjectNotFoundException
 import org.pih.warehouse.core.Location
 import org.pih.warehouse.core.LocationTypeCode
@@ -22,7 +23,7 @@ class LocationApiController extends BaseDomainApiController {
 
     def list = {
 
-        def minLength = grailsApplication.config.openboxes.typeahead.minLength
+        def minLength = Holders.config.openboxes.typeahead.minLength
         if (params.name && params.name.size()<minLength) {
             render([data:[]])
             return

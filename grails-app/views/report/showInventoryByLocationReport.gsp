@@ -4,6 +4,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="layout" content="custom" />
     <title><warehouse:message code="report.inventoryByLocationReport.label" /></title>
+    <asset:javascript src="application.js"></asset:javascript>
+    <asset:javascript src="application.css"></asset:javascript>
 </head>
 
 <body>

@@ -1,3 +1,4 @@
+<%@ page import="grails.util.Holders" %>
 <div class="box">
     <h2>
         <warehouse:message code="product.packages.label" default="Product packages"/>
@@ -41,7 +42,7 @@
                 <td>
                     <g:hasRoleFinance onAccessDenied="${g.message(code:'errors.blurred.message', args: ['0.00'])}">
                         <g:formatNumber number="${pkg?.price}" />
-                        ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                        ${grails.util.Holders.config.openboxes.locale.defaultCurrencyCode}
                     </g:hasRoleFinance>
                 </td>
                 <td>

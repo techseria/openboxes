@@ -1,4 +1,4 @@
-<%@ page import="org.pih.warehouse.requisition.RequisitionStatus" %>
+<%@ page import="grails.util.Holders; org.pih.warehouse.requisition.RequisitionStatus" %>
 <%@ page import="org.pih.warehouse.shipping.ShipmentStatusCode" %>
 <div class="summary">
     <table id="stockMovement-summary">
@@ -76,7 +76,7 @@
                             <label>
                                 <g:hasRoleFinance onAccessDenied="${g.message(code:'errors.blurred.message', args: [g.message(code:'default.none.label')])}">
                                     <g:formatNumber format="###,###,##0.00" number="${stockMovement?.shipment?.calculateTotalValue() ?: 0.00 }" />
-                                    ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                                    ${grails.util.Holders.config.openboxes.locale.defaultCurrencyCode}
                                 </g:hasRoleFinance>
                             </label>
                         </span>

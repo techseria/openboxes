@@ -10,8 +10,8 @@
 package org.pih.warehouse.batch
 
 import grails.converters.JSON
+import grails.core.GrailsApplication
 import org.apache.poi.poifs.filesystem.OfficeXmlFileException
-import org.codehaus.groovy.grails.commons.GrailsDomainClass
 import org.codehaus.groovy.runtime.InvokerHelper
 import org.pih.warehouse.core.Location
 import org.pih.warehouse.importer.CategoryExcelImporter
@@ -28,6 +28,7 @@ import org.pih.warehouse.importer.TagExcelImporter
 import org.pih.warehouse.importer.UserExcelImporter
 import org.pih.warehouse.importer.UserLocationExcelImporter
 import org.pih.warehouse.product.ProductSupplier
+import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest
 
 // import au.com.bytecode.opencsv.CSVReader;
@@ -39,7 +40,8 @@ class BatchController {
     def documentService
 	def inventoryService
 	def importService
-	def grailsApplication
+	// def grailsApplication
+	GrailsApplication grailsApplication
 	def genericApiService
 
 	def index = { }
@@ -105,28 +107,29 @@ class BatchController {
 
 
     def importData = { ImportDataCommand command ->
-		
-		log.info params 
-		log.info command.location
-
+		List<File> localFile = new ArrayList<File>()
 		// def dataMapList = null;
 		if ("POST".equals(request.getMethod())) {
-			File localFile = null;
+		//	File[] localFile = null
 			if (request instanceof DefaultMultipartHttpServletRequest) {
-				def uploadFile = request.getFile('xlsFile');
-				if (!uploadFile?.empty) {
-					try {
-						localFile = new File("uploads/" + uploadFile.originalFilename);
-						localFile.mkdirs()
-						uploadFile.transferTo(localFile);
-						session.localFile = localFile;
-						//flash.message = "File uploaded successfully"
 
-					} catch (Exception e) {
-						//throw new RuntimeException(e);
-                        flash.message = "Unable to upload file due to exception: " + e.message
-                        return;
+				List<MultipartFile> files = request.multipartFiles.xlsFile
+
+				//def uploadFile = request.getFile('xlsFile')
+				if (!files?.empty) {
+					for(MultipartFile multipartFile : files){
+						try{
+						String fileName = multipartFile.getOriginalFilename();
+						File file = new File("uploads/"+ fileName)
+						file.mkdir()
+						multipartFile.transferTo(file)
+                        localFile.add(file)
+						}catch (Exception e) {
+							flash.message = "Unable to upload file due to exception: " + e.message
+							return
+						}
 					}
+					session.localFile = localFile;
 				}
 				else {
 					flash.message = "${warehouse.message(code: 'inventoryItem.emptyFile.message')}"
@@ -139,108 +142,112 @@ class BatchController {
 
 			def dataImporter
 			if (localFile) {
-				log.info "Local xls file " + localFile.getAbsolutePath()
-				command.importFile = localFile
-				command.filename = localFile.getAbsolutePath()
-				command.location = Location.get(session.warehouse.id)
-				try { 
-					// Need to choose the right importer 
-					switch(command.type) {
-						case "category":
-							dataImporter = new CategoryExcelImporter(command?.filename);
-							break;
-						case "inventory":
-							dataImporter = new InventoryExcelImporter(command?.filename);
-							break;
-						case "inventoryLevel":
-							dataImporter = new InventoryLevelExcelImporter(command?.filename)
-							break;
-						case "location":
-							dataImporter = new LocationExcelImporter(command?.filename)
-							break;
-						case "person":
-							dataImporter = new PersonExcelImporter(command?.filename)
-							break;
-						case "product":
-							dataImporter = new ProductExcelImporter(command?.filename)
-							break;
-						case "productCatalog":
-							dataImporter = new ProductCatalogExcelImporter(command?.filename)
-							break;
-						case "productCatalogItem":
-							dataImporter = new ProductCatalogItemExcelImporter(command?.filename)
-							break;
-						case "productSupplier":
-							dataImporter = new ProductSupplierExcelImporter(command?.filename)
-							break;
-						case "tag":
-							dataImporter = new TagExcelImporter(command?.filename)
-							break;
-						case "user":
-							dataImporter = new UserExcelImporter(command?.filename)
-							break;
-						case "userLocation":
-							dataImporter = new UserLocationExcelImporter(command?.filename)
-							break;
-						default:
-	                        command.errors.reject("type", "${warehouse.message(code: 'import.invalidType.message', default:'Please choose a valid import type')}")
-                    }
-				}
-				catch (OfficeXmlFileException e) {
-                    log.error ("Error with import file " + e.message, e)
-					command.errors.reject("importFile", e.message)
-				}
-				
-				if (dataImporter) { 
-
-					println "Using data importer ${dataImporter.class.name}"
-
-			  	    // Get data from importer (should be done as a separate step 'processData' or within 'validateData')
-					command.data = dataImporter.data
-
-					// Validate data using importer (might change data)
-					dataImporter.validateData(command);
-					
-					//command.data = dataImporter.data
-					command.columnMap = dataImporter.columnMap
-					
-				}
-				//else {
-                //    command.errors.reject("importFile", "${warehouse.message(code: '.message', args:[localFile.getAbsolutePath()])}")
-				//}
-
-
-				if (command?.data?.isEmpty()) {
-					//flash.message = "${warehouse.message(code: 'inventoryItem.pleaseEnsureDate.message', args:[localFile.getAbsolutePath()])}"
-					//command.reject ...
-					command.errors.reject("importFile", "${warehouse.message(code: 'inventoryItem.pleaseEnsureDate.message', args:[localFile.getAbsolutePath()])}")
-				}
-
-                if (command.type == 'inventory' && !command.date) {
-                    command.errors.reject("date", "${warehouse.message(code: 'import.inventoryImportMustHaveDate.message', default:"Inventory import must specify the date of the stock count")}")
-                }
-				
-				// If there are no errors and the user requests to import the data, we should execute the import
-				if (!command.hasErrors() && params.import) {
-					println "Data is about to be imported ..."
-					dataImporter.importData(command)
-
-                    println "Finished importing data"
-					if (!command.errors.hasErrors()) {
-                        println "No errors"
-						flash.message = "${warehouse.message(code: 'inventoryItem.importSuccess.message', args:[localFile.getAbsolutePath()])}"
-						redirect(action: "importData");
-						return;
+				for (int i = 0; i < localFile.size(); i++) {
+					log.info "Local xls file " + localFile[i].getAbsolutePath()
+					command.importFile[i] = localFile[i]
+					command.filename[i] = localFile[i].getAbsolutePath()
+					command.location = Location.get(session.warehouse.id)
+					try {
+						// Need to choose the right importer
+						switch (command.type) {
+							case "category":
+								dataImporter = new CategoryExcelImporter(command?.filename.get(i));
+								break;
+							case "inventory":
+								dataImporter = new InventoryExcelImporter(command?.filename..get(i));
+								break;
+							case "inventoryLevel":
+								dataImporter = new InventoryLevelExcelImporter(command?.filename.get(i))
+								break
+							case "location":
+								dataImporter = new LocationExcelImporter(command?.filename.get(i))
+								break;
+							case "person":
+								dataImporter = new PersonExcelImporter(command?.filename.get(i))
+								break;
+							case "product":
+								dataImporter = new ProductExcelImporter(command?.filename.get(i))
+								break;
+							case "productCatalog":
+								dataImporter = new ProductCatalogExcelImporter(command?.filename.get(i))
+								break;
+							case "productCatalogItem":
+								dataImporter = new ProductCatalogItemExcelImporter(command?.filename.get(i))
+								break;
+							case "productSupplier":
+								dataImporter = new ProductSupplierExcelImporter(command?.filename.get(i))
+								break;
+							case "tag":
+								dataImporter = new TagExcelImporter(command?.filename.get(i))
+								break;
+							case "user":
+								dataImporter = new UserExcelImporter(command?.filename.get(i))
+								break;
+							case "userLocation":
+								dataImporter = new UserLocationExcelImporter(command?.filename.get(i))
+								break;
+							default:
+								command.errors.reject("type", "${warehouse.message(code: 'import.invalidType.message', default: 'Please choose a valid import type')}")
+						}
 					}
-                    println "There were errors"
-				}
-				else if (!command.hasErrors()) { 
-					flash.message = "${warehouse.message(code: 'inventoryItem.dataReadyToBeImported.message')}"
-				}
+					catch (OfficeXmlFileException e) {
+						log.error("Error with import file " + e.message, e)
+						command.errors.reject("importFile", e.message)
+					}
 
 
-				render(view: "importData", model: [ commandInstance: command]);
-			}
+					if (dataImporter) {
+
+						println "Using data importer ${dataImporter.class.name}"
+
+						// Get data from importer (should be done as a separate step 'processData' or within 'validateData')
+						if(command.data != null){
+							command.data = command.data + dataImporter.data
+						}else{
+							command.data = dataImporter.data
+						}
+
+						// Validate data using importer (might change data)
+						dataImporter.validateData(command);
+
+						//command.data = dataImporter.data
+						command.columnMap = dataImporter.columnMap
+
+					}
+					//else {
+					//    command.errors.reject("importFile", "${warehouse.message(code: '.message', args:[localFile.getAbsolutePath()])}")
+					//}
+
+
+					if (command?.data?.isEmpty()) {
+						//flash.message = "${warehouse.message(code: 'inventoryItem.pleaseEnsureDate.message', args:[localFile.getAbsolutePath()])}"
+						//command.reject ...
+						command.errors.reject("importFile", "${warehouse.message(code: 'inventoryItem.pleaseEnsureDate.message', args: [localFile.getAbsolutePath()])}")
+					}
+
+					if (command.type == 'inventory' && !command.date) {
+						command.errors.reject("date", "${warehouse.message(code: 'import.inventoryImportMustHaveDate.message', default: "Inventory import must specify the date of the stock count")}")
+					}
+
+					// If there are no errors and the user requests to import the data, we should execute the import
+					if (!command.hasErrors() && params.import) {
+						println "Data is about to be imported ..."
+						dataImporter.importData(command)
+
+						println "Finished importing data"
+						if (!command.errors.hasErrors()) {
+							println "No errors"
+							flash.message = "${warehouse.message(code: 'inventoryItem.importSuccess.message', args: [localFile])}"
+							redirect(action: "importData");downloadExcel
+							return;
+						}
+						println "There were errors"
+					} else if (!command.hasErrors()) {
+						flash.message = "${warehouse.message(code: 'inventoryItem.dataReadyToBeImported.message')}"
+					}
+				 }
+					render(view: "importData", model: [commandInstance: command]);
+				}
 			else {
 				flash.message = "${warehouse.message(code: 'inventoryItem.notValidXLSFile.message')}"
 			}

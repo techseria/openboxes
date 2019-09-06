@@ -1,4 +1,5 @@
-	<style>
+<%@ page import="grails.util.Holders" %>
+<style>
 		<g:if test="${session?.warehouse?.fgColor && session?.warehouse?.bgColor }">
 			#hd {
 				background-color: #${session.warehouse.bgColor};
@@ -24,7 +25,7 @@
 			/*padding-left: 20px;*/
 		}
 
-		<g:if test="${grailsApplication.config.openboxes.uservoice.widget.enabled}">
+		<g:if test="${grails.util.Holders.config.openboxes.uservoice.widget.enabled}">
 			#content {
 				margin-right: 50px;
 			}

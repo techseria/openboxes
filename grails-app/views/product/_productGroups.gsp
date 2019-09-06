@@ -33,10 +33,10 @@
                         <g:link controller="productGroup" action="edit" id="${productGroup.id}" class="button icon edit">
                             <warehouse:message code="default.button.edit.label"/>
                         </g:link>
-                        <g:remoteLink controller="product" action="removeFromProductGroups" update="productGroups" class="button icon trash"
+                        <g:link controller="product" action="removeFromProductGroups" update="productGroups" class="button icon trash"
                                       id="${productGroup.id}" params="[productId:product.id]">
                             <warehouse:message code="default.button.unlink.label" default="Unlink"/>
-                        </g:remoteLink>
+                        </g:link>
 
                         <%--
                         <g:remoteLink controller="product" action="deleteProductGroup" update="productGroups" class="button icon trash"
@@ -58,7 +58,7 @@
         <tfoot>
             <tr>
                 <td colspan="4">
-                    <g:formRemote id="addProductGroupToProduct" name="addProductGroupToProduct"
+                    <g:form id="addProductGroupToProduct" name="addProductGroupToProduct"
                                   update="productGroups" onSuccess="onSuccess(data,textStatus)" onComplete="onComplete()"
                                   url="[controller: 'product', action:'addProductGroupToProduct']">
                         <input name="id" type="hidden" value="${product?.id}" />
@@ -68,7 +68,7 @@
                                              placeholder="${warehouse.message(code:'product.addProductGroup.label', default: 'Enter product group name')}"/>
 
                         <button  class="button icon add">${warehouse.message(code:'default.button.add.label')}</button>
-                    </g:formRemote>
+                    </g:form>
 
 
                 </td>

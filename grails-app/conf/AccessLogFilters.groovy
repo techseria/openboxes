@@ -15,7 +15,7 @@ class AccessLogFilters {
 	def filters = {
 		all(controller:'*', action:'*') {
 			before = {
-				log.info("$controllerName.$actionName: [user:${session?.user?.username}, location:${session?.warehouse?.name}]")
+				println("$controllerName.$actionName: [user:${session?.user?.username}, location:${session?.warehouse?.name}]")
                 log.debug("$controllerName.$actionName: ${params}")
 			}
 		}

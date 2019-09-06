@@ -6,6 +6,8 @@
         <meta name="layout" content="custom" />
         <g:set var="entityName" value="${warehouse.message(code: 'inventory.label', default: 'Inventory')}" />
         <title><warehouse:message code="inventory.browse.label" default="Browse inventory"/></title>
+        <asset:javascript src="application.js"/>
+        <asset:javascript src="application.css"/>
     </head>
     <body>
     
@@ -71,7 +73,7 @@
 				           						
 				           						</th>
 				           						<th class="center middle">
-                                                   <g:render template="./actions" model="[]"/>
+                                                   <g:render template="actions" model="[]"/>
 				           						</th>
 												<th class="center middle" style="width: 1%">
 													<input type="checkbox" id="toggleCheckbox">

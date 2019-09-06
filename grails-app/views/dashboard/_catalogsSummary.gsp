@@ -10,7 +10,6 @@
                 </button>
                 <div class="actions">
                     <div class="action-menu-item">
-
                         <g:if test="${!params.editCatalogs}">
                             <g:link controller="dashboard" action="index" params="[editCatalogs:true]">
                                 <img src="${createLinkTo(dir:'images/icons/silk',file:'pencil.png')}" style="vertical-align: middle" />

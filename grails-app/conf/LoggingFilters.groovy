@@ -8,8 +8,9 @@
 * You must not remove this notice, or any other, from this software.
 **/
 
+
+import grails.util.Holders
 import org.slf4j.MDC
-import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 
 class LoggingFilters {
 	def filters = {
@@ -18,7 +19,7 @@ class LoggingFilters {
                 try {
                     def sessionId = session?.id
                     def userId = session?.user?.username
-                    def serverUrl = CH.config.grails.serverURL
+                    def serverUrl = Holders.config.grails.serverURL
                     MDC.put('sessionId', session?.id?:"No session ID")
                     MDC.put('username', userId?:"No user")
                     MDC.put('location', session?.warehouse?.name?:"No location")
@@ -27,7 +28,7 @@ class LoggingFilters {
                     MDC.put('requestUri', request?.requestURI?.toString()?:"No request URI")
                     MDC.put('requestUrl', request?.requestURL?.toString()?:"No request URL")
                     MDC.put('queryString', request?.queryString?:"No query string")
-                    MDC.put('serverUrl', CH?.config?.grails?.serverURL?:"No server URL")
+                    MDC.put('serverUrl', Holders?.config?.grails?.serverURL?:"No server URL")
                 } catch (Exception e) {
                     log.warn("Error occurred while adding attributes to Mapped Diagnostic Context: ${e.message}", e)
 

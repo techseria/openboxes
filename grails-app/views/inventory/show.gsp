@@ -3,7 +3,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="layout" content="custom" />
+    <title>Techseria</title>
     <g:set var="entityName" value="${warehouse.message(code: 'inventory.label', default: 'Inventory')}" />
+    <asset:javascript src="application.js"/>
+    <asset:javascript src="application.css"/>
 </head>
 <body>
     <div class="body">

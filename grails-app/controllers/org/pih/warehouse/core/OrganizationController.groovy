@@ -11,5 +11,11 @@ package org.pih.warehouse.core
 
 class OrganizationController {
 
-    def scaffold = true
+    static scaffold = Organization
+
+    def list ={
+        def organizationInstanceList = Organization.list()
+        def total = organizationInstanceList.size()
+        [organizationInstanceList:organizationInstanceList,organizationInstanceTotal:total]
+    }
 }

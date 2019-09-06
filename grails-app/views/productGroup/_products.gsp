@@ -40,10 +40,10 @@
                     <g:link controller="product" action="edit" id="${product.id}" class="button icon edit">
                         <warehouse:message code="default.button.edit.label"/>
                     </g:link>
-                    <g:remoteLink controller="productGroup" action="deleteProductFromProductGroup" update="products" class="button icon trash"
+                    <g:link controller="productGroup" action="deleteProductFromProductGroup" update="products" class="button icon trash"
                                   id="${productGroup.id}" params="['product.id':product.id]">
                         <warehouse:message code="default.button.delete.label"/>
-                    </g:remoteLink>
+                    </g:link>
                 </td>
             </tr>
         </g:each>
@@ -58,14 +58,14 @@
         <tfoot>
             <tr>
                 <td colspan="8">
-                    <g:formRemote id="addProductToProductGroup" name="addProductToProductGroup"
+                    <g:form id="addProductToProductGroup" name="addProductToProductGroup"
                                   update="products" onSuccess="onSuccess(data,textStatus)" onComplete="onComplete()"
                                   url="[controller: 'productGroup', action:'addProductToProductGroup']">
                         <input name="id" type="hidden" value="${productGroup?.id}" />
                         <g:autoSuggest id="product" name="product" jsonUrl="${request.contextPath }/json/findProductByName" width="500" styleClass="text"
                                        placeholder="${g.message(code:'productGroup.addProduct.label')}"/>
                         <button  class="button icon add">${warehouse.message(code:'default.button.add.label')}</button>
-                    </g:formRemote>
+                    </g:form>
                 </td>
             </tr>
         </tfoot>

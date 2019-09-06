@@ -8,6 +8,8 @@
         <title><warehouse:message code="default.edit.label" args="[entityName]" /></title>
         <!-- Specify content to overload like global navigation links, page titles, etc. -->
 		<content tag="pageTitle"><warehouse:message code="default.edit.label" args="[entityName]" /></content>
+		<asset:javascript src="application.js"/>
+		<asset:javascript src="application.css"/>
     </head>
     <body>
         <div class="body">

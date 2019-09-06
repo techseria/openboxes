@@ -10,6 +10,8 @@
         	.parameters { width:30%; margin-left: auto; margin-right: auto;  }
         	.filter { padding-right: 15px; }
         </style>
+		<asset:javascript src="application.js"/>
+		<asset:javascript src="application.css"/>
     </head>
     <body>
 		<g:if test="${flash.message}">

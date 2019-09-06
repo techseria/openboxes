@@ -1,4 +1,4 @@
-<%@ page import="org.pih.warehouse.order.Order" %>
+<%@ page import="grails.util.Holders; org.pih.warehouse.order.Order" %>
 <%@ page import="org.pih.warehouse.order.OrderTypeCode" %>
 <html>
     <head>
@@ -7,6 +7,8 @@
         <g:set var="entityName" value="${warehouse.message(code: 'order.label', default: 'Order').toLowerCase()}" />
         <title><warehouse:message code="default.view.label" args="[entityName]" /></title>
         <!-- Specify content to overload like global navigation links, page titles, etc. -->
+        <asset:javascript src="application.js"/>
+        <asset:javascript src="application.css"/>
     </head>
     <body>
         <div class="body">
@@ -98,7 +100,7 @@
                                     </td>
                                     <td valign="top" class="value">
                                         <g:formatNumber number="${orderInstance?.totalPrice()?:0 }"/>
-                                        ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                                        ${grails.util.Holders.config.openboxes.locale.defaultCurrencyCode}
                                     </td>
                                 </tr>
 
@@ -178,11 +180,11 @@
                                                         </td>
                                                         <td class="">
                                                             <g:formatNumber number="${orderItem?.unitPrice?:0}" />
-                                                            ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                                                            ${Holders.config.openboxes.locale.defaultCurrencyCode}
                                                         </td>
                                                         <td class="">
                                                             <g:formatNumber number="${orderItem?.totalPrice()?:0}" />
-                                                            ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                                                            ${Holders.config.openboxes.locale.defaultCurrencyCode}
                                                         </td>
                                                     </g:if>
                                                     <g:elseif test="${orderInstance.orderTypeCode==OrderTypeCode.TRANSFER_ORDER}">
@@ -210,7 +212,7 @@
                                                     </th>
                                                     <th colspan="1" class="left">
                                                         <g:formatNumber number="${orderInstance?.totalPrice()?:0.0 }"/>
-                                                        ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                                                        ${Holders.config.openboxes.locale.defaultCurrencyCode}
                                                     </th>
                                                 </tr>
                                                 </tfoot>

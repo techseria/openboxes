@@ -1,4 +1,4 @@
-<%@ page import="org.pih.warehouse.inventory.Transaction" %>
+<%@ page import="grails.util.Holders; org.pih.warehouse.inventory.Transaction" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -7,7 +7,9 @@
         <title>
             <warehouse:message code="${controllerName}.${actionName}.label"/>
         </title>
-    </head>    
+        <asset:javascript src="application.js"/>
+        <asset:javascript src="application.css"/>
+    </head>
 
 	<body>
 		<div class="body">
@@ -114,7 +116,7 @@
                                         <td class="center">
                                             <g:if test="${hasRoleFinance}">
                                                 <g:formatNumber number="${product?.pricePerUnit?:0.0}" minFractionDigits="2"/>
-                                                ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                                                ${grails.util.Holders.config.openboxes.locale.defaultCurrencyCode}
                                             </g:if>
                                         </td>
                                         <td class="center">
@@ -140,7 +142,7 @@
                                         <div class="title right middle">
                                             <warehouse:message code="inventory.totalValue.label" default="Total value"/>
                                             <g:formatNumber number="${totalStockValue}"/>
-                                            ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                                            ${Holders.config.openboxes.locale.defaultCurrencyCode}
                                         </div>
                                     </th>
                                 </tr>

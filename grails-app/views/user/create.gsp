@@ -1,5 +1,5 @@
 
-<%@ page import="org.pih.warehouse.core.User" %>
+<%@ page import="grails.util.Holders; org.pih.warehouse.core.User" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -7,7 +7,8 @@
         <g:set var="entityName" value="${warehouse.message(code: 'user.label', default: 'User')}" />
         <title><warehouse:message code="default.create.label" args="[entityName]" /></title>
 	<content tag="pageTitle"><warehouse:message code="default.create.label" args="[entityName]" /></content>
-
+        <asset:javascript src="application.js"/>
+        <asset:javascript src="application.css"/>
     </head>
     <body>
       
@@ -85,7 +86,7 @@
 	                                  <label for="locale"><warehouse:message code="default.locale.label"/></label>
 	                                </td>
 	                                <td valign="top" class="value ${hasErrors(bean: userInstance, field: 'locale', 'errors')}">
-	                                    <g:select name="locale" from="${ grailsApplication.config.openboxes.locale.supportedLocales.collect{ new Locale(it) } }" optionValue="displayName" value="${userInstance?.locale}" noSelection="['':'']"/>
+	                                    <g:select name="locale" from="${ grails.util.Holders.config.openboxes.locale.supportedLocales.collect{ new Locale(it) } }" optionValue="displayName" value="${userInstance?.locale}" noSelection="['':'']"/>
 	                                </td>
 	                         </tr>
 	                         <tr class="prop">

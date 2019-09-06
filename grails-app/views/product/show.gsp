@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="${createLinkTo(dir:'js/product/css',file:'animations.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'js/product/css',file:'bootstrap-responsive.css')}" />
     <link rel="stylesheet" href="${createLinkTo(dir:'js/product/css',file:'bootstrap.css')}" />
+    <asset:javascript src="application.js"/>
+    <asset:javascript src="application.css"/>
     <g:javascript library="jquery" plugin="jquery" />
     <jqui:resources />
 </head>

@@ -1,23 +1,24 @@
 package org.pih.warehouse.jobs
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
-import org.quartz.DisallowConcurrentExecution
+import grails.util.Holders
+import grails.util.Holders as CH
+//import org.quartz.DisallowConcurrentExecution
 import util.LiquibaseUtil
 
-@DisallowConcurrentExecution
+//@DisallowConcurrentExecution
 class DataCleaningJob {
 
     def shipmentService
 
     // cron job needs to be triggered after the staging deployment
-    static triggers = {
+   /* static triggers = {
 		cron name:'dataCleaningCronTrigger',
-                cronExpression: CH.config.openboxes.jobs.dataCleaningJob.cronExpression
-    }
+                cronExpression: Holders.config.openboxes.jobs.dataCleaningJob.cronExpression
+    }*/
 
 	def execute(context) {
 
-        Boolean enabled = CH.config.openboxes.jobs.dataCleaningJob.enabled
+        Boolean enabled = Holders.config.openboxes.jobs.dataCleaningJob.enabled
         if (!enabled) {
             return
         }

@@ -2,6 +2,63 @@
 <databaseChangeLog
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+     <changeSet author="adminuser (generated)" id="1351271139350-6">
+        <insert tableName="shipper">
+            <column name="id" value="1"/>
+            <column name="version" valueNumeric="1"/>
+            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="description"/>
+            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="name" value="FedEx"/>
+            <column name="parameter_name"/>
+            <column name="tracking_format" value="999999999999"/>
+            <column name="tracking_url" value="http://www.fedex.com/Tracking?ascend_header=1&amp;clienttype=dotcom&amp;cntry_code=us&amp;language=english&amp;tracknumbers=%s"/>
+        </insert>
+        <insert tableName="shipper">
+            <column name="id" value="2"/>
+            <column name="version" valueNumeric="1"/>
+            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="description"/>
+            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="name" value="UPS"/>
+            <column name="parameter_name"/>
+            <column name="tracking_format" value="1Z9999W99999999999"/>
+            <column name="tracking_url" value="http://wwwapps.ups.com/WebTracking/processInputRequest?sort_by=status&amp;tracknums_displayed=1&amp;TypeOfInquiryNumber=T&amp;loc=en_US&amp;InquiryNumber1=%s&amp;track.x=0&amp;track.y=0"/>
+        </insert>
+        <insert tableName="shipper">
+            <column name="id" value="3"/>
+            <column name="version" valueNumeric="1"/>
+            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="description"/>
+            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="name" value="DHL"/>
+            <column name="parameter_name" value="q"/>
+            <column name="tracking_format"/>
+            <column name="tracking_url" value="http://www.google.com/search?hl=en&amp;site=&amp;q="/>
+        </insert>
+        <insert tableName="shipper">
+            <column name="id" value="4"/>
+            <column name="version" valueNumeric="1"/>
+            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="description"/>
+            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="name" value="USPS"/>
+            <column name="parameter_name" value="q"/>
+            <column name="tracking_format"/>
+            <column name="tracking_url" value="http://www.google.com/search?hl=en&amp;site=&amp;q="/>
+        </insert>
+        <insert tableName="shipper">
+            <column name="id" value="5"/>
+            <column name="version" valueNumeric="1"/>
+            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="description"/>
+            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="name" value="Courier"/>
+            <column name="parameter_name" value="q"/>
+            <column name="tracking_format"/>
+            <column name="tracking_url" value="http://www.google.com/search?hl=en&amp;site=&amp;q="/>
+        </insert>
+    </changeSet>
     <changeSet author="adminuser (generated)" id="1351271139350-1">
         <insert tableName="shipper_service">
             <column name="id" value="1"/>
@@ -84,15 +141,13 @@
     <changeSet author="adminuser (generated)" id="1351271139350-2">
         <insert tableName="inventory">
             <column name="id" value="1"/>
-            <column name="version" valueNumeric="0"/>
-            <column name="last_inventory_date"/>
+            <column name="version" valueNumeric="1"/>
             <column name="date_created" valueDate="2011-02-17T00:00:00.0"/>
             <column name="last_updated" valueDate="2011-02-17T00:00:00.0"/>
         </insert>
         <insert tableName="inventory">
             <column name="id" value="ff8081813a512a91013a512f140a0001"/>
-            <column name="version" valueNumeric="0"/>
-            <column name="last_inventory_date"/>
+            <column name="version" valueNumeric="1"/>
             <column name="date_created" valueDate="2012-10-11T14:56:10.0"/>
             <column name="last_updated" valueDate="2012-10-11T14:56:10.0"/>
         </insert>
@@ -236,63 +291,6 @@
             <column name="name"/>
         </insert>
     </changeSet>
-    <changeSet author="adminuser (generated)" id="1351271139350-6">
-        <insert tableName="shipper">
-            <column name="id" value="1"/>
-            <column name="version" valueNumeric="1"/>
-            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="description"/>
-            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="name" value="FedEx"/>
-            <column name="parameter_name"/>
-            <column name="tracking_format" value="999999999999"/>
-            <column name="tracking_url" value="http://www.fedex.com/Tracking?ascend_header=1&amp;clienttype=dotcom&amp;cntry_code=us&amp;language=english&amp;tracknumbers=%s"/>
-        </insert>
-        <insert tableName="shipper">
-            <column name="id" value="2"/>
-            <column name="version" valueNumeric="1"/>
-            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="description"/>
-            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="name" value="UPS"/>
-            <column name="parameter_name"/>
-            <column name="tracking_format" value="1Z9999W99999999999"/>
-            <column name="tracking_url" value="http://wwwapps.ups.com/WebTracking/processInputRequest?sort_by=status&amp;tracknums_displayed=1&amp;TypeOfInquiryNumber=T&amp;loc=en_US&amp;InquiryNumber1=%s&amp;track.x=0&amp;track.y=0"/>
-        </insert>
-        <insert tableName="shipper">
-            <column name="id" value="3"/>
-            <column name="version" valueNumeric="1"/>
-            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="description"/>
-            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="name" value="DHL"/>
-            <column name="parameter_name" value="q"/>
-            <column name="tracking_format"/>
-            <column name="tracking_url" value="http://www.google.com/search?hl=en&amp;site=&amp;q="/>
-        </insert>
-        <insert tableName="shipper">
-            <column name="id" value="4"/>
-            <column name="version" valueNumeric="1"/>
-            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="description"/>
-            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="name" value="USPS"/>
-            <column name="parameter_name" value="q"/>
-            <column name="tracking_format"/>
-            <column name="tracking_url" value="http://www.google.com/search?hl=en&amp;site=&amp;q="/>
-        </insert>
-        <insert tableName="shipper">
-            <column name="id" value="5"/>
-            <column name="version" valueNumeric="1"/>
-            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="description"/>
-            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="name" value="Courier"/>
-            <column name="parameter_name" value="q"/>
-            <column name="tracking_format"/>
-            <column name="tracking_url" value="http://www.google.com/search?hl=en&amp;site=&amp;q="/>
-        </insert>
-    </changeSet>
     <changeSet author="adminuser (generated)" id="1351271139350-7">
         <insert tableName="container_type">
             <column name="id" value="1"/>
@@ -365,41 +363,6 @@
             <column name="last_updated" valueDate="2011-02-25T00:00:00.0"/>
             <column name="name" value="Crate|fr:Caisse"/>
             <column name="sort_order" valueNumeric="0"/>
-        </insert>
-    </changeSet>
-    <changeSet author="adminuser (generated)" id="1351271139350-8">
-        <insert tableName="comment">
-            <column name="id" value="1"/>
-            <column name="version" valueNumeric="0"/>
-            <column name="comment" value="We need to ship this as soon as possible!"/>
-            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="date_read"/>
-            <column name="date_sent"/>
-            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="recipient_id" value="3"/>
-            <column name="sender_id" value="3"/>
-        </insert>
-        <insert tableName="comment">
-            <column name="id" value="2"/>
-            <column name="version" valueNumeric="0"/>
-            <column name="comment" value="Did you ship this yet?!?!?!?"/>
-            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="date_read"/>
-            <column name="date_sent"/>
-            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="recipient_id" value="3"/>
-            <column name="sender_id" value="2"/>
-        </insert>
-        <insert tableName="comment">
-            <column name="id" value="3"/>
-            <column name="version" valueNumeric="0"/>
-            <column name="comment" value="What is taking so long?"/>
-            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="date_read"/>
-            <column name="date_sent"/>
-            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="recipient_id" value="3"/>
-            <column name="sender_id" value="1"/>
         </insert>
     </changeSet>
     <changeSet author="adminuser (generated)" id="1351271139350-9">
@@ -484,56 +447,16 @@
             <column name="name" value="License Plate Number"/>
             <column name="sort_order" valueNumeric="0"/>
         </insert>
-    </changeSet>
-    <changeSet author="adminuser (generated)" id="1351271139350-10">
-        <insert tableName="location_type_supported_activities">
-            <column name="location_type_id" value="2"/>
-            <column name="supported_activities_string" value="MANAGE_INVENTORY"/>
+        <insert tableName="reference_number_type">
+            <column name="id" value="10"/>
+            <column name="version" valueNumeric="0"/>
+            <column name="date_created" valueDate="2018-09-10T00:00:00"/>
+            <column name="description" value="Tracking Number"/>
+            <column name="last_updated" valueDate="2018-09-10T00:00:00"/>
+            <column name="name" value="Tracking Number"/>
+            <column name="sort_order" valueNumeric="0"/>
         </insert>
-        <insert tableName="location_type_supported_activities">
-            <column name="location_type_id" value="2"/>
-            <column name="supported_activities_string" value="PLACE_ORDER"/>
-        </insert>
-        <insert tableName="location_type_supported_activities">
-            <column name="location_type_id" value="2"/>
-            <column name="supported_activities_string" value="PLACE_REQUEST"/>
-        </insert>
-        <insert tableName="location_type_supported_activities">
-            <column name="location_type_id" value="2"/>
-            <column name="supported_activities_string" value="FULFILL_REQUEST"/>
-        </insert>
-        <insert tableName="location_type_supported_activities">
-            <column name="location_type_id" value="2"/>
-            <column name="supported_activities_string" value="SEND_STOCK"/>
-        </insert>
-        <insert tableName="location_type_supported_activities">
-            <column name="location_type_id" value="2"/>
-            <column name="supported_activities_string" value="RECEIVE_STOCK"/>
-        </insert>
-        <insert tableName="location_type_supported_activities">
-            <column name="location_type_id" value="2"/>
-            <column name="supported_activities_string" value="EXTERNAL"/>
-        </insert>
-        <insert tableName="location_type_supported_activities">
-            <column name="location_type_id" value="3"/>
-            <column name="supported_activities_string" value="SEND_STOCK"/>
-        </insert>
-        <insert tableName="location_type_supported_activities">
-            <column name="location_type_id" value="3"/>
-            <column name="supported_activities_string" value="RECEIVE_STOCK"/>
-        </insert>
-        <insert tableName="location_type_supported_activities">
-            <column name="location_type_id" value="4"/>
-            <column name="supported_activities_string" value="FULFILL_ORDER"/>
-        </insert>
-        <insert tableName="location_type_supported_activities">
-            <column name="location_type_id" value="4"/>
-            <column name="supported_activities_string" value="SEND_STOCK"/>
-        </insert>
-        <insert tableName="location_type_supported_activities">
-            <column name="location_type_id" value="4"/>
-            <column name="supported_activities_string" value="EXTERNAL"/>
-        </insert>
+
     </changeSet>
     <changeSet author="adminuser (generated)" id="1351271139350-11">
         <insert tableName="role">
@@ -552,7 +475,7 @@
             <column name="id" value="3"/>
             <column name="version" valueNumeric="0"/>
             <column name="description"/>
-            <column name="role_type" value="ROLE_USER"/>
+            <column name="role_type" value="ROLE_BROWSER"/>
         </insert>
     </changeSet>
     <changeSet author="adminuser (generated)" id="1351271139350-12">
@@ -564,6 +487,86 @@
             <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
             <column name="name" value="Medicines"/>
             <column name="parent_category_id"/>
+            <column name="sort_order" valueNumeric="0"/>
+        </insert>
+	<insert tableName="category">
+            <column name="id" value="2"/>
+            <column name="version" valueNumeric="0"/>
+            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="description"/>
+            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="name" value="Supplies"/>
+            <column name="parent_category_id"/>
+            <column name="sort_order" valueNumeric="0"/>
+        </insert>
+	<insert tableName="category">
+            <column name="id" value="3"/>
+            <column name="version" valueNumeric="0"/>
+            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="description"/>
+            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="name" value="Equipment"/>
+            <column name="parent_category_id"/>
+            <column name="sort_order" valueNumeric="0"/>
+        </insert>
+        <insert tableName="category">
+            <column name="id" value="4"/>
+            <column name="version" valueNumeric="0"/>
+            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="description"/>
+            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="name" value="Perishables"/>
+            <column name="parent_category_id"/>
+            <column name="sort_order" valueNumeric="0"/>
+        </insert>
+        <insert tableName="category">
+            <column name="id" value="5"/>
+            <column name="version" valueNumeric="0"/>
+            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="description"/>
+            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="name" value="Other"/>
+            <column name="parent_category_id"/>
+            <column name="sort_order" valueNumeric="0"/>
+        </insert>
+        <insert tableName="category">
+            <column name="id" value="6"/>
+            <column name="version" valueNumeric="0"/>
+            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="description"/>
+            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="name" value="Medical Supplies"/>
+            <column name="parent_category_id" value="2"/>
+            <column name="sort_order" valueNumeric="0"/>
+        </insert>
+        <insert tableName="category">
+            <column name="id" value="7"/>
+            <column name="version" valueNumeric="0"/>
+            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="description"/>
+            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="name" value="Hospital and Clinic Supplies"/>
+            <column name="parent_category_id" value="2"/>
+            <column name="sort_order" valueNumeric="0"/>
+        </insert>
+        <insert tableName="category">
+            <column name="id" value="8"/>
+            <column name="version" valueNumeric="0"/>
+            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="description"/>
+            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="name" value="Office Supplies"/>
+            <column name="parent_category_id" value="2"/>
+            <column name="sort_order" valueNumeric="0"/>
+        </insert>
+        <insert tableName="category">
+            <column name="id" value="9"/>
+            <column name="version" valueNumeric="0"/>
+            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="description"/>
+            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="name" value="Medical Equipment"/>
+            <column name="parent_category_id" value="3"/>
             <column name="sort_order" valueNumeric="0"/>
         </insert>
         <insert tableName="category">
@@ -666,16 +669,7 @@
             <column name="parent_category_id" value="1"/>
             <column name="sort_order" valueNumeric="0"/>
         </insert>
-        <insert tableName="category">
-            <column name="id" value="2"/>
-            <column name="version" valueNumeric="0"/>
-            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="description"/>
-            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="name" value="Supplies"/>
-            <column name="parent_category_id"/>
-            <column name="sort_order" valueNumeric="0"/>
-        </insert>
+       
         <insert tableName="category">
             <column name="id" value="20"/>
             <column name="version" valueNumeric="0"/>
@@ -735,94 +729,6 @@
             <column name="name" value="Other"/>
             <column name="parent_category_id" value="6"/>
             <column name="sort_order" valueNumeric="0"/>
-        </insert>
-        <insert tableName="category">
-            <column name="id" value="3"/>
-            <column name="version" valueNumeric="0"/>
-            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="description"/>
-            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="name" value="Equipment"/>
-            <column name="parent_category_id"/>
-            <column name="sort_order" valueNumeric="0"/>
-        </insert>
-        <insert tableName="category">
-            <column name="id" value="4"/>
-            <column name="version" valueNumeric="0"/>
-            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="description"/>
-            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="name" value="Perishables"/>
-            <column name="parent_category_id"/>
-            <column name="sort_order" valueNumeric="0"/>
-        </insert>
-        <insert tableName="category">
-            <column name="id" value="5"/>
-            <column name="version" valueNumeric="0"/>
-            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="description"/>
-            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="name" value="Other"/>
-            <column name="parent_category_id"/>
-            <column name="sort_order" valueNumeric="0"/>
-        </insert>
-        <insert tableName="category">
-            <column name="id" value="6"/>
-            <column name="version" valueNumeric="0"/>
-            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="description"/>
-            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="name" value="Medical Supplies"/>
-            <column name="parent_category_id" value="2"/>
-            <column name="sort_order" valueNumeric="0"/>
-        </insert>
-        <insert tableName="category">
-            <column name="id" value="7"/>
-            <column name="version" valueNumeric="0"/>
-            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="description"/>
-            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="name" value="Hospital and Clinic Supplies"/>
-            <column name="parent_category_id" value="2"/>
-            <column name="sort_order" valueNumeric="0"/>
-        </insert>
-        <insert tableName="category">
-            <column name="id" value="8"/>
-            <column name="version" valueNumeric="0"/>
-            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="description"/>
-            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="name" value="Office Supplies"/>
-            <column name="parent_category_id" value="2"/>
-            <column name="sort_order" valueNumeric="0"/>
-        </insert>
-        <insert tableName="category">
-            <column name="id" value="9"/>
-            <column name="version" valueNumeric="0"/>
-            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="description"/>
-            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
-            <column name="name" value="Medical Equipment"/>
-            <column name="parent_category_id" value="3"/>
-            <column name="sort_order" valueNumeric="0"/>
-        </insert>
-    </changeSet>
-    <changeSet author="adminuser (generated)" id="1351271139350-13">
-        <insert tableName="user_role">
-            <column name="user_id" value="1"/>
-            <column name="role_id" value="1"/>
-        </insert>
-        <insert tableName="user_role">
-            <column name="user_id" value="2"/>
-            <column name="role_id" value="2"/>
-        </insert>
-        <insert tableName="user_role">
-            <column name="user_id" value="3"/>
-            <column name="role_id" value="3"/>
-        </insert>
-        <insert tableName="user_role">
-            <column name="user_id" value="4"/>
-            <column name="role_id" value="3"/>
         </insert>
     </changeSet>
     <changeSet author="adminuser (generated)" id="1351271139350-14">
@@ -912,6 +818,7 @@
             <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
             <column name="postal_code"/>
             <column name="state_or_province"/>
+	    <column name="description"/>
         </insert>
         <insert tableName="address">
             <column name="id" value="4"/>
@@ -951,56 +858,6 @@
             <column name="shipment_workflow_container_types_id" value="3"/>
             <column name="container_type_id" value="3"/>
             <column name="container_types_idx" valueNumeric="0"/>
-        </insert>
-    </changeSet>
-    <changeSet author="adminuser (generated)" id="1351271139350-18">
-        <insert tableName="user">
-            <column name="id" value="1"/>
-            <column name="active" valueBoolean="true"/>
-            <column name="last_login_date"/>
-            <column name="manager_id"/>
-            <column name="password" value="password"/>
-            <column name="username" value="admin"/>
-            <column name="warehouse_id" value="1"/>
-            <column name="photo"/>
-            <column name="locale"/>
-            <column name="remember_last_location"/>
-        </insert>
-        <insert tableName="user">
-            <column name="id" value="2"/>
-            <column name="active" valueBoolean="true"/>
-            <column name="last_login_date"/>
-            <column name="manager_id" value="1"/>
-            <column name="password" value="password"/>
-            <column name="username" value="manager"/>
-            <column name="warehouse_id" value="1"/>
-            <column name="photo"/>
-            <column name="locale"/>
-            <column name="remember_last_location"/>
-        </insert>
-        <insert tableName="user">
-            <column name="id" value="3"/>
-            <column name="active" valueBoolean="true"/>
-            <column name="last_login_date"/>
-            <column name="manager_id" value="2"/>
-            <column name="password" value="password"/>
-            <column name="username" value="jmiranda"/>
-            <column name="warehouse_id" value="1"/>
-            <column name="photo"/>
-            <column name="locale"/>
-            <column name="remember_last_location"/>
-        </insert>
-        <insert tableName="user">
-            <column name="id" value="4"/>
-            <column name="active" valueBoolean="false"/>
-            <column name="last_login_date"/>
-            <column name="manager_id" value="2"/>
-            <column name="password" value="password"/>
-            <column name="username" value="inactive"/>
-            <column name="warehouse_id" value="1"/>
-            <column name="photo"/>
-            <column name="locale"/>
-            <column name="remember_last_location"/>
         </insert>
     </changeSet>
     <changeSet author="adminuser (generated)" id="1351271139350-19">
@@ -1043,6 +900,54 @@
             <column name="shipment_workflow_reference_number_types_id" value="4"/>
             <column name="reference_number_type_id" value="9"/>
             <column name="reference_number_types_idx" valueNumeric="0"/>
+        </insert>
+    </changeSet>
+     <changeSet author="adminuser (generated)" id="1351271139350-18">
+        <insert tableName="user">
+            <column name="id" value="1"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="last_login_date"/>
+            <column name="manager_id"/>
+            <column name="password" value="password"/>
+            <column name="username" value="admin"/>
+       
+            <column name="photo"/>
+            <column name="locale"/>
+            <column name="remember_last_location"/>
+        </insert>
+        <insert tableName="user">
+            <column name="id" value="2"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="last_login_date"/>
+            <column name="manager_id" value="1"/>
+            <column name="password" value="password"/>
+            <column name="username" value="manager"/>
+            <column name="photo"/>
+            <column name="locale"/>
+            <column name="remember_last_location"/>
+        </insert>
+        <insert tableName="user">
+            <column name="id" value="3"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="last_login_date"/>
+            <column name="manager_id" value="2"/>
+            <column name="password" value="password"/>
+            <column name="username" value="jmiranda"/>
+            <column name="warehouse_id"/>
+            <column name="photo"/>
+            <column name="locale"/>
+            <column name="remember_last_location"/>
+        </insert>
+        <insert tableName="user">
+            <column name="id" value="4"/>
+            <column name="active" valueBoolean="false"/>
+            <column name="last_login_date"/>
+            <column name="manager_id" value="2"/>
+            <column name="password" value="password"/>
+            <column name="username" value="inactive"/>
+            <column name="photo"/>
+            <column name="locale"/>
+            <column name="remember_last_location"/>
         </insert>
     </changeSet>
     <changeSet author="adminuser (generated)" id="1351271139350-20">
@@ -1127,6 +1032,112 @@
             <column name="location_group_id"/>
         </insert>
     </changeSet>
+    <changeSet author="adminuser (generated)" id="1351271139350-8">
+        <insert tableName="comment">
+            <column name="id" value="1"/>
+            <column name="version" valueNumeric="0"/>
+            <column name="comment" value="We need to ship this as soon as possible!"/>
+            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="date_read"/>
+            <column name="date_sent"/>
+            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="recipient_id" value="3"/>
+            <column name="sender_id" value="3"/>
+        </insert>
+        <insert tableName="comment">
+            <column name="id" value="2"/>
+            <column name="version" valueNumeric="0"/>
+            <column name="comment" value="Did you ship this yet?!?!?!?"/>
+            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="date_read"/>
+            <column name="date_sent"/>
+            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="recipient_id" value="3"/>
+            <column name="sender_id" value="2"/>
+        </insert>
+        <insert tableName="comment">
+            <column name="id" value="3"/>
+            <column name="version" valueNumeric="0"/>
+            <column name="comment" value="What is taking so long?"/>
+            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="date_read"/>
+            <column name="date_sent"/>
+            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="recipient_id" value="3"/>
+            <column name="sender_id" value="1"/>
+        </insert>
+    </changeSet>
+    
+    <changeSet author="adminuser (generated)" id="1351271139350-10">
+        <insert tableName="location_type_supported_activities">
+            <column name="location_type_id" value="2"/>
+            <column name="supported_activities_string" value="MANAGE_INVENTORY"/>
+        </insert>
+        <insert tableName="location_type_supported_activities">
+            <column name="location_type_id" value="2"/>
+            <column name="supported_activities_string" value="PLACE_ORDER"/>
+        </insert>
+        <insert tableName="location_type_supported_activities">
+            <column name="location_type_id" value="2"/>
+            <column name="supported_activities_string" value="PLACE_REQUEST"/>
+        </insert>
+        <insert tableName="location_type_supported_activities">
+            <column name="location_type_id" value="2"/>
+            <column name="supported_activities_string" value="FULFILL_REQUEST"/>
+        </insert>
+        <insert tableName="location_type_supported_activities">
+            <column name="location_type_id" value="2"/>
+            <column name="supported_activities_string" value="SEND_STOCK"/>
+        </insert>
+        <insert tableName="location_type_supported_activities">
+            <column name="location_type_id" value="2"/>
+            <column name="supported_activities_string" value="RECEIVE_STOCK"/>
+        </insert>
+        <insert tableName="location_type_supported_activities">
+            <column name="location_type_id" value="2"/>
+            <column name="supported_activities_string" value="EXTERNAL"/>
+        </insert>
+        <insert tableName="location_type_supported_activities">
+            <column name="location_type_id" value="3"/>
+            <column name="supported_activities_string" value="SEND_STOCK"/>
+        </insert>
+        <insert tableName="location_type_supported_activities">
+            <column name="location_type_id" value="3"/>
+            <column name="supported_activities_string" value="RECEIVE_STOCK"/>
+        </insert>
+        <insert tableName="location_type_supported_activities">
+            <column name="location_type_id" value="4"/>
+            <column name="supported_activities_string" value="FULFILL_ORDER"/>
+        </insert>
+        <insert tableName="location_type_supported_activities">
+            <column name="location_type_id" value="4"/>
+            <column name="supported_activities_string" value="SEND_STOCK"/>
+        </insert>
+        <insert tableName="location_type_supported_activities">
+            <column name="location_type_id" value="4"/>
+            <column name="supported_activities_string" value="EXTERNAL"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="adminuser (generated)" id="1351271139350-13">
+        <insert tableName="user_role">
+            <column name="user_id" value="1"/>
+            <column name="role_id" value="1"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="2"/>
+            <column name="role_id" value="2"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="3"/>
+            <column name="role_id" value="3"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="4"/>
+            <column name="role_id" value="3"/>
+        </insert>
+    </changeSet>
+
     <changeSet author="adminuser (generated)" id="1351271139350-21">
         <insert tableName="person">
             <column name="id" value="1"/>
@@ -1297,6 +1308,15 @@
             <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
             <column name="name" value="Suitcase|fr:Valise/Malette"/>
             <column name="sort_order" valueNumeric="4"/>
+        </insert>
+        <insert tableName="shipment_type">
+            <column name="id" value="5"/>
+            <column name="version" valueNumeric="1"/>
+            <column name="date_created" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="description"/>
+            <column name="last_updated" valueDate="2010-08-25T00:00:00.0"/>
+            <column name="name" value="Default"/>
+            <column name="sort_order" valueNumeric="5"/>
         </insert>
     </changeSet>
     <changeSet author="adminuser (generated)" id="1351271139350-24">

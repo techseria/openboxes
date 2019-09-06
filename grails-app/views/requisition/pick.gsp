@@ -13,7 +13,8 @@
     tr.selected-bottom { border-bottom: 5px solid #f3961c; border-right: 5px solid #f3961c; border-left: 5px solid #f3961c; }
     /*tr.unselected, tr.unselected a { color: #ccc; }*/
 </style>
-
+    <asset:javascript src="application.js"/>
+    <asset:javascript src="application.css"/>
 </head>
 <body>
 		<g:if test="${flash.message}">

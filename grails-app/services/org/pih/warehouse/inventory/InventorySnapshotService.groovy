@@ -9,10 +9,10 @@
 **/ 
 package org.pih.warehouse.inventory
 
+import grails.util.Holders
 import groovy.sql.Sql
 import groovyx.gpars.GParsPool
 import org.apache.commons.lang.StringEscapeUtils
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.pih.warehouse.api.AvailableItem
 import org.pih.warehouse.core.Location
 import org.pih.warehouse.product.Product
@@ -70,17 +70,10 @@ class InventorySnapshotService {
     }
 
     def populateInventorySnapshots(Date date, Location location) {
-
-        // Delete all inventory snapshots for the given date and location
-        deleteInventorySnapshots(date, location)
-
-        // Calculate current stock for given location
         def startTime = System.currentTimeMillis()
         def binLocations = calculateBinLocations(location)
         def readTime = (System.currentTimeMillis()-startTime)
         startTime = System.currentTimeMillis()
-
-        // Save inventory snapshots to database
         saveInventorySnapshots(date, location, binLocations)
         def writeTime = System.currentTimeMillis()-startTime
         log.info "Saved ${binLocations?.size()} snapshots location ${location} on date ${date.format("MMM-dd-yyyy")}: ${readTime}ms/${writeTime}ms"
@@ -103,14 +96,10 @@ class InventorySnapshotService {
         deleteInventorySnapshots(date, null)
     }
 
-    def deleteInventorySnapshots(Location location) {
-        Date date = getMostRecentInventorySnapshotDate() ?: new Date() +1
-        deleteInventorySnapshots(date, location)
-    }
-
     def deleteInventorySnapshots(Date date, Location location) {
         deleteInventorySnapshots(date, location, null)
     }
+
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     def deleteInventorySnapshots(Date date, Location location, Product product) {
@@ -120,12 +109,12 @@ class InventorySnapshotService {
         params.put("date", date)
 
         if (location) {
-            deleteStmt += " and snapshot.location = :location"
+            deleteStmt + " and snapshot.location = :location"
             params.put("location", location)
         }
 
         if (product) {
-            deleteStmt += " and snapshot.product = :product"
+            deleteStmt + " and snapshot.product = :product"
             params.put("product", product)
         }
 
@@ -154,7 +143,7 @@ class InventorySnapshotService {
     }
 
     def saveInventorySnapshots(Date date, Location location, List binLocations) {
-        def batchSize = ConfigurationHolder.config.openboxes.inventorySnapshot.batchSize?:1000
+        def batchSize = Holders.config.openboxes.inventorySnapshot.batchSize?:100
         def sql = new Sql(dataSource)
         if (sql) {
             try {
@@ -180,12 +169,12 @@ class InventorySnapshotService {
                         String binLocationName = entry?.binLocation?.name ?
                                 "'${StringEscapeUtils.escapeSql(entry?.binLocation?.name)}'" : "'DEFAULT'"
 
-                        // '${UUID.randomUUID().toString()}'
+
                         def insertStmt =
-                                "insert into inventory_snapshot(version, date, location_id, product_id, product_code, " +
+                                "insert into inventory_snapshot(id,version, date, location_id, product_id, product_code, " +
                                         "inventory_item_id, lot_number, expiration_date, bin_location_id, bin_location_name, " +
                                         "quantity_on_hand, date_created, last_updated) " +
-                                        "values (0, '${dateString}', '${location?.id}', " +
+                                        "values ('${UUID.randomUUID().toString()}', 0, '${dateString}', '${location?.id}', " +
                                         "'${productId}', '${productCode}', " +
                                         "${inventoryItemId}, ${lotNumber}, ${expirationDate}, " +
                                         "${binLocationId}, ${binLocationName}, ${onHandQuantity}, now(), now()) "
@@ -517,7 +506,7 @@ class InventorySnapshotService {
      * @param location
      * @return
      */
-    Map<Product, Map<Location, Integer>> getQuantityOnHandByProduct(Location[] locations) {
+    Map<Product, Map<Location, Integer>> getQuantityOnHandByProduct(Location[] locations ) {
         def quantityMap = [:]
         if (locations) {
             Date date = getMostRecentInventorySnapshotDate()
@@ -540,8 +529,6 @@ class InventorySnapshotService {
 
         return quantityMap
     }
-
-
     /**
      * Get quantity on hand by inventory item for the given location and date.
      *

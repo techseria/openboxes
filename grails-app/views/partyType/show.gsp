@@ -6,6 +6,8 @@
         <meta name="layout" content="custom" />
         <g:set var="entityName" value="${warehouse.message(code: 'partyType.label', default: 'PartyType')}" />
         <title><warehouse:message code="default.show.label" args="[entityName]" /></title>
+        <asset:javascript src="application.js"/>
+        <asset:javascript src="application.css"/>
     </head>
     <body>
         <div class="body">

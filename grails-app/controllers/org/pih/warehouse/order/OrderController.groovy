@@ -232,7 +232,7 @@ class OrderController {
 	}
 
 	def saveComment = {
-		log.info(params)
+		println(params)
 
 		def orderInstance = Order.get(params?.order?.id)
 		if (orderInstance) {
@@ -367,7 +367,7 @@ class OrderController {
 	}
 
 	def removeOrderShipment = {
-		log.info("Remove order shipment " + params)
+		println("Remove order shipment " + params)
 		def orderCommand = session.orderCommand
 		int index = Integer.valueOf(params?.index)
 		orderCommand.orderItems.remove(index)
@@ -610,7 +610,7 @@ class OrderController {
 
             // Render pdf to the response output stream
             log.info "BaseUri is $baseUri"
-            log.info("Session ID: " + session.id)
+            println("Session ID: " + session.id)
             log.info "Fetching url $url"
             reportService.generatePdf(url, response.getOutputStream())
 

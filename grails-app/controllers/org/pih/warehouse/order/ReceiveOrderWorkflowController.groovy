@@ -16,23 +16,116 @@ import org.pih.warehouse.shipping.ShipmentException
 
 class ReceiveOrderWorkflowController {
 
+
 	def orderService;
 	
 	def index = { redirect(action:"receiveOrder") }
-	def receiveOrderFlow = {		
+
+	def receiveOrder = {
+		println("Starting order workflow " + params)
+
+		// create a new shipment instance if we don't have one already
+		def orderCommand = new OrderCommand();
+		if (params.id) {
+			orderCommand = orderService.getOrder(params.id, session.user.id)
+		}
+		else {
+			flash.message = "${warehouse.message(code: 'default.not.found.message', args: [warehouse.message(code: 'order.label', default: 'Order'), params.id])}"
+			redirect(controller: "order", action: "list")
+		}
+		if(session.orderCommand)
+			session.removeAttribute("orderCommand")
+		if(session.order)
+			session.removeAttribute("order")
+		if(session.orderItems)
+			session.removeAttribute("orderItems")
+
+		session['orderCommand'] = orderCommand
+		session['order'] = orderCommand.order
+		session['orderItems'] = orderCommand.orderItems
+
+		if (params.skipTo) {
+			if (params.skipTo == 'enterShipmentDetails')
+				return render(view: "enterShipmentDetails", model: [orderCommand: orderCommand,order:orderCommand.order])
+			else if (params.skipTo == 'processOrderItems')
+				return processOrderItems()
+			else if (params.skipTo == 'confirmOrderReceipt')
+				return confirmOrderReceipt()
+		}
+		render(view: "enterShipmentDetails", model: [orderCommand: orderCommand,order:orderCommand.order])
+	}
+
+	def success = {
+
+	}
+
+	def enterShipmentDetails = {  OrderCommand cmd ->
+		if (cmd.hasErrors()) {
+			return error()
+		}
+		cmd.orderItems = session.orderItems
+		OrderCommand orderCommand = session.orderCommand
+        orderCommand.shipmentType = cmd.shipmentType
+        orderCommand.recipient = cmd.recipient
+        orderCommand.shippedOn = cmd.shippedOn
+        orderCommand.deliveredOn = cmd.deliveredOn
+        session["orderCommand"] = orderCommand
+		session["orderItems"] = cmd.orderItems
+		render(view: "processOrderItems", model: [orderCommand : orderCommand,orderItems:cmd.orderItems])
+	}
+
+	def processOrderItems = { OrderItemListCommand command ->
+		session["orderListCommand"] = command
+		OrderCommand orderCommand = session.orderCommand
+		orderCommand.orderItems = session.orderItems
+		for(int i =0 ;i< session.orderItems.size() ; i++){
+			String temp = "orderItems$i"
+			session.orderItems[0].expirationDate = params[temp].expirationDate
+			session.orderItems[0].lotNumber = params[temp].lotNumber
+			session.orderItems[0].quantityReceived = Integer.parseInt(params[temp].quantityReceived)
+		}
+
+		if (command.hasErrors()) {
+			return error()
+		}
+		render(view: "confirmOrderReceipt", model: [orderCommand:session.orderCommand,orderItems:session.orderItems])
+
+	}
+
+	def confirmOrderReceipt = {
+		def orderCommand = session.orderCommand;
+		orderCommand.orderItems = session.orderItems;
+		orderCommand.currentUser = User.get(session.user.id)
+		orderCommand.currentLocation = Location.get(session.warehouse.id)
+		try {
+			orderService.saveOrderShipment(orderCommand)
+		}
+		catch (ShipmentException se) {
+			session.shipment = se?.shipment
+			session.receipt = se?.shipment?.receipt;
+			return error();
+		}
+		catch (ReceiptException re) {
+			session.receipt = re.receipt;
+			return error();
+		}
+		catch (OrderException oe) {
+			session.order = oe.order
+			return error()
+		}
+		// RuntimeExceptions should propagate to the UI
+		//catch (RuntimeException e) {
+		//	flow.orderCommand = orderCommand
+		//	return error();
+		//}
+		println(">>>>>>>>>>>>> Success!!!")
+		success()
+
+	}
+	def receiveOrderFlow1 = {
 		start {
 			action {
-				log.info("Starting order workflow " + params)
-				
-				// create a new shipment instance if we don't have one already
-				def orderCommand = new OrderCommand();
-				if (params.id) {
-					orderCommand = orderService.getOrder(params.id, session.user.id)
-				}
-				else {
-					flash.message = "${warehouse.message(code: 'default.not.found.message', args: [warehouse.message(code: 'order.label', default: 'Order'), params.id])}"
-					redirect(controller: "order", action: "list")
-				}
+
 				
 				flow.orderCommand = orderCommand;
 				flow.order = orderCommand.order;
@@ -56,7 +149,7 @@ class ReceiveOrderWorkflowController {
 				if (flow.orderCommand.hasErrors()) {
 					return error() 	
 				}
-				log.info("setting order command for process order items " + flow.orderItems)
+				println("setting order command for process order items " + flow.orderItems)
 				cmd.orderItems = flow.orderItems
 				[orderCommand : cmd]
 							
@@ -117,7 +210,7 @@ class ReceiveOrderWorkflowController {
 				//	flow.orderCommand = orderCommand
 				//	return error();
 				//}
-				log.info(">>>>>>>>>>>>> Success!!!")
+				println(">>>>>>>>>>>>> Success!!!")
 				success()
 				
 			}.to("finish")

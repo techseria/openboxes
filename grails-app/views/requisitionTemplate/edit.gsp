@@ -1,4 +1,4 @@
-<%@ page import="org.pih.warehouse.requisition.RequisitionItemSortByCode; grails.converters.JSON; org.pih.warehouse.core.RoleType"%>
+<%@ page import="grails.util.Holders; org.pih.warehouse.requisition.RequisitionItemSortByCode; grails.converters.JSON; org.pih.warehouse.core.RoleType"%>
 <%@ page import="org.pih.warehouse.requisition.RequisitionType"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
@@ -206,8 +206,8 @@
               }
 
               if ($("#finance").length) {
-                $('td:eq(6)', nRow).html(Number(aData["product"].pricePerUnit).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}");
-                $('td:eq(7)', nRow).html(Number(aData["totalCost"]).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}");
+                $('td:eq(6)', nRow).html(Number(aData["product"].pricePerUnit).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " ${grails.util.Holders.config.openboxes.locale.defaultCurrencyCode}");
+                $('td:eq(7)', nRow).html(Number(aData["totalCost"]).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " ${Holders.config.openboxes.locale.defaultCurrencyCode}");
               }
 
               if ($("#actions").length) {

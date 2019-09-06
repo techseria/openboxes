@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Techseria</title>
-    <g:javascript library="jquery" plugin="jquery"/>
+    <g:javascript library="jquery" />
     <style>
     table {
         border-collapse: collapse;

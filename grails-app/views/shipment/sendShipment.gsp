@@ -9,6 +9,7 @@
 	<content tag="pageTitle">
 		<warehouse:message code="shipping.sendShipment.label" />
 	</content>
+	<asset:javascript src="application.js"/>
 </head>
 
 <body>

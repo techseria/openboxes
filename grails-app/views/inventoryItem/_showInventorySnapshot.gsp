@@ -35,9 +35,9 @@
         <%--
         <a href="javascript:downloadGraph();" class="button icon graph">Download graph</a>
         --%>
-        <g:remoteLink controller="inventorySnapshot" action="triggerCalculateQuantityOnHandJob"
+        <g:link controller="inventorySnapshot" action="triggerCalculateQuantityOnHandJob"
                       class="button icon reload"
-                      params="['product.id':product.id,'location.id':session.warehouse.id]">Refresh data</g:remoteLink>
+                      params="['product.id':product.id,'location.id':session.warehouse.id]">Refresh data</g:link>
 
     </div>
 

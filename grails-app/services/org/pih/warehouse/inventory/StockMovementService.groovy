@@ -9,9 +9,9 @@
 **/
 package org.pih.warehouse.inventory
 
-import grails.orm.PagedResultList
+
 import grails.validation.ValidationException
-import org.codehaus.groovy.grails.web.json.JSONObject
+import org.grails.web.json.JSONObject
 import org.hibernate.ObjectNotFoundException
 import org.pih.warehouse.api.AvailableItem
 import org.pih.warehouse.api.DocumentGroupCode
@@ -21,7 +21,6 @@ import org.pih.warehouse.api.PackPage
 import org.pih.warehouse.api.PackPageItem
 import org.pih.warehouse.api.PickPage
 import org.pih.warehouse.api.PickPageItem
-import org.pih.warehouse.api.StockAdjustment
 import org.pih.warehouse.api.StockMovement
 import org.pih.warehouse.api.StockMovementItem
 import org.pih.warehouse.api.SubstitutionItem
@@ -51,6 +50,8 @@ import org.pih.warehouse.shipping.ShipmentStatusCode
 import org.pih.warehouse.shipping.ShipmentType
 import org.pih.warehouse.shipping.ShipmentWorkflow
 
+import java.text.SimpleDateFormat
+
 class StockMovementService {
 
     def productService
@@ -66,6 +67,8 @@ class StockMovementService {
     def grailsApplication
 
     def createStockMovement(StockMovement stockMovement) {
+      /*  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd")
+        stockMovement.dateRequested = format.parse(stockMovement.dateRequested.toString())*/
 
         if (!stockMovement.validate()) {
             throw new ValidationException("Invalid stock movement", stockMovement.errors)
@@ -73,6 +76,7 @@ class StockMovementService {
         Requisition requisition = createRequisition(stockMovement)
         return StockMovement.createFromRequisition(requisition)
     }
+
 
     void updateStatus(String id, RequisitionStatus status) {
 
@@ -238,7 +242,7 @@ class StockMovementService {
             return StockMovement.createFromRequisition(requisition)
         }
 
-        return new PagedResultList(stockMovements, requisitions.totalCount)
+        return stockMovements
     }
 
 
@@ -620,7 +624,7 @@ class StockMovementService {
         EditPage editPage = new EditPage()
         def startTime = System.currentTimeMillis()
         StockMovement stockMovement = getStockMovement(id)
-        log.info("Get stock movement ${id}: ${System.currentTimeMillis()-startTime}")
+        println("Get stock movement ${id}: ${System.currentTimeMillis()-startTime}")
 
         Map monthlyStocklistQuantities = calculateMonthlyStockListQuantity(stockMovement.origin)
 
@@ -631,7 +635,7 @@ class StockMovementService {
             editPageItem.quantityConsumed = monthlyStocklistQuantities.get(stockMovementItem.product.id)
             editPage.editPageItems.addAll(editPageItem)
         }
-        log.info("Build edit pages for stock movement: ${System.currentTimeMillis()-startTime} ms")
+        println("Build edit pages for stock movement: ${System.currentTimeMillis()-startTime} ms")
         return editPage
     }
 
@@ -1484,7 +1488,7 @@ class StockMovementService {
 
 
     List<Map> getDocuments(StockMovement stockMovement) {
-        def g = grailsApplication.mainContext.getBean('org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib')
+        def g = grailsApplication.mainContext.getBean('org.grails.plugins.web.taglib.ApplicationTagLib')
         def documentList = []
 
         if (stockMovement?.requisition) {
@@ -1609,6 +1613,7 @@ class StockMovementService {
                             stepNumber  : 5,
                             uri         : g.createLink(controller: 'doc4j', action: "downloadCertificateOfDonation", id: stockMovement?.shipment?.id, absolute: true)
                     ]
+
             ])
         }
 

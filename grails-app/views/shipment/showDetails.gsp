@@ -1,3 +1,4 @@
+<%@ page import="grails.util.Holders" %>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -6,6 +7,7 @@
 	<title><warehouse:message code="default.view.label" args="[entityName]" /></title>        
 	<!-- Specify content to overload like global navigation links, page titles, etc. -->
 	<content tag="pageTitle"><warehouse:message code="default.show.label" args="[entityName]" /></content>
+    <asset:javascript src="application.js"/>
 </head>
 
 <body>    
@@ -24,7 +26,7 @@
 
         <div class="buttons">
             <div class="button-container" style="text-align: left">
-                <g:render template="../shipment/actions" model="[shipmentInstance:shipmentInstance]" />
+                <g:render template="/shipment/actions" model="[shipmentInstance:shipmentInstance]" />
                 <g:render template="buttons"/>
             </div>
         </div>
@@ -112,7 +114,7 @@
 										</td>
 										<td valign="top" class="value">
 											<g:formatNumber format="###,###,##0.00" number="${shipmentInstance?.totalValue ? shipmentInstance?.totalValue : 0.00 }" />
-											${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+											${grails.util.Holders.config.openboxes.locale.defaultCurrencyCode}
 										</td>
 									</tr>
 								</g:if>

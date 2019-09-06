@@ -1,0 +1,500 @@
+grails:
+    profile: react-webpack
+    codegen:
+        defaultPackage: openboxes
+    gorm:
+        reactor:
+            # Whether to translate GORM events into Reactor events
+            # Disabled by default for performance reasons
+            events: false
+info:
+    app:
+        name: openboxes
+        version: 1
+        grailsVersion: 3.3.9
+        branchName: default
+        buildDate: 02 Feb 2012 11\:17\:30 PM
+        buildNumber: 1
+        revisionNumber: 11160
+
+server:
+    context-path: /
+
+spring:
+    main:
+        banner-mode: "off"
+    groovy:
+        template:
+            check-template-location: false
+
+# Spring Actuator Endpoints are Disabled by Default
+endpoints:
+    enabled: false
+    jmx:
+        enabled: true
+
+
+---
+grails:
+    mime:
+        disable:
+            accept:
+                header:
+                    userAgents:
+                        - Gecko
+                        - WebKit
+                        - Presto
+                        - Trident
+        types:
+            all: '*/*'
+            atom: application/atom+xml
+            css: text/css
+            csv: text/csv
+            form: application/x-www-form-urlencoded
+            html:
+              - text/html
+              - application/xhtml+xml
+            js: text/javascript
+            json:
+              - application/json
+              - text/json
+            multipartForm: multipart/form-data
+            pdf: application/pdf
+            rss: application/rss+xml
+            text: text/plain
+            hal:
+              - application/hal+json
+              - application/hal+xml
+            xml:
+              - text/xml
+              - application/xml
+    urlmapping:
+        cache:
+            maxsize: 1000
+    controllers:
+        defaultScope: singleton
+    converters:
+        encoding: UTF-8
+    views:
+        default:
+            codec: html
+        gsp:
+            encoding: UTF-8
+            htmlcodec: xml
+            codecs:
+                expression: html
+                scriptlets: html
+                taglib: none
+                staticparts: none
+    config:
+        locations:
+            - classpath:${appName}-config.properties,
+            - classpath:${appName}-config.groovy,
+            - file:${userHome}/.grails/${appName}-config.properties,
+            - file:${userHome}/.grails/${appName}-config.groovy
+
+
+    exceptionresolver:
+        params:
+            exclude:
+                - password
+
+    validateable:
+        packages:
+            - org.pih.warehouse.inventory,
+            - org.pih.warehouse.fulfillment,
+            - org.pih.warehouse.order,
+            - org.pih.warehouse.request,
+            - org.pih.warehouse.shipment,
+    plugins:
+        raven:
+            active: false
+            dsn: https://{PUBLIC_KEY}:{SECRET_KEY}@app.getsentry.com/{PROJECT_ID}
+
+
+endpoints:
+    jmx:
+        unique-names: true
+
+---
+# TODO: profile custom configuration
+foo:
+    bar: mysetting
+---
+hibernate:
+    cache:
+        queries: false
+        use_second_level_cache: false
+        use_query_cache: false
+        provider_class: org.hibernate.cache.EhCacheProvider
+dataSource:
+    pooled: true
+    jmxExport: true
+    driverClassName: com.mysql.jdbc.Driver
+    dialect: org.hibernate.dialect.MySQL5Dialect
+    username: root
+    password: Ossc@2019
+    tomcat:
+        max-active: 1
+    dbcp2:
+        max-total: 1
+
+environments:
+    development:
+        dataSource:
+            dbCreate: update
+            url:
+    test:
+        dataSource:
+            dbCreate: update
+            url:
+    production:
+        dataSource:
+            dbCreate: update
+            url:
+            properties:
+                jmxEnabled: true
+                initialSize: 5
+                maxActive: 50
+                minIdle: 5
+                maxIdle: 25
+                maxWait: 10000
+                maxAge: 600000
+                timeBetweenEvictionRunsMillis: 5000
+                minEvictableIdleTimeMillis: 60000
+                validationQuery: SELECT 1
+                validationQueryTimeout: 3
+                validationInterval: 15000
+                testOnBorrow: true
+                testWhileIdle: true
+                testOnReturn: false
+                jdbcInterceptors: ConnectionState
+                defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+
+uiperformance:
+    enabled: false
+
+openboxes:
+    dashboard:
+      column1:
+        widgets:
+          - requisitionItemSummary
+          - requisitionSummary
+          - receiptSummary
+          - shipmentSummary
+          - indicatorSummary
+      column2:
+        widgets:
+          - binLocationSummary
+          - expiringSummary
+          - productSummar
+          - genericProductSummary
+      column3:
+        widgets:
+          - newsSummary
+          - activitySummary
+          - valueSummary
+          - tagSummary
+          - catalogsSummary
+
+      requisitionItemSummary:
+        enabled: true
+      requisitionSummary:
+        enabled: false
+      receiptSummary:
+        enabled: true
+      shipmentSummary:
+        enabled: true
+      indicatorSummary:
+        enabled: false
+
+      binLocationSummary:
+        enabled: true
+      productSummary:
+        enabled: true
+      genericProductSummary:
+        enabled: false
+      expiringSummary:
+        enabled: true
+
+      newsSummary:
+        enabled: false
+      activitySummary:
+        enabled: true
+      valueSummary:
+        enabled: false
+      tagSummary:
+        enabled: true
+      catalogsSummary:
+        enabled: true
+
+    identifier:
+      numeric: "0123456789"
+      alphabetic: "ABCDEFGHJKMNPQRSTUVXYZ"
+      alphanumeric: "0123456789ABCDEFGHJKMNPQRSTUVWXYZ"
+      transaction:
+        format: "AAA-AAA-AAA"
+      order:
+        format: "NNNLLL"
+      product:
+        format: "LLNN"
+      productSupplier:
+        format: "LLNN"
+      receipt:
+        format: "NNNLLL"
+      requisition:
+        format: "NNNLLL"
+      shipment:
+        format: "NNNLLL"
+
+
+    receiving:
+        createReceivingLocation:
+            enabled: true
+        receivingLocation:
+            prefix: "R"
+
+    shipping:
+        splitPickItems:
+            enabled: true
+        search:
+            maxResults: 1000
+    generateName:
+        separator: " - "
+
+    logo:
+        url: /static/images/logo1.png
+    report:
+        logo:
+            url: /static/images/logo1.png
+    locale:
+        custom:
+            enabled: false
+        defaultLocale: en
+        supportedLocales:
+            - ar
+            - en
+            - fr
+            - de
+            - it
+            - es
+            - pt
+        defaultCurrencyCode: USD
+        defaultCurrencySymbol: \$
+
+    inventorySnapshot:
+        useGparse: true
+        batchSize: 1500
+
+    megamenu:
+        dashboard:
+            enabled: true
+        analytics:
+            enabled: true
+        inventory:
+            enabled: true
+        orders:
+            enabled: true
+        requisitions:
+            enabled: true
+        shipping:
+            enabled: true
+        stockMovement:
+            enabled: true
+        receiving:
+            enabled: true
+        reporting:
+            enabled: true
+        products:
+            enabled: true
+        configuration:
+            enabled: true
+        customLinks:
+            enabled: true
+        inbound:
+            enabled: true
+        outbound:
+            enabled: true
+        requisitionTemplate:
+            enabled: true
+    anonymize:
+        enabled: false
+
+    fullstory:
+        enabled: false
+        debug: false
+        host: fullstory.com
+        org:
+        namespace: FS
+
+    hotjar:
+        enabled: false
+        hjid: 0
+        hjsv: 6
+
+    forecasting:
+        enabled: false
+
+    bom:
+        enabled: false
+
+    uservoice:
+        widget:
+            enabled: true
+            position: right
+
+    zopim:
+        widget:
+            enabled: false
+            url: //v2.zopim.com/?2T7RMi7ERqr3s8N20KQ3wOBRudcwosBA
+
+    jira:
+        issue:
+            collector:
+                enabled: false
+                url: https://openboxes.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e/en_USgc5zl3-1988229788/6318/12/1.4.10/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=fb813fdb
+
+    mail:
+        feedback:
+            enabled: false
+            recipients: feedback@openboxes.com
+
+        errors:
+            enabled: true
+            recipients: errors@openboxes.com
+
+    scannerDetection:
+            enabled: false
+
+    typeahead:
+        delay: 300
+        minLength: 3
+
+    jobs:
+        refreshInventorySnapshotJob:
+            enabled: true
+
+        assignIdentifierJob:
+            enabled: true
+            cronExpression: 0 * * * * ?
+
+        calculateQuantityJob:
+            enabled: true
+            cronExpression: 0 */5 * * * ?
+
+        calculateHistoricalQuantityJob:
+            enabled: false
+            cronExpression: 0 0 0 * * ?
+            daysToProcess: 540
+
+        dataCleaningJob:
+            enabled: true
+            cronExpression: 0 */5 * * * ?
+
+        dataMigrationJob:
+            enabled: true
+
+    ldap:
+        enabled: false
+        context:
+            managerDn: cn=read-only-admin,dc=example,dc=com
+            managerPassword: password
+            server:
+                host: ldap.forumsys.com
+                port: 389
+        search:
+            base: dc=example,dc=com
+            filter: (uid={0})
+            searchSubtree: true
+            attributesToReturn:
+                        - mail
+                        - givenName
+
+    chooseLocation:
+        requiredActivities: [MANAGE_INVENTORY]
+
+    stockCard:
+        consumption:
+            reasonCodes:
+                - ReasonCode.STOCKOUT,
+                - ReasonCode.LOW_STOCK,
+                - ReasonCode.EXPIRED,
+                - ReasonCode.DAMAGED,
+                - ReasonCode.COULD_NOT_LOCATE,
+                - ReasonCode.INSUFFICIENT_QUANTITY_RECONDITIONED
+mail:
+    error:
+        enabled: false
+        debug: false
+        to: ronak.suvagiya@teachseria.com
+        server: grails.mail.host
+        port: grails.mail.port
+        from: grails.mail.from
+        username: grails.mail.username
+        password: grails.mail.password
+        prefix: grails.mail.prefix
+
+jqueryValidation:
+    packed: true
+    cdn: false
+    additionalMethods: false
+
+jqueryValidationUi:
+    errorClass: error
+    validClass: valid
+    onsubmit: true
+    renderErrorsOnTop: true
+    qTip:
+        packed: true
+        classes: ui-tooltip-red ui-tooltip-shadow ui-tooltip-rounded
+
+    StringConstraintsMap:
+        - blank:'required',
+        - creditCard:'creditcard',
+        - email:'email',
+        - inList:'inList',
+        - minSize:'minlength',
+        - maxSize:'maxlength',
+        - size:'rangelength',
+        - matches:'matches',
+        - notEqual:'notEqual',
+        - url:'url',
+        - nullable:'required',
+        - unique:'unique',
+        - validator:'validator'
+
+    NumberConstraintsMap:
+        - min:'min',
+        - max:'max',
+        - range:'range',
+        - notEqual:'notEqual',
+        - nullable:'required',
+        - inList:'inList',
+        - unique:'unique',
+        - validator:'validator'
+
+    CollectionConstraintsMap:
+        - minSize:'minlength',
+        - maxSize:'maxlength',
+        - size:'rangelength',
+        - nullable:'required',
+        - validator:'validator'
+
+    DateConstraintsMap:
+        - min:'minDate',
+        - max:'maxDate',
+        - range:'rangeDate',
+        - notEqual:'notEqual',
+        - nullable:'required',
+        - inList:'inList',
+        - unique:'unique',
+        - validator:'validator'
+
+    ObjectConstraintsMap:
+        - nullable:'required',
+        - validator:'validator'
+
+    CustomConstraintsMap:
+        - phone:'true',
+        - phoneUS:'true'
+

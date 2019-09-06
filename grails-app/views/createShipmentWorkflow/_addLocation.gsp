@@ -21,7 +21,7 @@
 		</div>
 	</g:hasErrors>	
 			
-	<g:form id="addLocation" name="addLocation" action="createShipment">
+	<g:form id="addLocation" name="addLocation" action="saveLocation">
 		<table>
 			<tbody>
 				<g:if test="${locationInstance}">

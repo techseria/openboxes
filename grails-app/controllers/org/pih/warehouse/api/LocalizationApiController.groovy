@@ -10,12 +10,12 @@
 package org.pih.warehouse.api
 
 import grails.converters.JSON
+import grails.util.Holders
 
 class LocalizationApiController {
 
     def messageSource
     def localizationService
-    def grailsApplication
 
     def list = {
         String languageCode = params.lang
@@ -23,7 +23,7 @@ class LocalizationApiController {
 
         Locale locale = languageCode ? localizationService.getLocale(languageCode) : localizationService.getCurrentLocale()
         Properties messagesProperties = localizationService.getMessagesProperties(locale)
-        String [] supportedLocales = grailsApplication.config.openboxes.locale.supportedLocales
+        String [] supportedLocales = Holders.config.openboxes.locale.supportedLocales
 
         def selectedMessages = prefix ? messagesProperties.findAll { it.key.startsWith(prefix) } : messagesProperties
 

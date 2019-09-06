@@ -1,10 +1,12 @@
 
-<%@ page import="org.pih.warehouse.core.User" %>
+<%@ page import="grails.util.Holders; org.pih.warehouse.core.User" %>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="layout" content="custom" />
 	<title><warehouse:message code="users.label" /></title>
+    <asset:javascript src="application.js"/>
+    <asset:javascript src="application.css"/>
 </head>
 <body>
     <div class="body">
@@ -77,7 +79,7 @@
                                     </td>
                                     <td>
                                         <g:link action="edit" id="${userInstance.id}">
-                                            <g:if test="${grailsApplication.config.openboxes.anonymize.enabled}">
+                                            <g:if test="${grails.util.Holders.config.openboxes.anonymize.enabled}">
                                                 ${util.StringUtil.mask(userInstance?.username)}
                                             </g:if>
                                             <g:else>
@@ -87,7 +89,7 @@
                                     </td>
                                     <td>${fieldValue(bean: userInstance, field: "name")}</td>
                                     <td>
-                                        <g:if test="${grailsApplication.config.openboxes.anonymize.enabled}">
+                                        <g:if test="${Holders.config.openboxes.anonymize.enabled}">
                                             ${util.StringUtil.mask(userInstance?.email)}
                                         </g:if>
                                         <g:else>

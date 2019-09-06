@@ -1,4 +1,4 @@
-<%@ page import="org.pih.warehouse.core.RoleType" %>
+<%@ page import="grails.util.Holders; org.pih.warehouse.core.RoleType" %>
 <%@ page import="org.pih.warehouse.core.User" %>
 <%@ page import="org.pih.warehouse.core.Role" %>
 <html>
@@ -25,7 +25,7 @@
                                 <label><warehouse:message code="admin.cacheEnabled.label" default="Cached enabled?"/></label>
                             </td>
                             <td>
-                                ${grailsApplication.config.hibernate }
+                                ${grails.util.Holders.config.hibernate }
                             </td>
                         </tr>
 

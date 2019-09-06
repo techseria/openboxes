@@ -10,13 +10,14 @@
 package org.pih.warehouse.core
 
 import org.apache.fop.util.XMLUtil
-import org.codehaus.groovy.grails.commons.ApplicationHolder
-import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
+// import org.codehaus.groovy.grails.commons.ApplicationHolder
+// import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
 import org.docx4j.model.table.TblFactory
 import org.docx4j.wml.CTBorder
 import org.docx4j.wml.ObjectFactory
 import org.docx4j.wml.STBorder
 import org.docx4j.wml.TblBorders
+import org.grails.core.DefaultGrailsDomainClass
 import org.pih.warehouse.FormatTagLib
 import org.pih.warehouse.auth.AuthService
 import org.pih.warehouse.shipping.ReferenceNumber
@@ -65,9 +66,9 @@ class FileService {
 	
 	File findFile(String filePath){
 		def file
-		def appContext = ApplicationHolder.application.parentContext
+		def appContext = Holders.grailsApplication.parentContext
 		def archiveDirectory = filePath
-		if (ApplicationHolder.application.isWarDeployed()){
+		if (Holders.grailsApplication.isWarDeployed()){
 			//archiveDirectory = "${File.separator}WEB-INF${File.separator}grails-app${File.separator}conf${File.separator}${filePath}"			
 			archiveDirectory = "classpath:$filePath";
 			file = appContext.getResource(archiveDirectory)?.getFile()
@@ -81,19 +82,17 @@ class FileService {
 
 	File createDirectory(String directoryName) {
 		File folder = new File(directoryName)
-		log.info("Attempting to create directory ${folder?.absolutePath}")
-		if (!folder.exists()) {
+        if (!folder.exists()) {
 			folder.mkdirs()
-			log.info("- Directory ${directoryName} has been created")
 			if (!folder.canWrite()) {
-				log.error("- Directory ${folder?.absolutePath} is not writable")
+				println ("- Directory ${folder?.absolutePath} is not writable")
 			}
 			else {
-				log.info("- Directory ${folder?.absolutePath} is writable")
+				println("- Directory ${folder?.absolutePath} is writable")
 			}
 		}
 		else {
-			log.info("- Directory ${folder?.absolutePath} already exists")
+			println("- Directory ${folder?.absolutePath} already exists")
 		}
         return folder
 
@@ -123,10 +122,10 @@ class FileService {
         def dataMappings = getDataMappings(shipmentInstance)
 
 
-        log.info("mappings: " + dataMappings)
-        log.debug("XML before: " + xml)
+
+
         Object obj = XmlUtils.unmarshallFromTemplate(xml, dataMappings);
-        log.debug("XML after: " + xml)
+
 
         //change  JaxbElement
         documentPart.setJaxbElement((Document) obj);
@@ -212,10 +211,10 @@ class FileService {
         def dataMappings = getDataMappings(shipmentInstance)
 
 
-		log.info("mappings: " + dataMappings)
-        log.debug("XML before: " + xml)
+
+
 		Object obj = XmlUtils.unmarshallFromTemplate(xml, dataMappings);
-		log.debug("XML after: " + xml)
+
 
 		//change  JaxbElement
 		documentPart.setJaxbElement((Document) obj);
@@ -513,7 +512,7 @@ class FileService {
 	void savePackageToFile(WordprocessingMLPackage wordMLPackage, String filePath) { 		
 		SaveToZipFile saver = new SaveToZipFile(wordMLPackage);
 		saver.save(filePath);
-		log.info( "Saved output to:" + filePath );
+		println( "Saved output to:" + filePath );
 	}
 	
 	
@@ -554,7 +553,7 @@ class FileService {
 		Tbl tbl = Context.getWmlObjectFactory().createTbl();		
 		// w:tblPr
 		// xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
-		log.info("Namespace: " + Namespaces.W_NAMESPACE_DECLARATION)
+		println("Namespace: " + Namespaces.W_NAMESPACE_DECLARATION)
 		
 		TblPr tblPr = null;
 		try {
@@ -644,7 +643,7 @@ class FileService {
         //TblBorders tblBorders = Context.getWmlObjectFactory().createTblBorders();
 
 		// w:tblPr
-		log.info("Namespace: " + Namespaces.W_NAMESPACE_DECLARATION)
+		println("Namespace: " + Namespaces.W_NAMESPACE_DECLARATION)
 		
 		TblPr tblPr = null;
 		try {

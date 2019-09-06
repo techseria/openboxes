@@ -7,6 +7,8 @@
 		<title>
 			<warehouse:message code="default.import.label" args="[warehouse.message(code:'default.data.label')]"/>
 		</title>
+        <asset:javascript src="application.js"/>
+        <asset:javascript src="application.css"/>
     </head>
 	<body>
 		<div class="body">
@@ -62,6 +64,7 @@
                                 <td class="value">
                                     <g:jqueryDatePicker id="date" name="date" value="${commandInstance?.date}" format="MM/dd/yyyy" size="20"/>
                                 </td>
+
                             </tr>
                         </table>
                     </div>
@@ -134,14 +137,11 @@
         <script type="text/javascript">
             $(document).ready(function(){
                 $('#dataTable').dataTable({
+                    "sScrollX": "500px",
                     "bJQueryUI": true,
-                    "bAutoWidth": true,
-                    "sScrollX": "100%",
-                    "sScrollY": 300,
+                    "sPaginationType": "full_numbers",
                     "bScrollCollapse": true,
-                    "bScrollInfinite": true,
-                    "iDisplayLength": 15,
-                    "bSearch": false
+                    "bPaginate": true
                 });
             });
 

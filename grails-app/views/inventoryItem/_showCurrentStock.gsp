@@ -18,11 +18,8 @@
                 <th>
                     <warehouse:message code="default.expires.label"/>
                 </th>
-                <th>
-                    <g:message code="default.comments.label"/>
-                </th>
-                <th>
-                    <warehouse:message code="default.quantity.label"/>
+                <th class="center middle" >
+                    <warehouse:message code="default.qty.label"/>
                 </th>
             </tr>
         </thead>
@@ -48,22 +45,16 @@
                     <td>
                         <g:expirationDate date="${entry?.inventoryItem?.expirationDate}"/>
                     </td>
-
-                    <td>
-                        ${entry?.inventoryItem?.comments}
-                    </td>
-                    <td>
-                        ${g.formatNumber(number: entry?.quantity, format: '###,###,###') }
-                        ${entry?.product?.unitOfMeasure}
+                    <td class="middle center">
+                        ${entry?.quantity} ${entry?.product?.unitOfMeasure}
                     </td>
                 </tr>
             </g:each>
             <g:unless test="${commandInstance.quantityByBinLocation}">
                 <tr>
-                    <td colspan="6">
+                    <td colspan="5">
                         <div class="fade empty center">
-                            <warehouse:message code="inventory.noItemsCurrentlyInStock.message"
-                                               args="[format.product(product:commandInstance?.product)]"/>
+                            <warehouse:message code="inventory.noItemsCurrentlyInStock.message" args="[format.product(product:commandInstance?.product)]"/>
                         </div>
                     </td>
                 </tr>
@@ -71,21 +62,19 @@
         </tbody>
         <tfoot>
             <tr class="odd" style="border-top: 1px solid lightgrey; border-bottom: 0px solid lightgrey">
-                <td colspan="5" class="right">
+                <td colspan="4" class="right">
                     <!-- This space intentially left blank -->
                 </td>
-                <td>
+                <td class="center">
                     <div class="large">
                         <g:set var="styleClass" value="color: black;"/>
                         <g:if test="${commandInstance.totalQuantity < 0}">
                             <g:set var="styleClass" value="color: red;"/>
                         </g:if>
-                        <span style="${styleClass }" id="totalQuantity">
-                            ${g.formatNumber(number: commandInstance.totalQuantity, format: '###,###,###') }
-                        </span>
+                        <span style="${styleClass }" id="totalQuantity">${g.formatNumber(number: commandInstance.totalQuantity, format: '###,###,###') }</span>
                         <span class="">
-                            <g:if test="${commandInstance?.product?.unitOfMeasure }">
-                                <format:metadata obj="${commandInstance?.product?.unitOfMeasure}"/>
+                            <g:if test="${productInstance?.unitOfMeasure }">
+                                <format:metadata obj="${productInstance?.unitOfMeasure}"/>
                             </g:if>
                             <g:else>
                                 ${warehouse.message(code:'default.each.label') }

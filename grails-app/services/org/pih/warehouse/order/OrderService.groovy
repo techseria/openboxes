@@ -9,8 +9,9 @@
 **/ 
 package org.pih.warehouse.order
 
+import grails.plugins.csv.CSVMapReader
 import grails.validation.ValidationException
-import org.grails.plugins.csv.CSVMapReader
+// import org.grails.plugins.csv.CSVMapReader
 import org.pih.warehouse.core.*
 import org.pih.warehouse.inventory.InventoryItem
 import org.pih.warehouse.inventory.Transaction
@@ -129,15 +130,15 @@ class OrderService {
 	 */
 	OrderCommand saveOrderShipment(OrderCommand orderCommand) {
 		def shipmentInstance = new Shipment()
-		def shipments = orderCommand?.order?.listShipments();
-		def numberOfShipments = (shipments) ? shipments?.size() + 1 : 1;
+		def shipments = orderCommand?.order?.listShipments()
+		def numberOfShipments = (shipments) ? shipments?.size() + 1 : 1
 		
 		shipmentInstance.name = orderCommand?.order?.name + " - " + "Shipment #"  + numberOfShipments
-		shipmentInstance.shipmentType = orderCommand?.shipmentType;
-		shipmentInstance.origin = orderCommand?.order?.origin;
-		shipmentInstance.destination = orderCommand?.order?.destination;		
-		shipmentInstance.expectedDeliveryDate = orderCommand?.deliveredOn;
-		shipmentInstance.expectedShippingDate = orderCommand?.shippedOn;
+		shipmentInstance.shipmentType = orderCommand?.shipmentType
+		shipmentInstance.origin = orderCommand?.order?.origin
+		shipmentInstance.destination = orderCommand?.order?.destination
+		shipmentInstance.expectedDeliveryDate = orderCommand?.deliveredOn
+		shipmentInstance.expectedShippingDate = orderCommand?.shippedOn
 		
 		orderCommand?.shipment = shipmentInstance
 		orderCommand?.orderItems.each { orderItemCommand ->
@@ -175,7 +176,7 @@ class OrderService {
 			shipmentService.saveShipment(shipmentInstance);
 		}
 		else { 
-			log.info("Errors with shipment " + shipmentInstance?.errors)
+			println("Errors with shipment " + shipmentInstance?.errors)
 			throw new ShipmentException(message: "Validation errors on shipment ", shipment: shipmentInstance)
 		}
 

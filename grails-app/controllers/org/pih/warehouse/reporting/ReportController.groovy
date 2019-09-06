@@ -10,13 +10,12 @@
 package org.pih.warehouse.reporting
 
 import grails.converters.JSON
-import grails.plugin.springcache.annotations.CacheFlush
 import org.apache.commons.lang.StringEscapeUtils
 import org.pih.warehouse.core.Location
 import org.pih.warehouse.inventory.Transaction
 import org.pih.warehouse.report.ChecklistReportCommand
-import org.pih.warehouse.report.MultiLocationInventoryReportCommand
 import org.pih.warehouse.report.InventoryReportCommand
+import org.pih.warehouse.report.MultiLocationInventoryReportCommand
 import org.pih.warehouse.report.ProductReportCommand
 import util.ReportUtil
 
@@ -241,10 +240,10 @@ class ReportController {
 	}
 
 	def showShippingReport = { ChecklistReportCommand command ->
-		command.rootCategory = productService.getRootCategory();
-		if (!command?.hasErrors()) {
-			reportService.generateShippingReport(command);
-		}
+		command.rootCategory = productService.getRootCategory()
+		//if (!command?.hasErrors()) {
+			reportService.generateShippingReport(command)
+	//	}
 		[command : command]
 	}
 
@@ -267,11 +266,9 @@ class ReportController {
 	def printPickListReport = { ChecklistReportCommand command ->
 
 		Map binLocations
-		//command.rootCategory = productService.getRootCategory();
-		if (!command?.hasErrors()) {
+		//command.rootCategory = productService.if (!command?.hasErrors()) {
 			reportService.generateShippingReport(command);
 			binLocations = inventoryService.getBinLocations(command.shipment)
-		}
 		[command : command, binLocations: binLocations]
 	}
 
@@ -312,7 +309,7 @@ class ReportController {
 
 		// Render pdf to the response output stream
 		log.info "BaseUri is $baseUri"
-		log.info("Session ID: " + session.id)
+		println("Session ID: " + session.id)
 		log.info "Fetching url $url"
 		reportService.generatePdf(url, response.getOutputStream())
 	}
@@ -341,7 +338,6 @@ class ReportController {
 		}
 	}
 
-    @CacheFlush(["binLocationReportCache", "binLocationSummaryCache"])
     def clearBinLocationCache = {
         flash.message = "Cache have been flushed"
         redirect(action: "showBinLocationReport")
@@ -384,7 +380,7 @@ class ReportController {
             flash.message = e.message
         }
 
-        log.info("Show bin location report: " + (System.currentTimeMillis() - startTime) + " ms");
+        println("Show bin location report: " + (System.currentTimeMillis() - startTime) + " ms");
         [
                 location: location,
                 elapsedTime: (System.currentTimeMillis() - startTime),
@@ -394,8 +390,13 @@ class ReportController {
     }
 
     def showInventoryByLocationReport = { MultiLocationInventoryReportCommand command ->
-        command.entries = inventorySnapshotService.getQuantityOnHandByProduct(command.locations)
-
+        if(command.locations == null){
+            command.entries = null
+        }
+        else
+        {
+         command.entries = inventorySnapshotService.getQuantityOnHandByProduct(command.locations)
+        }
         if (params.button == "download") {
             def sw = new StringWriter()
 

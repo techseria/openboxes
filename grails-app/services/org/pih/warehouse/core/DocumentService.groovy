@@ -9,9 +9,10 @@
 **/
 package org.pih.warehouse.core
 
-import org.apache.commons.lang.StringUtils
+import org.apache.fop.traits.BorderStyle
 import org.apache.poi.hssf.usermodel.HSSFSheet
-import org.codehaus.groovy.grails.commons.ApplicationHolder
+import org.apache.poi.ss.usermodel.HorizontalAlignment
+import org.apache.poi.ss.usermodel.VerticalAlignment
 import org.pih.warehouse.api.Stocklist
 import org.pih.warehouse.requisition.RequisitionItem
 import org.pih.warehouse.requisition.RequisitionItemSortByCode
@@ -58,7 +59,7 @@ import org.docx4j.wml.TcPr
 import org.docx4j.wml.Text
 import org.docx4j.wml.Tr
 import org.docx4j.wml.TrPr
-import org.groovydev.SimpleImageBuilder
+import grails.util.Holders
 
 class DocumentService {
 
@@ -94,7 +95,7 @@ class DocumentService {
 
 	public void scaleImage(org.pih.warehouse.core.Document document, OutputStream outputStream, String width, String height) {
 
-        log.info("Scale image " + document.filename + " width=" + width + " height=" + height + " contentType=" + document.contentType)
+        println("Scale image " + document.filename + " width=" + width + " height=" + height + " contentType=" + document.contentType)
 		File file
 		FileInputStream fileInputStream
 		try {
@@ -129,9 +130,9 @@ class DocumentService {
 	 */
 	public File findFile(String filePath){
 		def file
-		def appContext = ApplicationHolder.application.parentContext
+		def appContext = Holders.grailsApplication.parentContext
 		def archiveDirectory = filePath
-		if (ApplicationHolder.application.isWarDeployed()){
+		if (Holders.grailsApplication.isWarDeployed()){
 			//archiveDirectory = "${File.separator}WEB-INF${File.separator}grails-app${File.separator}conf${File.separator}${filePath}"
 			archiveDirectory = "classpath:$filePath";
 			file = appContext.getResource(archiveDirectory)?.getFile()
@@ -206,11 +207,11 @@ class DocumentService {
 		 //mappings.put("sealNumber", sealNumber.identifier);
 		 subtitle += "Seal #${sealNumber.identifier}"
 		 }
-		 log.info("sea shipment " + subtitle)
+		 println("sea shipment " + subtitle)
 		 }
 		 else if ("Air".equals(shipmentInstance?.shipmentType?.name)) {
 		 subtitle = "Freight Forwarder ${shipmentInstance?.shipmentMethod?.shipper?.name}"
-		 log.info("air shipment " + subtitle)
+		 println("air shipment " + subtitle)
 		 }
 		 mappings.put("subtitle", subtitle)
 		 def value = ""
@@ -299,11 +300,11 @@ class DocumentService {
 				//mappings.put("sealNumber", sealNumber.identifier);
 				subtitle += "Seal #${sealNumber.identifier}"
 			}
-			log.info("sea shipment " + subtitle)
+
 		}
 		else if ("Air".equals(shipmentInstance?.shipmentType?.name)) {
 			subtitle = "Freight Forwarder ${shipmentInstance?.shipmentMethod?.shipper?.name}"
-			log.info("air shipment " + subtitle)
+
 		}
 		mappings.put("subtitle", subtitle)
 
@@ -341,7 +342,7 @@ class DocumentService {
 	void savePackageToFile(WordprocessingMLPackage wordMLPackage, String filePath) {
 		SaveToZipFile saver = new SaveToZipFile(wordMLPackage);
 		saver.save(filePath);
-		log.info( "Saved output to:" + filePath );
+
 	}
 
 
@@ -388,7 +389,6 @@ class DocumentService {
 		Tbl tbl = Context.getWmlObjectFactory().createTbl();
 		// w:tblPr
 		// xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
-		log.info("Namespace: " + Namespaces.W_NAMESPACE_DECLARATION)
 
 		TblPr tblPr = null;
 		try {
@@ -468,7 +468,6 @@ class DocumentService {
 
 		Tbl tbl = Context.getWmlObjectFactory().createTbl();
 		// w:tblPr
-		log.info("Namespace: " + Namespaces.W_NAMESPACE_DECLARATION)
 
 		TblPr tblPr = null;
 		try {
@@ -636,29 +635,29 @@ class DocumentService {
 
 		// Bold and align center cell style
 		CellStyle boldAndCenterStyle = workbook.createCellStyle();
-		boldAndCenterStyle.setAlignment(CellStyle.ALIGN_CENTER);
-		boldAndCenterStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		boldAndCenterStyle.setAlignment(HorizontalAlignment.LEFT);
+		boldAndCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 		//boldAndCenterStyle.setWrapText(true)
 
 		// Align center cell style
 		CellStyle tableDataCenterStyle = workbook.createCellStyle();
-		tableDataCenterStyle.setAlignment(CellStyle.ALIGN_CENTER);
-		tableDataCenterStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		tableDataCenterStyle.setAlignment(HorizontalAlignment.LEFT);
+		tableDataCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
 		// Align center cell style
 		CellStyle tableDataPalletStyle = workbook.createCellStyle();
 		tableDataPalletStyle.setAlignment(CellStyle.ALIGN_LEFT);
-		tableDataPalletStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		tableDataPalletStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
 		// Align left cell style
 		CellStyle tableDataLeftStyle = workbook.createCellStyle();
 		tableDataLeftStyle.setAlignment(CellStyle.ALIGN_LEFT);
-		tableDataLeftStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		tableDataLeftStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
 		// Align left cell style
 		CellStyle tableDataDateStyle = workbook.createCellStyle();
-		tableDataDateStyle.setAlignment(CellStyle.ALIGN_CENTER);
-		tableDataDateStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		tableDataDateStyle.setAlignment(HorizontalAlignment.LEFT);
+		tableDataDateStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 		tableDataDateStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-mmm-yyyy"));
 
 
@@ -670,16 +669,16 @@ class DocumentService {
 		CellStyle dateStyle = workbook.createCellStyle();
 		dateStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-mmm-yyyy"));
 		dateStyle.setAlignment(CellStyle.ALIGN_LEFT);
-		dateStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		dateStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
 		// Date cell style
 		CellStyle timestampStyle = workbook.createCellStyle();
 		timestampStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-mmm-yyyy hh:mm:ss"));
 		timestampStyle.setAlignment(CellStyle.ALIGN_RIGHT);
-		timestampStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		timestampStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
 		sheet.setColumnWidth((short)0, (short) ((50 * 3) / ((double) 1 / 20)))
-		sheet.setColumnWidth((short)1, (short) ((50 * 3) / ((double) 1 / 20)))
+		sheet.setColumnWidth(BorderStyle.SOLID, (short) ((50 * 3) / ((double) 1 / 20)))
 		sheet.setColumnWidth((short)2, (short) ((50 * 3) / ((double) 1 / 20)))
 		sheet.setColumnWidth((short)3, (short) ((50 * 10) / ((double) 1 / 20)))
 		sheet.setColumnWidth((short)4, (short) ((50 * 5) / ((double) 1 / 20)))
@@ -812,75 +811,75 @@ class DocumentService {
 
 			// Bold font
 			Font boldFont = workbook.createFont();
-			boldFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+			boldFont.setBold(true);
 
 			// Bold cell style
 			CellStyle labelStyle = workbook.createCellStyle();
 			labelStyle.setFont(boldFont);
 
 			CellStyle tableHeaderCenterStyle = workbook.createCellStyle();
-			tableHeaderCenterStyle.setBorderBottom((short)1);
-			tableHeaderCenterStyle.setBorderLeft((short)1);
-			tableHeaderCenterStyle.setBorderRight((short)1);
-			tableHeaderCenterStyle.setBorderTop((short)1);
+			/*tableHeaderCenterStyle.setBorderBottom(new BorderStyle(1));
+			tableHeaderCenterStyle.setBorderLeft(BorderStyle.SOLID);
+			tableHeaderCenterStyle.setBorderRight(BorderStyle.SOLID);
+			tableHeaderCenterStyle.setBorderTop(BorderStyle.SOLID);*/
 			tableHeaderCenterStyle.setFont(boldFont);
-			tableHeaderCenterStyle.setWrapText(true)
+            tableHeaderCenterStyle.setWrapText(true)
 
 			CellStyle tableHeaderLeftStyle = workbook.createCellStyle();
-			tableHeaderLeftStyle.setBorderBottom((short)1);
-			tableHeaderLeftStyle.setBorderLeft((short)1);
-			tableHeaderLeftStyle.setBorderRight((short)1);
-			tableHeaderLeftStyle.setBorderTop((short)1);
+			/*tableHeaderLeftStyle.setBorderBottom(BorderStyle.SOLID);
+			tableHeaderLeftStyle.setBorderLeft(BorderStyle.SOLID);
+			tableHeaderLeftStyle.setBorderRight(BorderStyle.SOLID);
+			tableHeaderLeftStyle.setBorderTop(BorderStyle.SOLID);*/
 			tableHeaderLeftStyle.setFont(boldFont);
-			tableHeaderLeftStyle.setWrapText(true)
+            tableHeaderLeftStyle.setWrapText(true)
 
 			// Bold and align center cell style
 			CellStyle boldAndCenterStyle = workbook.createCellStyle();
-			boldAndCenterStyle.setAlignment(CellStyle.ALIGN_CENTER);
-			boldAndCenterStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-			boldAndCenterStyle.setBorderBottom((short)1);
-			boldAndCenterStyle.setBorderLeft((short)1);
-			boldAndCenterStyle.setBorderRight((short)1);
-			boldAndCenterStyle.setBorderTop((short)1);
+			boldAndCenterStyle.setAlignment(HorizontalAlignment.LEFT);
+			boldAndCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+		/*	boldAndCenterStyle.setBorderBottom(BorderStyle.SOLID);
+			boldAndCenterStyle.setBorderLeft(BorderStyle.SOLID);
+			boldAndCenterStyle.setBorderRight(BorderStyle.SOLID);
+			boldAndCenterStyle.setBorderTop(BorderStyle.SOLID);*/
 			boldAndCenterStyle.setFont(boldFont);
-			boldAndCenterStyle.setWrapText(true)
+            boldAndCenterStyle.setWrapText(true)
 
 			// Align center cell style
 			CellStyle tableDataCenterStyle = workbook.createCellStyle();
-			tableDataCenterStyle.setAlignment(CellStyle.ALIGN_CENTER);
-			tableDataCenterStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-			tableDataCenterStyle.setBorderBottom((short)1);
-			tableDataCenterStyle.setBorderLeft((short)1);
-			tableDataCenterStyle.setBorderRight((short)1);
-			tableDataCenterStyle.setBorderTop((short)1);
+			tableDataCenterStyle.setAlignment(HorizontalAlignment.LEFT);
+			tableDataCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			/*tableDataCenterStyle.setBorderBottom(BorderStyle.SOLID)
+			tableDataCenterStyle.setBorderLeft(BorderStyle.SOLID)
+			tableDataCenterStyle.setBorderRight(BorderStyle.SOLID);
+			tableDataCenterStyle.setBorderTop(BorderStyle.SOLID);*/
 
 			// Align center cell style
 			CellStyle tableDataPalletStyle = workbook.createCellStyle();
-			tableDataPalletStyle.setAlignment(CellStyle.ALIGN_LEFT);
-			tableDataPalletStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-			tableDataPalletStyle.setBorderBottom((short)1);
-			tableDataPalletStyle.setBorderLeft((short)1);
-			tableDataPalletStyle.setBorderRight((short)1);
-			tableDataPalletStyle.setBorderTop((short)1);
+			tableDataPalletStyle.setAlignment(HorizontalAlignment.LEFT)
+			tableDataPalletStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			/*tableDataPalletStyle.setBorderBottom(BorderStyle.SOLID);
+			tableDataPalletStyle.setBorderLeft(BorderStyle.SOLID);
+			tableDataPalletStyle.setBorderRight(BorderStyle.SOLID);
+			tableDataPalletStyle.setBorderTop(BorderStyle.SOLID)*/
 
 			// Align left cell style
 			CellStyle tableDataLeftStyle = workbook.createCellStyle();
-			tableDataLeftStyle.setAlignment(CellStyle.ALIGN_LEFT);
-			tableDataLeftStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-			tableDataLeftStyle.setBorderBottom((short)1);
-			tableDataLeftStyle.setBorderLeft((short)1);
-			tableDataLeftStyle.setBorderRight((short)1);
-			tableDataLeftStyle.setBorderTop((short)1);
-			tableDataLeftStyle.setWrapText(true)
+			tableDataLeftStyle.setAlignment(HorizontalAlignment.LEFT);
+			tableDataLeftStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			/*tableDataLeftStyle.setBorderBottom(BorderStyle.SOLID);
+			tableDataLeftStyle.setBorderLeft(BorderStyle.SOLID);
+			tableDataLeftStyle.setBorderRight(BorderStyle.SOLID);
+			tableDataLeftStyle.setBorderTop(BorderStyle.SOLID);*/
+            tableDataLeftStyle.setWrapText(true)
 
 			// Align left cell style
 			CellStyle tableDataDateStyle = workbook.createCellStyle();
-			tableDataDateStyle.setAlignment(CellStyle.ALIGN_CENTER);
-			tableDataDateStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-			tableDataDateStyle.setBorderBottom((short)1);
-			tableDataDateStyle.setBorderLeft((short)1);
-			tableDataDateStyle.setBorderRight((short)1);
-			tableDataDateStyle.setBorderTop((short)1);
+			tableDataDateStyle.setAlignment(HorizontalAlignment.LEFT);
+			tableDataDateStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			/*tableDataDateStyle.setBorderBottom(BorderStyle.SOLID);
+			tableDataDateStyle.setBorderLeft(BorderStyle.SOLID);
+			tableDataDateStyle.setBorderRight(BorderStyle.SOLID);
+			tableDataDateStyle.setBorderTop(BorderStyle.SOLID);*/
 			tableDataDateStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-mmm-yyyy"));
 
 
@@ -891,14 +890,14 @@ class DocumentService {
 			// Date cell style
 			CellStyle dateStyle = workbook.createCellStyle();
 			dateStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-mmm-yyyy"));
-			dateStyle.setAlignment(CellStyle.ALIGN_LEFT);
-			dateStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+			dateStyle.setAlignment(HorizontalAlignment.LEFT);
+			dateStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
 			// Date cell style
 			CellStyle timestampStyle = workbook.createCellStyle();
 			timestampStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-mmm-yyyy hh:mm:ss"));
-			timestampStyle.setAlignment(CellStyle.ALIGN_RIGHT);
-			timestampStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+			timestampStyle.setAlignment(HorizontalAlignment.LEFT);
+			timestampStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
 			// SHIPMENT NAME
 			int counter = 0;
@@ -1028,30 +1027,30 @@ class DocumentService {
 
 			// TWO EMPTY ROWS
 			row = sheet.createRow((short)counter++);
-			row = sheet.createRow((short)counter++);
+            row = sheet.createRow((short)counter++);
 
-			// Merge cells
-			//first row (0-based)
-			//last row (0-based)
-			//first column (0-based)
-			//last column (0-based)
-			sheet.addMergedRegion(new CellRangeAddress(0, 0, 1, 4)) // NameZ`
+            // Merge cells
+            //first row (0-based)
+            //last row (0-based)
+            //first column (0-based)
+            //last column (0-based)
+            sheet.addMergedRegion(new CellRangeAddress(0, 0, 1, 4)) // NameZ`
 			sheet.addMergedRegion(new CellRangeAddress(1, 1, 1, 4))
-			sheet.addMergedRegion(new CellRangeAddress(2, 2, 1, 4)) // Shipment type
-			sheet.addMergedRegion(new CellRangeAddress(3, 3, 1, 4)) // Empty
-			sheet.addMergedRegion(new CellRangeAddress(4, 4, 1, 4)) // Origin
-			sheet.addMergedRegion(new CellRangeAddress(5, 5, 1, 4)) // Destination
-			sheet.addMergedRegion(new CellRangeAddress(6, 6, 1, 4)) // Empty
-			sheet.addMergedRegion(new CellRangeAddress(7, 7, 1, 4)) // Expected shipping date
-			sheet.addMergedRegion(new CellRangeAddress(8, 8, 1, 4)) // Actual shipping date
-			sheet.addMergedRegion(new CellRangeAddress(9, 9, 1, 4)) // Expected arrival date
-			sheet.addMergedRegion(new CellRangeAddress(10, 10, 1, 4)) // Actual delivery date
-			sheet.addMergedRegion(new CellRangeAddress(11, 11, 1, 4))   // Empty
-			sheet.addMergedRegion(new CellRangeAddress(12, 14, 1, 4))   // Comments
+            sheet.addMergedRegion(new CellRangeAddress(2, 2, 1, 4)) // Shipment type
+            sheet.addMergedRegion(new CellRangeAddress(3, 3, 1, 4)) // Empty
+            sheet.addMergedRegion(new CellRangeAddress(4, 4, 1, 4)) // Origin
+            sheet.addMergedRegion(new CellRangeAddress(5, 5, 1, 4)) // Destination
+            sheet.addMergedRegion(new CellRangeAddress(6, 6, 1, 4)) // Empty
+            sheet.addMergedRegion(new CellRangeAddress(7, 7, 1, 4)) // Expected shipping date
+            sheet.addMergedRegion(new CellRangeAddress(8, 8, 1, 4)) // Actual shipping date
+            sheet.addMergedRegion(new CellRangeAddress(9, 9, 1, 4)) // Expected arrival date
+            sheet.addMergedRegion(new CellRangeAddress(10, 10, 1, 4)) // Actual delivery date
+            sheet.addMergedRegion(new CellRangeAddress(11, 11, 1, 4))   // Empty
+            sheet.addMergedRegion(new CellRangeAddress(12, 14, 1, 4))   // Comments
 
 
 
-			int CELL_INDEX = 0;
+            int CELL_INDEX = 0;
 
 			// ITEM TABLE HEADER
 			row = sheet.createRow((short)counter++);
@@ -1062,17 +1061,17 @@ class DocumentService {
 			row.createCell(CELL_INDEX).setCellValue("" + getMessageTagLib().message(code:'container.label'));
 			row.getCell(CELL_INDEX++).setCellStyle(tableHeaderLeftStyle);
 
-			row.createCell(CELL_INDEX).setCellValue("" + getMessageTagLib().message(code:'packingList.binLocation.label', default: 'Bin'));
-			row.getCell(CELL_INDEX++).setCellStyle(tableHeaderLeftStyle);
+            row.createCell(CELL_INDEX).setCellValue("" + getMessageTagLib().message(code:'packingList.binLocation.label', default: 'Bin'));
+            row.getCell(CELL_INDEX++).setCellStyle(tableHeaderLeftStyle);
 
-			row.createCell(CELL_INDEX).setCellValue("" + getMessageTagLib().message(code:'packingList.productCode.label', default:'SKU'));
-			row.getCell(CELL_INDEX++).setCellStyle(tableHeaderLeftStyle);
+            row.createCell(CELL_INDEX).setCellValue("" + getMessageTagLib().message(code:'packingList.productCode.label', default:'SKU'));
+            row.getCell(CELL_INDEX++).setCellStyle(tableHeaderLeftStyle);
 
-			row.createCell(CELL_INDEX).setCellValue("" + getMessageTagLib().message(code:'packingList.manufacturerCode.label', default: 'Mfg#'));
-			row.getCell(CELL_INDEX++).setCellStyle(tableHeaderLeftStyle);
+            row.createCell(CELL_INDEX).setCellValue("" + getMessageTagLib().message(code:'packingList.manufacturerCode.label', default: 'Mfg#'));
+            row.getCell(CELL_INDEX++).setCellStyle(tableHeaderLeftStyle);
 
-			row.createCell(CELL_INDEX).setCellValue("" + getMessageTagLib().message(code:'packingList.vendorCode.label', default: 'Vendor#'));
-			row.getCell(CELL_INDEX++).setCellStyle(tableHeaderLeftStyle);
+            row.createCell(CELL_INDEX).setCellValue("" + getMessageTagLib().message(code:'packingList.vendorCode.label', default: 'Vendor#'));
+            row.getCell(CELL_INDEX++).setCellStyle(tableHeaderLeftStyle);
 
 			row.createCell(CELL_INDEX).setCellValue("" + getMessageTagLib().message(code:'product.label'));
 			row.getCell(CELL_INDEX++).setCellStyle(tableHeaderLeftStyle);
@@ -1095,10 +1094,10 @@ class DocumentService {
 			row.createCell(CELL_INDEX).setCellValue("" + getMessageTagLib().message(code:'default.comments.label'));
 			row.getCell(CELL_INDEX++).setCellStyle(tableHeaderLeftStyle);
 
-			def previousContainer = "", initialRowIndex = 0, finalRowIndex = 0;
+            def previousContainer = "", initialRowIndex = 0, finalRowIndex = 0;
 			shipmentInstance.shipmentItems.sort(). each { itemInstance ->
 
-				CELL_INDEX = 0
+                CELL_INDEX = 0
 				log.debug "Adding item  to packing list " + itemInstance?.product?.name + " -> " + itemInstance?.container?.name
 				row = sheet.createRow((short)counter++);
 
@@ -1139,16 +1138,16 @@ class DocumentService {
 
 
 				row.createCell(CELL_INDEX).setCellValue(itemInstance?.inventoryItem?.product?.getBinLocation(shipmentInstance?.destination?.id));
-				row.getCell(CELL_INDEX++).setCellStyle(tableDataLeftStyle);
+                row.getCell(CELL_INDEX++).setCellStyle(tableDataLeftStyle);
 
-				row.createCell(CELL_INDEX).setCellValue(itemInstance?.inventoryItem?.product?.productCode);
-				row.getCell(CELL_INDEX++).setCellStyle(tableDataLeftStyle);
+                row.createCell(CELL_INDEX).setCellValue(itemInstance?.inventoryItem?.product?.productCode);
+                row.getCell(CELL_INDEX++).setCellStyle(tableDataLeftStyle);
 
-				row.createCell(CELL_INDEX).setCellValue(itemInstance?.inventoryItem?.product?.manufacturerCode);
-				row.getCell(CELL_INDEX++).setCellStyle(tableDataLeftStyle);
+                row.createCell(CELL_INDEX).setCellValue(itemInstance?.inventoryItem?.product?.manufacturerCode);
+                row.getCell(CELL_INDEX++).setCellStyle(tableDataLeftStyle);
 
-				row.createCell(CELL_INDEX).setCellValue(itemInstance?.inventoryItem?.product?.vendorCode);
-				row.getCell(CELL_INDEX++).setCellStyle(tableDataLeftStyle);
+                row.createCell(CELL_INDEX).setCellValue(itemInstance?.inventoryItem?.product?.vendorCode);
+                row.getCell(CELL_INDEX++).setCellStyle(tableDataLeftStyle);
 
 				row.createCell(CELL_INDEX).setCellValue(itemInstance?.inventoryItem?.product?.name);
 				row.getCell(CELL_INDEX++).setCellStyle(tableDataLeftStyle);
@@ -1179,8 +1178,7 @@ class DocumentService {
 			workbook.write(outputStream)
 		}
 		catch (Exception e) {
-			log.error e
-			throw e;
+			throw e
 		}
 	}
 
@@ -1214,65 +1212,65 @@ class DocumentService {
 			// Label center style
 			CellStyle labelCenterStyle = workbook.createCellStyle();
 			labelCenterStyle.setFont(boldFont);
-			labelCenterStyle.setAlignment(CellStyle.ALIGN_CENTER);
-			labelCenterStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+			labelCenterStyle.setAlignment(HorizontalAlignment.LEFT);
+			labelCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
 			CellStyle tableHeaderCenterStyle = workbook.createCellStyle();
-			tableHeaderCenterStyle.setAlignment(CellStyle.ALIGN_CENTER);
-			tableHeaderCenterStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-			tableHeaderCenterStyle.setBorderBottom((short)1);
-			tableHeaderCenterStyle.setBorderLeft((short)1);
-			tableHeaderCenterStyle.setBorderRight((short)1);
-			tableHeaderCenterStyle.setBorderTop((short)1);
+			tableHeaderCenterStyle.setAlignment(HorizontalAlignment.LEFT);
+			tableHeaderCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			tableHeaderCenterStyle.setBorderBottom(1)
+			tableHeaderCenterStyle.setBorderLeft(BorderStyle.SOLID);
+			tableHeaderCenterStyle.setBorderRight(BorderStyle.SOLID);
+			tableHeaderCenterStyle.setBorderTop(BorderStyle.SOLID);
 			tableHeaderCenterStyle.setFont(boldFont);
 			tableHeaderCenterStyle.setWrapText(true)
 
 			CellStyle tableHeaderLeftStyle = workbook.createCellStyle();
-			tableHeaderLeftStyle.setBorderBottom((short)1);
-			tableHeaderLeftStyle.setBorderLeft((short)1);
-			tableHeaderLeftStyle.setBorderRight((short)1);
-			tableHeaderLeftStyle.setBorderTop((short)1);
+			tableHeaderLeftStyle.setBorderBottom(BorderStyle.SOLID);
+			tableHeaderLeftStyle.setBorderLeft(BorderStyle.SOLID);
+			tableHeaderLeftStyle.setBorderRight(BorderStyle.SOLID);
+			tableHeaderLeftStyle.setBorderTop(BorderStyle.SOLID);
 			tableHeaderLeftStyle.setFont(boldFont);
 			tableHeaderLeftStyle.setWrapText(true)
 
 			// Bold and align center cell style
 			CellStyle boldAndCenterStyle = workbook.createCellStyle();
-			boldAndCenterStyle.setAlignment(CellStyle.ALIGN_CENTER);
-			boldAndCenterStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-			boldAndCenterStyle.setBorderBottom((short)1);
-			boldAndCenterStyle.setBorderLeft((short)1);
-			boldAndCenterStyle.setBorderRight((short)1);
-			boldAndCenterStyle.setBorderTop((short)1);
+			boldAndCenterStyle.setAlignment(HorizontalAlignment.LEFT);
+			boldAndCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			boldAndCenterStyle.setBorderBottom(BorderStyle.SOLID);
+			boldAndCenterStyle.setBorderLeft(BorderStyle.SOLID);
+			boldAndCenterStyle.setBorderRight(BorderStyle.SOLID);
+			boldAndCenterStyle.setBorderTop(BorderStyle.SOLID);
 			boldAndCenterStyle.setFont(boldFont);
 			boldAndCenterStyle.setWrapText(true)
 
 			// Align center cell style
 			CellStyle tableDataCenterStyle = workbook.createCellStyle();
-			tableDataCenterStyle.setAlignment(CellStyle.ALIGN_CENTER);
-			tableDataCenterStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-			tableDataCenterStyle.setBorderBottom((short)1);
-			tableDataCenterStyle.setBorderLeft((short)1);
-			tableDataCenterStyle.setBorderRight((short)1);
-			tableDataCenterStyle.setBorderTop((short)1);
+			tableDataCenterStyle.setAlignment(HorizontalAlignment.LEFT);
+			tableDataCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			tableDataCenterStyle.setBorderBottom(BorderStyle.SOLID);
+			tableDataCenterStyle.setBorderLeft(BorderStyle.SOLID);
+			tableDataCenterStyle.setBorderRight(BorderStyle.SOLID);
+			tableDataCenterStyle.setBorderTop(BorderStyle.SOLID);
 
 			// Align left cell style
 			CellStyle tableDataLeftStyle = workbook.createCellStyle();
 			tableDataLeftStyle.setAlignment(CellStyle.ALIGN_LEFT);
-			tableDataLeftStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-			tableDataLeftStyle.setBorderBottom((short)1);
-			tableDataLeftStyle.setBorderLeft((short)1);
-			tableDataLeftStyle.setBorderRight((short)1);
-			tableDataLeftStyle.setBorderTop((short)1);
+			tableDataLeftStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			tableDataLeftStyle.setBorderBottom(BorderStyle.SOLID);
+			tableDataLeftStyle.setBorderLeft(BorderStyle.SOLID);
+			tableDataLeftStyle.setBorderRight(BorderStyle.SOLID);
+			tableDataLeftStyle.setBorderTop(BorderStyle.SOLID);
 			tableDataLeftStyle.setWrapText(true)
 
 			// Align left cell style
 			CellStyle tableDataDateStyle = workbook.createCellStyle();
-			tableDataDateStyle.setAlignment(CellStyle.ALIGN_CENTER);
-			tableDataDateStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-			tableDataDateStyle.setBorderBottom((short)1);
-			tableDataDateStyle.setBorderLeft((short)1);
-			tableDataDateStyle.setBorderRight((short)1);
-			tableDataDateStyle.setBorderTop((short)1);
+			tableDataDateStyle.setAlignment(HorizontalAlignment.LEFT);
+			tableDataDateStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			tableDataDateStyle.setBorderBottom(BorderStyle.SOLID);
+			tableDataDateStyle.setBorderLeft(BorderStyle.SOLID);
+			tableDataDateStyle.setBorderRight(BorderStyle.SOLID);
+			tableDataDateStyle.setBorderTop(BorderStyle.SOLID);
 			tableDataDateStyle.setDataFormat(createHelper.createDataFormat().getFormat("MMMM dd, yyyy"));
 
 			// COMMERCIAL INVOICE
@@ -1531,7 +1529,7 @@ class DocumentService {
 
 			// Bold font
 			Font boldFont = workbook.createFont();
-			boldFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+			boldFont.setBold(true)
 
 			// Bold cell style
 			CellStyle labelStyle = workbook.createCellStyle();
@@ -1540,65 +1538,65 @@ class DocumentService {
 			// Label center style
 			CellStyle labelCenterStyle = workbook.createCellStyle();
 			labelCenterStyle.setFont(boldFont);
-			labelCenterStyle.setAlignment(CellStyle.ALIGN_CENTER);
-			labelCenterStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+			labelCenterStyle.setAlignment(HorizontalAlignment.LEFT);
+			labelCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
 			CellStyle tableHeaderCenterStyle = workbook.createCellStyle();
-			tableHeaderCenterStyle.setAlignment(CellStyle.ALIGN_CENTER);
-			tableHeaderCenterStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-			tableHeaderCenterStyle.setBorderBottom((short)1);
-			tableHeaderCenterStyle.setBorderLeft((short)1);
-			tableHeaderCenterStyle.setBorderRight((short)1);
-			tableHeaderCenterStyle.setBorderTop((short)1);
+			tableHeaderCenterStyle.setAlignment(HorizontalAlignment.LEFT);
+			tableHeaderCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			tableHeaderCenterStyle.setBorderBottom(BorderStyle.SOLID);
+			tableHeaderCenterStyle.setBorderLeft(BorderStyle.SOLID);
+			tableHeaderCenterStyle.setBorderRight(BorderStyle.SOLID);
+			tableHeaderCenterStyle.setBorderTop(BorderStyle.SOLID);
 			tableHeaderCenterStyle.setFont(boldFont);
 			tableHeaderCenterStyle.setWrapText(true)
 
 			CellStyle tableHeaderLeftStyle = workbook.createCellStyle();
-			tableHeaderLeftStyle.setBorderBottom((short)1);
-			tableHeaderLeftStyle.setBorderLeft((short)1);
-			tableHeaderLeftStyle.setBorderRight((short)1);
-			tableHeaderLeftStyle.setBorderTop((short)1);
+			tableHeaderLeftStyle.setBorderBottom(BorderStyle.SOLID);
+			tableHeaderLeftStyle.setBorderLeft(BorderStyle.SOLID);
+			tableHeaderLeftStyle.setBorderRight(BorderStyle.SOLID);
+			tableHeaderLeftStyle.setBorderTop(BorderStyle.SOLID);
 			tableHeaderLeftStyle.setFont(boldFont);
 			tableHeaderLeftStyle.setWrapText(true)
 
 			// Bold and align center cell style
 			CellStyle boldAndCenterStyle = workbook.createCellStyle();
-			boldAndCenterStyle.setAlignment(CellStyle.ALIGN_CENTER);
-			boldAndCenterStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-			boldAndCenterStyle.setBorderBottom((short)1);
-			boldAndCenterStyle.setBorderLeft((short)1);
-			boldAndCenterStyle.setBorderRight((short)1);
-			boldAndCenterStyle.setBorderTop((short)1);
+			boldAndCenterStyle.setAlignment(HorizontalAlignment.LEFT);
+			boldAndCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			boldAndCenterStyle.setBorderBottom(BorderStyle.SOLID);
+			boldAndCenterStyle.setBorderLeft(BorderStyle.SOLID);
+			boldAndCenterStyle.setBorderRight(BorderStyle.SOLID);
+			boldAndCenterStyle.setBorderTop(BorderStyle.SOLID);
 			boldAndCenterStyle.setFont(boldFont);
 			boldAndCenterStyle.setWrapText(true)
 
 			// Align center cell style
 			CellStyle tableDataCenterStyle = workbook.createCellStyle();
-			tableDataCenterStyle.setAlignment(CellStyle.ALIGN_CENTER);
-			tableDataCenterStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-			tableDataCenterStyle.setBorderBottom((short)1);
-			tableDataCenterStyle.setBorderLeft((short)1);
-			tableDataCenterStyle.setBorderRight((short)1);
-			tableDataCenterStyle.setBorderTop((short)1);
+			tableDataCenterStyle.setAlignment(HorizontalAlignment.LEFT);
+			tableDataCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			tableDataCenterStyle.setBorderBottom(BorderStyle.SOLID);
+			tableDataCenterStyle.setBorderLeft(BorderStyle.SOLID);
+			tableDataCenterStyle.setBorderRight(BorderStyle.SOLID);
+			tableDataCenterStyle.setBorderTop(BorderStyle.SOLID);
 
 			// Align left cell style
 			CellStyle tableDataLeftStyle = workbook.createCellStyle();
 			tableDataLeftStyle.setAlignment(CellStyle.ALIGN_LEFT);
-			tableDataLeftStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-			tableDataLeftStyle.setBorderBottom((short)1);
-			tableDataLeftStyle.setBorderLeft((short)1);
-			tableDataLeftStyle.setBorderRight((short)1);
-			tableDataLeftStyle.setBorderTop((short)1);
+			tableDataLeftStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			tableDataLeftStyle.setBorderBottom(BorderStyle.SOLID);
+			tableDataLeftStyle.setBorderLeft(BorderStyle.SOLID);
+			tableDataLeftStyle.setBorderRight(BorderStyle.SOLID);
+			tableDataLeftStyle.setBorderTop(BorderStyle.SOLID);
 			tableDataLeftStyle.setWrapText(true)
 
 			// Align left cell style
 			CellStyle tableDataDateStyle = workbook.createCellStyle();
-			tableDataDateStyle.setAlignment(CellStyle.ALIGN_CENTER);
-			tableDataDateStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-			tableDataDateStyle.setBorderBottom((short)1);
-			tableDataDateStyle.setBorderLeft((short)1);
-			tableDataDateStyle.setBorderRight((short)1);
-			tableDataDateStyle.setBorderTop((short)1);
+			tableDataDateStyle.setAlignment(HorizontalAlignment.LEFT);
+			tableDataDateStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			tableDataDateStyle.setBorderBottom(BorderStyle.SOLID);
+			tableDataDateStyle.setBorderLeft(BorderStyle.SOLID);
+			tableDataDateStyle.setBorderRight(BorderStyle.SOLID);
+			tableDataDateStyle.setBorderTop(BorderStyle.SOLID);
 			tableDataDateStyle.setDataFormat(createHelper.createDataFormat().getFormat("MMMM dd, yyyy"));
 
 			// SHIPMENT NUMBER

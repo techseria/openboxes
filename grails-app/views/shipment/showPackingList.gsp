@@ -10,7 +10,8 @@
 	<style>
 		.container { border-right: 1px solid lightgrey; background-color: f7f7f7; }
 		.newContainer { border-top: 1px solid lightgrey }
-	</style>	
+	</style>
+	<asset:javascript src="application.js"/>
 </head>
 
 <body>

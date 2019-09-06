@@ -8,6 +8,7 @@
          	.top-border { border-top: 2px solid lightgrey; }
          	.right-border { border-right: 2px solid lightgrey; }
          </style>
+		<asset:javascript src="application.js"/>
     </head>
     <body>
         <div class="body">
@@ -33,7 +34,7 @@
 				<g:hiddenField name="id" value="${shipmentInstance?.id}"/>
 				<g:hiddenField name="shipment.id" value="${shipmentInstance?.id}"/>
 				
-					<g:render template="../shipment/summary" />	
+				%{--	<g:render template="../shipment/summary" />	--}%
 					<g:render template="flowHeader" model="['currentState':'Sending',stage: actionName]"/>
 					<g:set var="shipmentItemsWithRecipient" value="${shipmentInstance.allShipmentItems.findAll { it.recipient } }"/>
 					<g:set var="includeNotifications" value="${shipmentItemsWithRecipient || (!shipmentWorkflow?.isExcluded('carrier') && shipmentInstance?.carrier) || (!shipmentWorkflow?.isExcluded('recipient') && shipmentInstance?.recipient)}"/>
@@ -364,10 +365,10 @@
 	               		</table>
 					</div>
 					<div class="buttons">
-						<button name="_eventId_back" class="button">&lsaquo; <warehouse:message code="default.button.back.label"/></button>
-						<button name="_eventId_next" class="button"><warehouse:message code="default.button.next.label"/> &rsaquo;</button>
-						<button name="_eventId_save" class="button"><warehouse:message code="default.button.saveAndExit.label"/></button>
-						<button name="_eventId_cancel" class="button"><warehouse:message code="default.button.cancel.label"/></button>
+						<button name="_eventId_back" value="sendShipmentback" class="button">&lsaquo; <warehouse:message code="default.button.back.label"/></button>
+						<button name="_eventId_next" value="sendShipmentNext" class="button"><warehouse:message code="default.button.next.label"/> &rsaquo;</button>
+						<button name="_eventId_save" value="sendShipmentSave" class="button"><warehouse:message code="default.button.saveAndExit.label"/></button>
+						<button name="_eventId_cancel" value="cancle" class="button"><warehouse:message code="default.button.cancel.label"/></button>
 					</div>
 				
 			</g:form>

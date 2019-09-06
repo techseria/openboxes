@@ -1,4 +1,4 @@
-<%@ page import="org.pih.warehouse.core.RoleType" %>
+<%@ page import="grails.util.Holders; org.pih.warehouse.core.RoleType" %>
 <%@ page import="org.pih.warehouse.core.User" %>
 <%@ page import="org.pih.warehouse.core.Role" %>
 <html>
@@ -120,15 +120,15 @@
                                     </label>
                                 </td>
                                 <td class="value">
-                                    <g:each in="${grailsApplication.config.openboxes.locale.supportedLocales}" var="l">
+                                    <g:each in="${grails.util.Holders.config.openboxes.locale.supportedLocales}" var="l">
                                         <g:set var="locale" value="${new Locale(l)}"/>
                                         <g:if test="${session?.user?.locale==locale}">
-                                            ${locale?.getDisplayName(session?.user?.locale ?: new Locale(grailsApplication.config.openboxes.locale.defaultLocale))}
+                                            ${locale?.getDisplayName(session?.user?.locale ?: new Locale(Holders.config.openboxes.locale.defaultLocale))}
                                         </g:if>
                                         <g:else>
                                             <a href="${createLink(controller: 'user', action: 'updateAuthUserLocale', params: ['locale':locale,'returnUrl':request.forwardURI])}">
                                                 <!-- fetch the display for locale based on the current locale -->
-                                                ${locale?.getDisplayName(session?.user?.locale ?: new Locale(grailsApplication.config.openboxes.locale.defaultLocale))}
+                                                ${locale?.getDisplayName(session?.user?.locale ?: new Locale(Holders.config.openboxes.locale.defaultLocale))}
                                             </a>
                                         </g:else>
                                         &nbsp;|&nbsp;
@@ -157,7 +157,7 @@
                     </div>
                     <div id="tabs-2">
                         <table>
-                            <g:each in="${grailsApplication.config.grails.mail}" var="property">
+                            <g:each in="${Holders.config.grails.mail}" var="property">
                                 <tr class="prop">
                                     <td class="name">
                                         <label>${property.key}</label>
@@ -181,7 +181,7 @@
                                     <label><warehouse:message code="admin.externalConfigFile.label"/></label>
                                 </td>
                                 <td>
-                                    ${grailsApplication.config.grails.config.locations }
+                                    ${Holders.config.grails.config.locations }
                                 </td>
                             </tr>
                             <g:each in="${externalConfigProperties }" var="externalProperty">
@@ -317,9 +317,9 @@
                                     </td>
                                     <td class="value">
                                         <span id="jobStatus">unknown</span>
-                                        <g:remoteLink class="button" controller="json" action="statusCalculateHistoricalQuantityJob" update="jobStatus">Show Status</g:remoteLink>
-                                        <g:remoteLink class="button" controller="json" action="enableCalculateHistoricalQuantityJob">Enable</g:remoteLink>
-                                        <g:remoteLink class="button" controller="json" action="disableCalculateHistoricalQuantityJob">Disable</g:remoteLink>
+                                        <g:link class="button" controller="json" action="statusCalculateHistoricalQuantityJob" update="jobStatus">Show Status</g:link>
+                                        <g:link class="button" controller="json" action="enableCalculateHistoricalQuantityJob">Enable</g:link>
+                                        <g:link class="button" controller="json" action="disableCalculateHistoricalQuantityJob">Disable</g:link>
 
                                     </td>
                                 </tr>

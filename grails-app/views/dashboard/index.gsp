@@ -1,12 +1,13 @@
+<%@ page import="grails.util.Holders" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="custom" />
         <title>${warehouse.message(code: 'default.dashboard.label', default: 'Dashboard')}</title>
+        <asset:javascript src="application.js"/>
     </head>
     <body>
 		<div class="body">
-
 			<g:if test="${flash.message}">
 	            <div class="message">${flash.message}</div>
             </g:if>
@@ -14,77 +15,77 @@
 	    		<table>
 					<tr>
 						<td width="33%">
-                            <g:if test="${grailsApplication.config.openboxes.dashboard.column1.widgets}">
-                                <g:each var="widgetName" in="${grailsApplication.config.openboxes.dashboard.column1.widgets}">
-                                    <g:if test='${grailsApplication.config.openboxes.dashboard."$widgetName".enabled}'>
+                            <g:if test="${Holders.config.openboxes.dashboard.column1.widgets}">
+                                <g:each var="widgetName" in="${Holders.config.openboxes.dashboard.column1.widgets}">
+                                    <g:if test='${Holders.config.openboxes.dashboard."$widgetName".enabled}'>
                                         <g:render template="${widgetName}"/>
                                     </g:if>
                                 </g:each>
                             </g:if>
                             <g:else>
-                                <g:if test="${grailsApplication.config.openboxes.dashboard.requisitionItemSummary.enabled}">
+                                <g:if test="${Holders.config.openboxes.dashboard.requisitionItemSummary.enabled}">
                                     <g:render template="requisitionItemSummary"/>
                                 </g:if>
-                                <g:if test="${grailsApplication.config.openboxes.dashboard.requisitionSummary.enabled}">
+                                <g:if test="${Holders.config.openboxes.dashboard.requisitionSummary.enabled}">
                                     <g:render template="requisitionSummary" model="[requisitions:requisitions]"/>
                                 </g:if>
-                                <g:if test="${grailsApplication.config.openboxes.dashboard.receiptSummary.enabled}">
+                                <g:if test="${Holders.config.openboxes.dashboard.receiptSummary.enabled}">
                                     <g:render template="receiptSummary"/>
                                 </g:if>
-                                <g:if test="${grailsApplication.config.openboxes.dashboard.shipmentSummary.enabled}">
+                                <g:if test="${Holders.config.openboxes.dashboard.shipmentSummary.enabled}">
                                     <g:render template="shipmentSummary"/>
                                 </g:if>
-                                <g:if test="${grailsApplication.config.openboxes.dashboard.indicatorSummary.enabled}">
+                                <g:if test="${Holders.config.openboxes.dashboard.indicatorSummary.enabled}">
                                     <g:render template="indicatorSummary"/>
                                 </g:if>
                             </g:else>
 
 						</td>
                         <td width="33%">
-                            <g:if test="${grailsApplication.config.openboxes.dashboard.column2.widgets}">
-                                <g:each var="widgetName" in="${grailsApplication.config.openboxes.dashboard.column2.widgets}">
-                                    <g:if test='${grailsApplication.config.openboxes.dashboard."$widgetName".enabled}'>
+                            <g:if test="${Holders.config.openboxes.dashboard.column2.widgets}">
+                                <g:each var="widgetName" in="${Holders.config.openboxes.dashboard.column2.widgets}">
+                                    <g:if test='${Holders.config.openboxes.dashboard."$widgetName".enabled}'>
                                         <g:render template="${widgetName}"/>
                                     </g:if>
                                 </g:each>
                             </g:if>
                             <g:else>
-                                <g:if test="${grailsApplication.config.openboxes.dashboard.binLocationSummary.enabled}">
+                                <g:if test="${Holders.config.openboxes.dashboard.binLocationSummary.enabled}">
                                     <g:render template="binLocationSummary"/>
                                 </g:if>
-                                <g:if test="${grailsApplication.config.openboxes.dashboard.valueSummary.enabled}">
+                                <g:if test="${Holders.config.openboxes.dashboard.valueSummary.enabled}">
                                     <g:render template="valueSummary"/>
                                 </g:if>
-                                <g:if test="${grailsApplication.config.openboxes.dashboard.productSummary.enabled}">
+                                <g:if test="${Holders.config.openboxes.dashboard.productSummary.enabled}">
                                     <g:render template="productSummary"/>
                                 </g:if>
-                                <g:if test="${grailsApplication.config.openboxes.dashboard.genericProductSummary.enabled}">
+                                <g:if test="${Holders.config.openboxes.dashboard.genericProductSummary.enabled}">
                                     <g:render template="genericProductSummary"/>
                                 </g:if>
-                                <g:if test="${grailsApplication.config.openboxes.dashboard.expiringSummary.enabled}">
+                                <g:if test="${Holders.config.openboxes.dashboard.expiringSummary.enabled}">
                                     <g:render template="expiringSummary"/>
                                 </g:if>
                             </g:else>
                         </td>
 						<td width="33%">
-                            <g:if test="${grailsApplication.config.openboxes.dashboard.column3.widgets}">
-                                <g:each var="widgetName" in="${grailsApplication.config.openboxes.dashboard.column3.widgets}">
-                                    <g:if test='${grailsApplication.config.openboxes.dashboard."$widgetName".enabled}'>
+                            <g:if test="${Holders.config.openboxes.dashboard.column3.widgets}">
+                                <g:each var="widgetName" in="${Holders.config.openboxes.dashboard.column3.widgets}">
+                                    <g:if test='${Holders.config.openboxes.dashboard."$widgetName".enabled}'>
                                         <g:render template="${widgetName}"/>
                                     </g:if>
                                 </g:each>
                             </g:if>
                             <g:else>
-                                <g:if test="${grailsApplication.config.openboxes.dashboard.newsSummary.enabled}">
+                                <g:if test="${Holders.config.openboxes.dashboard.newsSummary.enabled}">
                                     <g:render template="newsSummary"/>
                                 </g:if>
-                                <g:if test="${grailsApplication.config.openboxes.dashboard.activitySummary.enabled}">
+                                <g:if test="${Holders.config.openboxes.dashboard.activitySummary.enabled}">
                                     <g:render template="activitySummary"/>
                                 </g:if>
-                                <g:if test="${grailsApplication.config.openboxes.dashboard.tagSummary.enabled}">
+                                <g:if test="${Holders.config.openboxes.dashboard.tagSummary.enabled}">
                                     <g:render template="tagSummary" model="[tags:tags]"/>
                                 </g:if>
-                                <g:if test="${grailsApplication.config.openboxes.dashboard.catalogsSummary.enabled}">
+                                <g:if test="${Holders.config.openboxes.dashboard.catalogsSummary.enabled}">
                                     <g:render template="catalogsSummary" model="[catalogs:catalogs]"/>
                                 </g:if>
                             </g:else>

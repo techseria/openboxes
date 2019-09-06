@@ -14,7 +14,7 @@ import groovy.time.TimeCategory
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.collections.FactoryUtils
 import org.apache.commons.collections.list.LazyList
-import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
+import org.grails.core.DefaultGrailsDomainClass
 import org.pih.warehouse.core.Constants
 import org.pih.warehouse.core.Location
 import org.pih.warehouse.core.Tag
@@ -43,7 +43,7 @@ class ConsumptionController {
 
         if (command.hasErrors()) {
             render(view: "show", model: [command:command])
-            return;
+            return
         }
 
         // If any parameters have changed we need to reset filters
@@ -94,6 +94,7 @@ class ConsumptionController {
         // which occurs if there are no toLocations selected
         boolean toLocationsEmpty = command.toLocations.empty
         boolean fromLocationsEmpty = command.fromLocations.empty
+        boolean transactionTypesEmpty = command.transactionTypes.empty
 
         // Some transactions don't have a destination (e.g. expired, consumed, etc)
         if (toLocationsEmpty) {
@@ -101,9 +102,7 @@ class ConsumptionController {
         }
 
         // Keep track of all the transaction types (we may want to select a subset of these)
-        // FIXME Hard-code transaction types (OBPIH-2059)
-        command.transactionTypes = [TransactionType.get(Constants.TRANSFER_OUT_TRANSACTION_TYPE_ID)]
-                // transactions*.transactionType
+        command.transactionTypes = transactions*.transactionType
 
         // Iterate over all transactions
         transactions.each { transaction ->
@@ -261,11 +260,22 @@ class ConsumptionController {
                 def csvrow =  [
                         'Product code': row.product.productCode?:'',
                         'Product': row.product.name,
+                        'Generic product': row.product?.genericProduct?.name?:"",
                         'Category': row.product?.category?.name,
                         'UoM': row.product.unitOfMeasure?:'',
+                        'Bin Location': row?.product?.getBinLocation(session.warehouse.id)?:'',
                         'Qty transfer out': g.formatNumber(number: row.transferOutQuantity, format: '###.#', maxFractionDigits: 1)?:'',
                         'Count transfer out': g.formatNumber(number: row.transferOutTransactions.size(), format: '###.#', maxFractionDigits: 1)?:'',
+                        'Qty transfer in': g.formatNumber(number: row.transferInQuantity, format: '###.#', maxFractionDigits: 1)?:'',
+                        'Count transfer in': g.formatNumber(number: row.transferInTransactions.size(), format: '###.#', maxFractionDigits: 1)?:'',
+                        'Qty transfer balance':g.formatNumber(number: row.transferBalance, format: '###.#', maxFractionDigits: 1)?:'',
+                        'Qty expired': g.formatNumber(number: row.expiredQuantity, format: '###.#', maxFractionDigits: 1)?:'',
+                        'Count expired': g.formatNumber(number: row.expiredTransactions.size(), format: '###.#', maxFractionDigits: 1)?:'',
+                        'Qty damaged': g.formatNumber(number: row.damagedQuantity, format: '###.#', maxFractionDigits: 1)?:'',
+                        'Count damaged': g.formatNumber(number: row.damagedTransactions.size(), format: '###.#', maxFractionDigits: 1)?:'',
                         'Consumed monthly': g.formatNumber(number: row.monthlyQuantity, format: '###.#', maxFractionDigits: 1)?:'',
+                        'Consumed weekly': g.formatNumber(number: row.weeklyQuantity, format: '###.#', maxFractionDigits: 1)?:'',
+                        'Consumed daily': g.formatNumber(number: row.dailyQuantity, format: '###.#', maxFractionDigits: 1)?:'',
                         'Quantity on hand': g.formatNumber(number: row.onHandQuantity, format: '###.#', maxFractionDigits: 1)?:'',
                         'Months remaining': g.formatNumber(number: row.numberOfMonthsRemaining, format: '###.#', maxFractionDigits: 1)?:'',
                 ]
@@ -278,7 +288,8 @@ class ConsumptionController {
 
                 if (command.includeMonthlyBreakdown) {
                     command.selectedDates.each { date ->
-                        csvrow[date.toString()] = row.transferOutMonthlyMap[date]?:""
+                        csvrow["Out: " + date.toString()] = row.transferOutMonthlyMap[date]?:""
+                        csvrow["In: " + date.toString()] = row.transferInMonthlyMap[date]?:""
                     }
 
                 }
@@ -286,7 +297,7 @@ class ConsumptionController {
 
                 if (command.includeLocationBreakdown) {
                     command.selectedLocations.each { location ->
-                        csvrow[location.locationNumber?:location?.name] = row.transferOutMap[location]?:""
+                        csvrow["To: " + location.name] = row.transferOutMap[location]?:""
                     }
                 }
 
@@ -344,8 +355,8 @@ class ConsumptionController {
         Location location = Location.get(session?.warehouse?.id)
 
         use(TimeCategory) {
-            command.endDate = command?.endDate?:new Date()
-            command.startDate = command?.startDate?:new Date() - 6.months
+            command.endDate = command.endDate?:new Date()
+            command.startDate = command.startDate?:new Date() - 6.months
         }
 
         if (command.download) {
@@ -423,9 +434,9 @@ class ShowConsumptionCommand {
     List<Category> selectedCategories = LazyList.decorate(new ArrayList(), FactoryUtils.instantiateFactory(Category.class));
     List<Tag> selectedTags = LazyList.decorate(new ArrayList(), FactoryUtils.instantiateFactory(Tag.class));
 
-    Boolean includeLocationBreakdown = Boolean.TRUE
-    Boolean includeMonthlyBreakdown = Boolean.TRUE
-    Boolean includeQuantityOnHand = Boolean.TRUE
+    Boolean includeLocationBreakdown = false
+    Boolean includeMonthlyBreakdown = false
+    Boolean includeQuantityOnHand = false
 
     def productDomain = new DefaultGrailsDomainClass( Product.class )
 

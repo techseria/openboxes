@@ -12,7 +12,7 @@
         </li>
     </g:if>
 
-    <g:if test="${megamenuConfig.analytics.enabled || isSuperuser}">
+   <%-- <g:if test="${megamenuConfig.analytics.enabled || isSuperuser}">
         <g:isUserAdmin>
             <li class="mm-item">
                 <a href="javascript:void(0)" class="mm-item-link">
@@ -43,7 +43,7 @@
                 </div>
             </li>
         </g:isUserAdmin>
-    </g:if>
+    </g:if> --%>
 
     <g:if test="${megamenuConfig.inventory.enabled || isSuperuser}">
 
@@ -112,7 +112,6 @@
             </li>
         </g:authorize>
     </g:if>
-
     <g:if test="${megamenuConfig.orders.enabled || isSuperuser}">
         <g:authorize activity="[ActivityCode.PLACE_ORDER,ActivityCode.FULFILL_ORDER]">
             <li class="mm-item">
@@ -300,7 +299,7 @@
                         <g:if test="${megamenuConfig.shipping.enabled}">
                             <h3><warehouse:message code="shipping.label" default="Shipping" /></h3>
 
-                            <div class="mm-menu-item">
+                            <div class="mm-menu-item" id="register">
                                 <g:link controller="createShipmentWorkflow" action="createShipment" params="[type:'OUTGOING']" class="create">
                                     <warehouse:message code="shipping.createOutgoingShipment.label"/>
                                 </g:link>
@@ -523,11 +522,11 @@
                                 <warehouse:message code="product.tags.label"/></g:link>
                         </div>
                         <div class="mm-menu-item">
-                            <g:link controller="unitOfMeasure" action="list" class="list">
+                            <g:link controller="unitOfMeasure" action="index" class="list">
                                 <warehouse:message code="unitOfMeasure.label"/></g:link>
                         </div>
                         <div class="mm-menu-item">
-                            <g:link controller="unitOfMeasureClass" action="list" class="list">
+                            <g:link controller="unitOfMeasureClass" action="index" class="list">
                                 <warehouse:message code="unitOfMeasureClass.label"/></g:link>
                         </div>
                     </div>
@@ -690,6 +689,7 @@
                                     <warehouse:message code="transaction.add.label"/>
                                 </g:link>
                             </div>
+
                             <div class="mm-menu-item">
                                 <g:link controller="batch" action="importData" params="[type:'inventory']" class="inventory">
                                     <warehouse:message code="default.import.label" args="[warehouse.message(code:'inventory.label', default: 'Inventory')]"/>
@@ -733,7 +733,7 @@
                                 </g:link>
                             </div>
                             <div class="mm-menu-item">
-                                <g:link controller="role" action="list" class="role">
+                                <g:link controller="role" action="index" class="role">
                                     <warehouse:message code="roles.label" />
                                 </g:link>
                             </div>
@@ -741,7 +741,7 @@
                         <div class="mm-content-section">
                             <h3><warehouse:message code="other.label" default="Other" /></h3>
                             <div class="mm-menu-item">
-                                <g:link controller="containerType" action="list">
+                                <g:link controller="containerType" action="index">
                                     <warehouse:message code="containerTypes.label" default="Container Types"/>
                                 </g:link>
                             </div>
@@ -785,7 +785,7 @@
         </g:isUserAdmin>
     </g:if>
 
-    <g:if test="${megamenuConfig.customLinks.enabled || isSuperuser}">
+    <g:if test="${megamenuConfig.customLinks.enabled && isSuperuser}">
         <li class="mm-item">
             <a href="javascript:void(0)" class="mm-item-link">
                 <warehouse:message code="customLinks.label" default="Custom Links" />

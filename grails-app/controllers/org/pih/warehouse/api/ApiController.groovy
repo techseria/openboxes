@@ -10,6 +10,8 @@
 package org.pih.warehouse.api
 
 import grails.converters.JSON
+import grails.util.Holders
+import org.grails.web.util.WebUtils
 import org.hibernate.ObjectNotFoundException
 import org.pih.warehouse.core.Location
 import org.pih.warehouse.core.User
@@ -20,7 +22,7 @@ class ApiController {
     def dataSource
     def userService
     def localizationService
-    def grailsApplication
+  //  def getGrailsApplication
 
     def login = {
         def username = request.JSON.username
@@ -54,14 +56,15 @@ class ApiController {
         render ([status: 200, text: "Current language is ${locale}"])
     }
 
-    def getSession = {
-        User user = User.get(session?.user?.id)
-        Location location = Location.get(session.warehouse?.id)
-        boolean isSuperuser = userService.isSuperuser(session?.user)
-        boolean isUserAdmin = userService.isUserAdmin(session?.user)
+    def getSessionApi = {
+        def webUtils = WebUtils.retrieveGrailsWebRequest()
+        User user = User.get(webUtils.getSession()?.user?.id)
+        Location location = Location.get(webUtils.getSession().warehouse?.id)
+        boolean isSuperuser = userService.isSuperuser(webUtils.getSession()?.user)
+        boolean isUserAdmin = userService.isUserAdmin(webUtils.getSession()?.user)
         def locale = localizationService.getCurrentLocale()
         def supportedActivities = location.supportedActivities ?: location.locationType.supportedActivities
-        def menuConfig = grailsApplication.config.openboxes.megamenu
+        def menuConfig = Holders.config.openboxes.megamenu
         render ([
             data:[
                 user:user,
@@ -73,7 +76,6 @@ class ApiController {
                 activeLanguage: locale.language]
         ] as JSON)
     }
-
 
     def logout = {
         session.invalidate()

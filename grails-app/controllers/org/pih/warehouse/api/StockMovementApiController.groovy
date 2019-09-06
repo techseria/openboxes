@@ -11,7 +11,7 @@ package org.pih.warehouse.api
 
 import grails.converters.JSON
 import org.apache.commons.lang.math.NumberUtils
-import org.codehaus.groovy.grails.web.json.JSONObject
+import org.grails.web.json.JSONObject
 import org.pih.warehouse.core.Constants
 import org.pih.warehouse.core.Person
 import org.pih.warehouse.importer.ImportDataCommand
@@ -22,6 +22,8 @@ import org.pih.warehouse.product.Product
 import org.pih.warehouse.requisition.Requisition
 import org.pih.warehouse.requisition.RequisitionItem
 import org.pih.warehouse.requisition.RequisitionStatus
+
+import java.text.SimpleDateFormat
 
 class StockMovementApiController {
 
@@ -56,13 +58,11 @@ class StockMovementApiController {
     }
 
     def create = { StockMovement stockMovement ->
-
         JSONObject jsonObject = request.JSON
         log.debug "create " + jsonObject.toString(4)
-
         stockMovement = stockMovementService.createStockMovement(stockMovement)
         response.status = 201
-        render ([data:stockMovement] as JSON)
+        render ([data: stockMovement] as JSON)
 	}
 
     def updateRequisition = { //StockMovement stockMovement ->
@@ -431,8 +431,11 @@ class StockMovementApiController {
             // FIXME Lookup inventory item by product, lot number, expiration date
             stockMovementItem.inventoryItem = lineItem["inventoryItem.id"] ? InventoryItem.load(lineItem["inventoryItem.id"]) : null
             stockMovementItem.lotNumber = lineItem["lotNumber"]
-            stockMovementItem.expirationDate = (!isNull(lineItem["expirationDate"])) ?
-                    Constants.EXPIRATION_DATE_FORMATTER.parse(lineItem["expirationDate"]) : null
+            if(lineItem["expirationDate"] != null)
+                stockMovementItem.expirationDate = Constants.EXPIRATION_DATE_FORMATTER.parse(lineItem["expirationDate"])
+            else
+                stockMovementItem.expirationDate = null
+
 
             // Sort order (optional)
             stockMovementItem.sortOrder = lineItem.sortOrder && !lineItem.isNull("sortOrder") ? new Integer(lineItem.sortOrder) : null

@@ -74,7 +74,7 @@
 		                                	 <div class="category">
 												<select name="category.id">
 													<option value="null"></option>
-													<g:render template="../category/selectOptions" model="[category:rootCategory, selected:productInstance?.category, level: 0]"/>
+													<g:render template="/category/selectOptions" model="[category:rootCategory, selected:productInstance?.category, level: 0]"/>
 												</select>	
 									       	</div>
 									       	<g:render template="categories" model="['productInstance':productInstance]" />

@@ -119,8 +119,8 @@ class ProductCatalogController {
     }
 
     def addProductCatalogItem = { ProductCatalogCommand command ->
-        log.info("Command: " + command)
-        log.info("Params: " + params)
+        println("Command: " + command)
+        println("Params: " + params)
         def product = command.product
         def productCatalog = command.productCatalog
         if (productCatalog && product) {

@@ -9,8 +9,7 @@
  * */
 package org.pih.warehouse.core
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
-import org.pih.warehouse.auth.AuthService
+import grails.util.Holders
 import util.StringUtil
 
 // import java.util.Date
@@ -105,7 +104,7 @@ class User extends Person {
 
 
     Map toJson() {
-        boolean anonymize = CH.config.openboxes.anonymize.enabled
+        boolean anonymize = Holders.config.openboxes.anonymize.enabled
 
         return [
                 "id": id,

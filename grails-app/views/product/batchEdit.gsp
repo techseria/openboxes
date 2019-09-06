@@ -6,7 +6,8 @@
     <meta name="layout" content="custom" />
 
     <title><warehouse:message code="product.batchEdit.label" /></title>
-
+    <asset:javascript src="application.js"/>
+    <asset:javascript src="application.css"/>
 </head>
 <body>
     <div class="body">

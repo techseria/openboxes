@@ -1,9 +1,10 @@
-<g:if test="${grailsApplication.config.openboxes.fullstory.enabled}">
+<%@ page import="grails.util.Holders" %>
+<g:if test="${grails.util.Holders.config.openboxes.fullstory.enabled}">
 <script type="text/javascript">
-    window['_fs_debug'] = '${grailsApplication.config.openboxes.fullstory.debug}'.toLowerCase() === 'true' ? true : false;
-    window['_fs_host'] = '${grailsApplication.config.openboxes.fullstory.host}';
-    window['_fs_org'] = '${grailsApplication.config.openboxes.fullstory.org}';
-    window['_fs_namespace'] = '${grailsApplication.config.openboxes.fullstory.namespace}';
+    window['_fs_debug'] = '${Holders.config.openboxes.fullstory.debug}'.toLowerCase() === 'true' ? true : false;
+    window['_fs_host'] = '${Holders.config.openboxes.fullstory.host}';
+    window['_fs_org'] = '${Holders.config.openboxes.fullstory.org}';
+    window['_fs_namespace'] = '${Holders.config.openboxes.fullstory.namespace}';
     (function(m,n,e,t,l,o,g,y){
         if (e in m) {if(m.console && m.console.log) { m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].');} return;}
         g=m[e]=function(a,b,s){g.q?g.q.push([a,b,s]):g._api(a,b,s);};g.q=[];

@@ -21,11 +21,8 @@ class CategoryController {
 	
 	def tree = {
         long startTime = System.currentTimeMillis()
-		log.info params 
 		def categoryInstance = Category.get(params.id)
-
         println "Category tree: " + (System.currentTimeMillis() - startTime) + " ms"
-
 		[ rootCategory : productService.getRootCategory(), categoryInstance : categoryInstance ]
 	}
 	

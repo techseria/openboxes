@@ -10,10 +10,8 @@
 package org.pih.warehouse.user
 
 import grails.converters.JSON
-import grails.plugin.springcache.annotations.CacheFlush
-import grails.plugin.springcache.annotations.Cacheable
+import grails.util.Holders
 import org.apache.commons.lang.StringEscapeUtils
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.pih.warehouse.core.Comment
 import org.pih.warehouse.core.Location
 import org.pih.warehouse.core.Tag
@@ -25,6 +23,7 @@ import org.pih.warehouse.order.Order
 import org.pih.warehouse.product.Product
 import org.pih.warehouse.product.ProductCatalog
 import org.pih.warehouse.receiving.Receipt
+import org.pih.warehouse.report.ItextPdfService
 import org.pih.warehouse.requisition.Requisition
 import org.pih.warehouse.requisition.RequisitionStatus
 import org.pih.warehouse.requisition.RequisitionType
@@ -43,12 +42,10 @@ class DashboardController {
     def requisitionService
 	def userService
 	def sessionFactory
-	def grailsApplication
 	def locationService
 
 	def showCacheStatistics = {
 		def statistics = sessionFactory.statistics
-		log.info(statistics)
 		render statistics
 	}
 
@@ -110,8 +107,8 @@ class DashboardController {
 
 	}
     def throwException = {
-        println "Configuration: " + ConfigurationHolder.config.grails
-        println "Configuration: " + ConfigurationHolder.config.grails.mail
+        println "Configuration: " + Holders.config.grails
+        println "Configuration: " + Holders.config.grails.mail
         try {
             throw new RuntimeException("error of some kind")
         } catch (RuntimeException e) {
@@ -125,7 +122,8 @@ class DashboardController {
 
         def startTime = System.currentTimeMillis()
 		if (!session.warehouse) {
-			redirect(action: "chooseLocation")
+            redirect (action: "chooseLocation")
+            return
 		}
 
 	    def currentUser = User.get(session?.user?.id)
@@ -135,7 +133,7 @@ class DashboardController {
 
         log.info "dashboard.index Response time: " + (System.currentTimeMillis() - startTime) + " ms"
 
-		def newsItems = ConfigurationHolder.config.openboxes.dashboard.newsSummary.newsItems
+		def newsItems = Holders.config.openboxes.dashboard.newsSummary.newsItems
 
 
 		[
@@ -185,7 +183,6 @@ class DashboardController {
 		render results as JSON
 	}
 
-    @Cacheable("megamenuCache")
 	def megamenu = {
 
         def user = User.get(session?.user?.id)
@@ -227,7 +224,7 @@ class DashboardController {
 		[
 				categories            : categories,
 				isSuperuser			  : userService.isSuperuser(session?.user),
-				megamenuConfig        : grailsApplication.config.openboxes.megamenu,
+				megamenuConfig        : Holders.config.openboxes.megamenu,
 				inboundShipmentsTotal : inboundShipmentsTotal ?: 0,
 				inboundShipmentsCount : inboundShipmentsCount,
 				outboundShipmentsTotal: outboundShipmentsTotal ?: 0,
@@ -239,9 +236,7 @@ class DashboardController {
 		]
 	}
 
-    @CacheFlush(["dashboardCache", "megamenuCache", "inventoryBrowserCache", "fastMoversCache",
-			"binLocationReportCache", "binLocationSummaryCache", "quantityOnHandCache", "selectTagCache",
-			"selectTagsCache", "selectCategoryCache", "selectCatalogsCache"])
+
     def flushCache = {
         flash.message = "All data caches have been flushed"
         CalculateQuantityJob.triggerNow([locationId: session.warehouse.id])
@@ -252,7 +247,6 @@ class DashboardController {
 		CalculateQuantityJob.triggerNow([locationId: session.warehouse.id])
 	}
 
-    @CacheFlush(["megamenuCache"])
     def flushMegamenu = {
         flash.message = "${g.message(code:'dashboard.cacheFlush.message', args: [g.message(code: 'dashboard.megamenu.label')])}"
         redirect(action: "index")
@@ -269,6 +263,10 @@ class DashboardController {
 
 		// If the user has selected a new location from the topnav bar, we need
 		// to retrieve the location to make sure it exists
+		if (session.user == null) {
+			redirect(controller: 'auth', action: 'login');
+			return
+		}
 		User user = User.get(session.user.id);
 		Location warehouse = params.id ? Location.get(params.id) : null
 
@@ -304,11 +302,10 @@ class DashboardController {
 	}
 
 	def addLocation ={
-		flash.addLocation = true
-		log.info("locationInstance.hashCode " + flash.locationInstance?.hashCode())
-		if (!flash.locationInstance) {
-			flash.locationInstance = new Location()
-		}
+			flash.addLocation = true
+			if (!flash.locationInstance) {
+				flash.locationInstance = new Location()
+			}
 	}
 
 	def saveLocation ={
@@ -342,7 +339,6 @@ class DashboardController {
 		}
 		redirect(action: "chooseLocation")
 	}
-
 	def changeLocation = {
 		User user = User.get(session.user.id);
 		Map loginLocationsMap = locationService.getLoginLocationsMap(user, null)

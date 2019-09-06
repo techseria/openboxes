@@ -13,7 +13,7 @@
 		<div id="print-button">
 			<button type="button" onclick="window.print()">
 				<img src="${resource(dir: 'images/icons/silk', file: 'printer.png')}" />
-				${warehouse.message(code:"default.button.print.label")}
+				${warehouse.message(code:"default.print.label")}
 			</button>
 			<button type="button" onclick="window.close()">
 				<img src="${resource(dir: 'images/icons/silk', file: 'printer_cancel.png')}" />
@@ -147,7 +147,7 @@
 										</td>
 										<td class="left" rowspan="${rowspan }">
 											<g:if test="${newContainer }">
-												<g:render template="../shipment/container" model="[container:checklistEntry?.shipmentItem?.container]"/>
+												<g:render template="/shipment/container" model="[container:checklistEntry?.shipmentItem?.container]"/>
 											</g:if>
 										</td>
 										<td>

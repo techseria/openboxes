@@ -10,13 +10,7 @@
 package org.pih.warehouse.api
 
 import grails.converters.JSON
-import grails.validation.ValidationException
-import org.codehaus.groovy.grails.commons.GrailsApplication
-import org.codehaus.groovy.grails.commons.GrailsDomainClass
-import org.codehaus.groovy.grails.web.json.JSONArray
-import org.hibernate.ObjectNotFoundException
-import org.pih.warehouse.product.Category
-import org.pih.warehouse.product.Product
+import org.grails.web.json.JSONArray
 
 class GenericApiController {
 

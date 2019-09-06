@@ -22,6 +22,8 @@
         	table { margin-left: auto; margin-right: auto; }
 
         </style>
+		<asset:javascript src="application.js"/>
+		<asset:javascript src="application.css"/>
     </head>
     <body>
 		<g:if test="${flash.message}">

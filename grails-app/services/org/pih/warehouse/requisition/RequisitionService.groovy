@@ -444,7 +444,9 @@ class RequisitionService {
                     requisitionItem.properties = itemData
                 }
                 else{
-                    requisitionItem = new RequisitionItem(itemData)
+                    requisitionItem = new RequisitionItem()
+                    requisitionItem.properties = itemData
+                    requisitionItem.product = Product.findById(itemData.productId)
                     requisition.addToRequisitionItems(requisitionItem)
                 }
                 println "package: " + requisitionItem?.productPackage

@@ -15,7 +15,7 @@
 	<jqvalui:renderErrors/>			
 
 		
-	<g:form name="addShipper" action="createShipment">
+	<g:form name="addShipper" action="saveShipper">
 		<table>
 			<tbody>
 				<g:if test="${shipperInstance}">

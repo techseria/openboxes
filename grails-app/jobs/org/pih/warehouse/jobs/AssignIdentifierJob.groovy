@@ -1,22 +1,23 @@
 package org.pih.warehouse.jobs
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
-import org.quartz.DisallowConcurrentExecution
+import grails.util.Holders
+
+//import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 import util.LiquibaseUtil
 
-@DisallowConcurrentExecution
+//@DisallowConcurrentExecution
 class AssignIdentifierJob {
 
     def identifierService
 
-    static triggers = {
+   /* static triggers = {
         cron name:'assignIdentifierCronTrigger',
-                cronExpression: CH.config.openboxes.jobs.assignIdentifierJob.cronExpression
-	}
+                cronExpression: Holders.config.openboxes.jobs.assignIden1tifierJob.cronExpression
+	}*/
 
 	def execute() {
 
-        Boolean enabled = CH.config.openboxes.jobs.assignIdentifierJob.enabled
+        Boolean enabled = Holders.config.openboxes.jobs.assignIdentifierJob.enabled
         if (!enabled) {
             return
         }

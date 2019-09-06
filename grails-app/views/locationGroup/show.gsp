@@ -6,6 +6,8 @@
         <meta name="layout" content="custom" />
         <g:set var="entityName" value="${warehouse.message(code: 'locationGroup.label', default: 'Location Group')}" />
         <title><warehouse:message code="default.edit.label" args="[entityName]" /></title>
+        <asset:javascript src="application.js"/>
+        <asset:javascript src="application.css"/>
     </head>
     <body>
         <div class="body">

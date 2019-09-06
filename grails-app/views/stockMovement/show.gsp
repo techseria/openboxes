@@ -1,4 +1,4 @@
-<%@ page import="org.pih.warehouse.requisition.RequisitionStatus" %>
+<%@ page import="grails.util.Holders; org.pih.warehouse.requisition.RequisitionStatus" %>
 <%@ page import="org.pih.warehouse.shipping.ShipmentStatusCode" %>
 <html>
 <head>
@@ -8,6 +8,7 @@
     <title>
         <warehouse:message code="stockMovement.label"/>
     </title>
+    <asset:javascript src="application.js"/>
 </head>
 <body>
 
@@ -29,7 +30,7 @@
                     <span class="action-menu">
                         <button class="action-btn button">
                             <img src="${resource(dir: 'images/icons/silk', file: 'page_save.png')}" />
-                            &nbsp; <g:message code="default.button.download.label"/>
+                            &nbsp; <g:message code="default.download.label"/>
                             <img src="${resource(dir: 'images/icons/silk', file: 'bullet_arrow_down.png')}" />
                         </button>
                         <div class="actions">
@@ -205,7 +206,7 @@
                         <td class="value">
                             <g:hasRoleFinance onAccessDenied="${g.message(code:'errors.blurred.message', args: [g.message(code:'default.none.label')])}">
                                 <g:formatNumber format="###,###,##0.00" number="${stockMovement?.shipment?.calculateTotalValue() ?: 0.00 }" />
-                                ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                                ${grails.util.Holders.config.openboxes.locale.defaultCurrencyCode}
                             </g:hasRoleFinance>
                         </td>
                     </tr>

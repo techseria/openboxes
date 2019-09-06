@@ -11,6 +11,7 @@
 package org.pih.warehouse.inventory
 
 import grails.converters.JSON
+import grails.plugins.csv.CSVWriter
 import org.pih.warehouse.api.StockMovement
 import org.pih.warehouse.api.StockMovementItem
 import org.pih.warehouse.core.Document
@@ -22,7 +23,7 @@ import org.pih.warehouse.importer.ImportDataCommand
 import org.pih.warehouse.requisition.Requisition
 import org.pih.warehouse.shipping.Shipment
 import org.pih.warehouse.shipping.ShipmentStatusCode
-import org.grails.plugins.csv.CSVWriter
+
 
 class StockMovementController {
 

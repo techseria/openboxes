@@ -10,6 +10,7 @@
 package org.pih.warehouse.inventory
 
 import org.pih.warehouse.api.Stocklist
+import org.pih.warehouse.core.Location
 import org.pih.warehouse.requisition.Requisition
 import org.pih.warehouse.core.Attachment
 
@@ -31,6 +32,20 @@ class StocklistService {
         }
 
         return Stocklist.createFromRequisition(requisition)
+    }
+
+    Stocklist getStocklistfromlocation(String origin, String destination){
+        List<Requisition> requisition = Requisition.findAllByOriginAndDestination(Location.findById(origin),Location.findById(destination));
+
+        if(!requisition){
+            return  null;
+        }
+
+        List<Stocklist> stocklists
+        for (Requisition requisition1: requisition){
+            stocklists.add(Stocklist.createFromRequisition(requisition1))
+        }
+        return stocklists
     }
 
     Stocklist createStocklist(Stocklist stocklist) {

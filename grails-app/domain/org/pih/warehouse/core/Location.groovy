@@ -18,13 +18,14 @@ import org.pih.warehouse.shipping.Shipment
 /**
  * A location can be a customer, warehouse, or supplier.
  */
-class Location implements Comparable<Location>, java.io.Serializable {
+class Location implements Comparable<Location> {
 
 	String id
 	String name
 	String description
 	String locationNumber
-
+	String logo_url
+	Boolean managedLocally
 	byte [] logo				// logo
 	Address address
 	String fgColor	= "000000"
@@ -51,6 +52,7 @@ class Location implements Comparable<Location>, java.io.Serializable {
 		name(nullable:false, blank: false, maxSize: 255, unique: 'parentLocation')
 		description(nullable:true)
 		address(nullable:true)
+        logo_url(nullable: true)
 		organization(nullable:true)
 		locationType(nullable:false)
         locationNumber(nullable:true, unique: true)
@@ -66,6 +68,7 @@ class Location implements Comparable<Location>, java.io.Serializable {
         local(nullable:true)
 		manager(nullable:true)
 		inventory(nullable:true)
+		managedLocally(nullable: true)
 		active(nullable:false)
 		dateCreated(display:false)
 		lastUpdated(display:false)

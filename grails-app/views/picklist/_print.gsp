@@ -71,7 +71,8 @@
             border: 1px solid black;
         }
     </style>
-
+    <asset:javascript src="application.js"/>
+    <asset:javascript src="application.css"/>
 </head>
 
 <body>

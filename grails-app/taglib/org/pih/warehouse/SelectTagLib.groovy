@@ -9,8 +9,7 @@
 **/
 package org.pih.warehouse
 
-import grails.plugin.springcache.annotations.Cacheable
-import org.codehaus.groovy.grails.commons.DomainClassArtefactHandler
+import grails.util.Holders
 import org.pih.warehouse.core.ActivityCode
 import org.pih.warehouse.core.Location
 import org.pih.warehouse.core.PartyRole
@@ -44,9 +43,8 @@ class SelectTagLib {
 	def shipmentService
     def requisitionService
 
-    @Cacheable("selectCategoryCache")
     def selectCategory = { attrs, body ->
-        attrs.from = Category.list().sort() // { it.name }
+        attrs.from = Category.list(sort: "sortOrder") // { it.name }
         attrs.optionKey = "id"
         attrs.optionValue = {
             it.getHierarchyAsString(" > ")
@@ -94,8 +92,7 @@ class SelectTagLib {
         attrs.optionValue = { format.metadata(obj: it) }
         out << g.select(attrs)
     }
-
-    @Cacheable("selectTagCache")
+    
     def selectTag = { attrs, body ->
         def tags = Tag.list(sort:"tag").collect { [ id: it.id, name: it.tag, productCount: it?.products?.size() ]}
         attrs.from = tags
@@ -105,7 +102,7 @@ class SelectTagLib {
         out << g.select(attrs)
     }
 
-    @Cacheable("selectTagsCache")
+
     def selectTags = { attrs, body ->
         def tags = Tag.list(sort:"tag").collect { [ id: it.id, name: it.tag, productCount: it?.products?.size() ]}
         attrs.from = tags
@@ -116,7 +113,7 @@ class SelectTagLib {
         out << g.select(attrs)
     }
 
-    @Cacheable("selectCatalogsCache")
+
     def selectCatalogs = { attrs, body ->
         def catalogs = ProductCatalog.list(sort:"name").collect { [id: it.id, name: it.name, productCount: it?.productCatalogItems?.size() ]}
         attrs.from = catalogs
@@ -271,9 +268,9 @@ class SelectTagLib {
     }
 
     def selectRecipient = { attrs, body ->
-        attrs.from = Person.findAllByEmailIsNotNull().sort { it.firstName }
+        attrs.from = User.findAllByEmailIsNotNull().sort { it.firstName }
         attrs.optionKey = 'email'
-        attrs.optionValue = { it.name }
+        attrs.optionValue = { it.name + " (" + it.username + ")"}
         out << g.select(attrs)
     }
 
@@ -565,7 +562,7 @@ class SelectTagLib {
         if (!attrs.value) {
             attrs.value = session.user.locale?.language
         }
-        attrs.from = grailsApplication.config.openboxes.locale.supportedLocales
+        attrs.from = Holders.config.openboxes.locale.supportedLocales
         attrs.optionValue = { new Locale(it).displayName }
         out << g.select(attrs)
     }

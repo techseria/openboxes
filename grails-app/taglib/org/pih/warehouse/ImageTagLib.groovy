@@ -10,26 +10,28 @@
 package org.pih.warehouse
 
 import com.google.zxing.BarcodeFormat
-import grails.plugin.springcache.annotations.Cacheable
+import grails.util.Holders
 import org.pih.warehouse.core.Location
 
 class ImageTagLib {
 
-    def grailsApplication
+   // def grailsApplication
 
     // Cannot cache logo because it might change between locations
+    //@Cacheable("customLogo")
     def displayLogo = { attrs, body ->
 
         // For the main logo, we want the logo config to be used as the default
         // and allow location logo to override
-        def logoUrl = grailsApplication.config.openboxes.logo.url
+        def logoConfig = Holders.config.openboxes.logo
 
         // Use custom location logo if one exists
         Location location = Location.get(session?.warehouse?.id)
         if(location?.logo) {
-            logoUrl = "${createLink(controller:'location', action:'viewLogo', id:session?.warehouse?.id)}"
+            logoConfig.url = "${createLink(controller:'location', action:'viewLogo', id:location?.id)}"
         }
-        attrs.logoUrl = logoUrl
+
+        attrs.logo = logoConfig
         attrs.showLabel = (attrs.showLabel!=null)?attrs.showLabel:true
 
         out << g.render(template: '/taglib/displayLogo', model: [attrs:attrs]);
@@ -40,7 +42,7 @@ class ImageTagLib {
 
         // For the report logo we'll use the logo config unless there's no logo,
         // then we'll try to use the location logo
-        attrs.logoUrl = grailsApplication.config.openboxes.report.logo.url
+        attrs.logo = Holders.config.openboxes.report.logo
         attrs.showLabel = (attrs.showLabel!=null)?attrs.showLabel:true
 
         out << g.render(template: '/taglib/displayLogo', model: [attrs:attrs]);
@@ -49,7 +51,7 @@ class ImageTagLib {
 
     def displayBarcode = { attrs, body ->
 
-        def defaultFormat = grailsApplication.config.openboxes.identifier.barcode.format
+        def defaultFormat = Holders.config.openboxes.identifier.barcode.format
         if (!attrs.format && defaultFormat) {
             try {
                 attrs.format = BarcodeFormat.valueOf(defaultFormat)
@@ -58,7 +60,7 @@ class ImageTagLib {
             }
         }
 
-        def defaultHeight = grailsApplication.config.openboxes.identifier.barcode.height
+        def defaultHeight = Holders.config.openboxes.identifier.barcode.height
         if (!attrs.height && defaultHeight) {
             try {
                 attrs.height = Integer.parseInt(defaultHeight)
@@ -67,7 +69,7 @@ class ImageTagLib {
             }
         }
 
-        def defaultWidth = grailsApplication.config.openboxes.identifier.barcode.width
+        def defaultWidth = Holders.config.openboxes.identifier.barcode.width
         if (!attrs.width && defaultWidth) {
             try {
                 attrs.width = Integer.parseInt(defaultWidth)

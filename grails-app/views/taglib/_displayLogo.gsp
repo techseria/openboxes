@@ -1,14 +1,14 @@
-<div class="logo">
+<span class="logo">
     <g:if test="${attrs.includeLink}">
         <a href="${createLink(uri: '/')}">
-            <img src="${attrs?.logoUrl}" />
+            <img  !important align="left" src="${attrs?.logo?.url}" height="30" width="190" />
         </a>
     </g:if>
     <g:else>
-        <img src="${attrs?.logoUrl}" />
+        <img  !important align="left" src="${attrs?.logo?.url}" />
     </g:else>
     <g:if test="${attrs?.logo?.label && attrs.showLabel}">
         ${attrs?.logo.label}
     </g:if>
-</div>
+</span>
 

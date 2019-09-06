@@ -1,24 +1,26 @@
 package org.pih.warehouse.jobs
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
+import grails.util.Holders as CH
 import org.pih.warehouse.core.Location
 import org.pih.warehouse.core.User
 import org.pih.warehouse.product.Product
-import org.quartz.DisallowConcurrentExecution
 import org.quartz.JobExecutionContext
+
+// import org.quartz.DisallowConcurrentExecution
+// import org.quartz.JobExecutionContext
 import util.LiquibaseUtil
 
-@DisallowConcurrentExecution
+//@DisallowConcurrentExecution
 class CalculateQuantityJob {
 
     def inventorySnapshotService
     def mailService
 
     // cron job needs to be triggered after the staging deployment
-    static triggers = {
+   /* static triggers = {
 		cron name: 'calculateQuantityCronTrigger',
                 cronExpression: CH.config.openboxes.jobs.calculateQuantityJob.cronExpression
-    }
+    }*/
 
     def execute(JobExecutionContext context) {
 
@@ -70,6 +72,7 @@ class CalculateQuantityJob {
             // Triggered by the CalculateQuantityJob
             else if (date) {
                 log.info "Triggered calculate quantity job for all locations and products on ${date}"
+                inventorySnapshotService.deleteInventorySnapshots(date)
                 inventorySnapshotService.populateInventorySnapshots(date)
             } else {
                 log.info "Triggered calculate quantity job for all dates, locations, products"

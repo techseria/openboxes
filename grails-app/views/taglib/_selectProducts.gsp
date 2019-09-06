@@ -58,13 +58,13 @@
         <tfoot>
             <tr>
                 <td colspan="7">
-                    <g:formRemote id="addToProductProductGroup" name="addToProductProductGroup"
+                    <g:form id="addToProductProductGroup" name="addToProductProductGroup"
                                   update="productGroups" onSuccess="onSuccess(data,textStatus)" onComplete="onComplete()"
                                   url="[controller: 'product', action:'addProductGroupToProduct']">
                         <input name="id" type="hidden" value="${product?.id}" />
                         <input id="productGroup" type="text" name="productGroup" value="" size="80" class="medium text"/>
                         <button  class="button icon add">${warehouse.message(code:'default.button.add.label')}</button>
-                    </g:formRemote>
+                    </g:form>
 
                 </td>
             </tr>

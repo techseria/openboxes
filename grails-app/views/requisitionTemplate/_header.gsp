@@ -1,3 +1,4 @@
+<%@ page import="grails.util.Holders" %>
 <div id="requisition-template-header" class="box dialog">
     <div>
         <h2>
@@ -76,7 +77,7 @@
                     <td>
                         <span>
                             ${g.formatNumber(number: (requisition?.totalCost?:0), format: '###,###,##0.00##')}
-                            ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                            ${grails.util.Holders.config.openboxes.locale.defaultCurrencyCode}
                         </span>
                     </td>
                 </tr>

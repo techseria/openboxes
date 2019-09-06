@@ -194,7 +194,7 @@ class RequisitionController {
 
 
 	def review = {
-		def requisition = Requisition.get(params.id)
+		def requisition = Requisition.findById(params.id)
 
         if (requisition.status < RequisitionStatus.VERIFYING) {
             requisition.status = RequisitionStatus.VERIFYING
@@ -250,7 +250,7 @@ class RequisitionController {
             else {
                 jsonResponse = [success: false, errors: requisition.errors]
             }
-            log.info(jsonResponse as JSON)
+            println(jsonResponse as JSON)
 
         } catch (HibernateException e) {
             println "hibernate exception " + e.message
@@ -262,8 +262,8 @@ class RequisitionController {
 
         } catch (Exception e) {
             log.error("Error saving requisition: " + e.message, e)
-            log.info("Errors: " + requisition.errors)
-            log.info("Message: " + e.message)
+            println("Errors: " + requisition.errors)
+            println("Message: " + e.message)
             jsonResponse = [success: false, errors: requisition?.errors, message: e.message]
         }
         render jsonResponse as JSON
@@ -296,10 +296,14 @@ class RequisitionController {
         def requisition = Requisition.get(params?.id)
         if (requisition) {
             requisition.properties = params
+            if(params.verifiedBy){
+                requisition.verifiedBy = Person.findById(params.verifiedBy.id)
+            }
             requisition.save(flush: true)
-
+            requisitionService.saveRequisition(requisition)
         }
-        redirect(action: params.redirectAction ?: "show", id: requisition.id)
+        [requisition:requisition]
+        redirect(action: params.redirectAction ?: "show", id: requisition.id,requisition:requisition)
     }
 
 

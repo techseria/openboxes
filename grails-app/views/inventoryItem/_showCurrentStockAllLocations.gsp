@@ -1,3 +1,4 @@
+<%@ page import="grails.util.Holders" %>
 <div class="box dialog list">
     <h2>
         <g:message code="inventory.currentStock.label" default="Current Stock"/>
@@ -14,7 +15,7 @@
             </th>
             <th class="right">
                 ${warehouse.message(code:'product.totalValue.label')}
-                <small>${grailsApplication.config.openboxes.locale.defaultCurrencyCode}</small>
+                <small>${grails.util.Holders.config.openboxes.locale.defaultCurrencyCode}</small>
             </th>
         </tr>
         </thead>
@@ -43,7 +44,7 @@
                             <td class="right">
                                 <g:hasRoleFinance onAccessDenied="${g.message(code:'errors.blurred.message', args: [g.message(code:'access.accessDenied.label')])}">
                                     ${g.formatNumber(number: locationGroupEntry?.value?.totalValue, format: '###,###,##0.00', maxFractionDigits: 2) }
-                                    ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                                    ${Holders.config.openboxes.locale.defaultCurrencyCode}
                                 </g:hasRoleFinance>
                             </td>
                         </tr>
@@ -65,7 +66,7 @@
                                     <g:hasRoleFinance onAccessDenied="${g.message(code:'errors.blurred.message',
                                             args: [g.message(code:'access.accessDenied.label')])}">
                                         ${g.formatNumber(number: locationEntry?.value, format: '###,###,##0.00', maxFractionDigits: 2) }
-                                        ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                                        ${Holders.config.openboxes.locale.defaultCurrencyCode}
                                     </g:hasRoleFinance>
                                 </td>
                             </tr>
@@ -85,7 +86,7 @@
                     <th class="right">
                         <g:hasRoleFinance onAccessDenied="${g.message(code:'errors.blurred.message', args: [g.message(code:'access.accessDenied.label')])}">
                             <g:formatNumber number="${totalValue?:0}" format="###,##0.00" maxFractionDigits="2"/>
-                            ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                            ${Holders.config.openboxes.locale.defaultCurrencyCode}
                         </g:hasRoleFinance>
                     </th>
                 </tr>

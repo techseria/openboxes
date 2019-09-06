@@ -9,6 +9,7 @@
 **/ 
 package org.pih.warehouse.order
 
+import grails.validation.Validateable
 import org.pih.warehouse.core.Location
 import org.pih.warehouse.core.Party
 import org.pih.warehouse.core.Person
@@ -21,7 +22,7 @@ import org.pih.warehouse.shipping.ShipmentItem
 
 // import java.util.Date
 
-class OrderItem implements Serializable {
+class OrderItem implements Serializable, Validateable {
 	
 	String id
 	String description

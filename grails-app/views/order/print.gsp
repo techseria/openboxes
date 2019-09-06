@@ -1,4 +1,4 @@
-<%@ page defaultCodec="html" %>
+<%@ page import="grails.util.Holders" defaultCodec="html" %>
 <html>
 
 <head>
@@ -13,6 +13,8 @@
         table.order-items th { border: solid 1px lightgrey; margin: 10px; padding: 10px;}
 
     </style>
+    <asset:javascript src="application.js"/>
+    <asset:javascript src="application.css"/>
 </head>
 <body>
 
@@ -22,7 +24,7 @@
         <div  class="right">
             <button type="button" onclick="window.print()">
                 <img src="${resource(dir: 'images/icons/silk', file: 'printer.png')}" />
-                ${warehouse.message(code:"default.button.print.label")}
+                ${warehouse.message(code:"default.print.label")}
             </button>
         </div>
     </h2>
@@ -217,7 +219,7 @@
                                         </th>
                                         <th class="right">
                                             <g:formatNumber number="${orderInstance?.totalPrice()}"/>
-                                            ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                                            ${grails.util.Holders.config.openboxes.locale.defaultCurrencyCode}
                                         </th>
                                     </tr>
                                 </tfoot>

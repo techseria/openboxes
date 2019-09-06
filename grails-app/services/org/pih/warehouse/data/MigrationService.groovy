@@ -177,7 +177,7 @@ class MigrationService {
             locationCounts.eachParallel {
                 persistenceInterceptor.init()
                 def location = Location.get(it.locationId)
-                log.info("Migrating ${it.transactionCount} inventory transactions for location ${location.name}")
+                println("Migrating ${it.transactionCount} inventory transactions for location ${location.name}")
                 migrateInventoryTransactions(location,true)
                 persistenceInterceptor.flush()
                 persistenceInterceptor.destroy()
@@ -467,12 +467,12 @@ class MigrationService {
     def migrateOrganization(Location supplier, PartyType partyType) {
         def organization = findOrCreateOrganization(supplier.name, supplier.description, partyType, [RoleType.ROLE_SUPPLIER])
         if (!organization.save(flush: true)) {
-            log.info("errors: " + organization.errors)
+            println("errors: " + organization.errors)
             throw new ValidationException("Cannot create organization ${organization?.name}: ", organization.errors)
         }
         supplier.organization = organization
         if (supplier.hasErrors() || !supplier.save(flush: true)) {
-            log.info("errors: " + supplier.errors)
+            println("errors: " + supplier.errors)
             throw new ValidationException("Cannot migrate supplier ${supplier?.name}: ", supplier.errors)
         }
         return organization
@@ -604,7 +604,7 @@ class MigrationService {
             productSupplier.comments = "Migrated ${now}"
 
             if (productSupplier.hasErrors() || !productSupplier.save()) {
-                log.info("Product supplier " + productSupplier.errors)
+                println("Product supplier " + productSupplier.errors)
                 throw new ValidationException("Cannot migrate supplier ${productSupplier?.name}: ", productSupplier?.errors)
             }
         }

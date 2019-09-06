@@ -21,7 +21,6 @@ class ProductComponent {
     Date dateCreated
     Date lastUpdated
 
-
     static belongsTo = [assemblyProduct:Product]
 
     static mapping = {

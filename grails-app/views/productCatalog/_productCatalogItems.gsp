@@ -24,9 +24,9 @@
                     ${productCatalogItem.product.category.name}
                 </td>
                 <td>
-                    <g:remoteLink action="removeProductCatalogItem" id="${productCatalogItem.id}" class="button" update="productCatalogItems" >
+                    <g:link action="removeProductCatalogItem" id="${productCatalogItem.id}" class="button" update="productCatalogItems" >
                         <warehouse:message code="default.button.delete.label"/>
-                    </g:remoteLink>
+                    </g:link>
 
                 </td>
             </tr>
@@ -43,7 +43,7 @@
         <tfoot>
             <tr>
                 <td colspan="4" class="center">
-                    <g:formRemote name="addProductCatalogItem" url="[controller: 'productCatalog', action:'addProductCatalogItem']"
+                    <g:form name="addProductCatalogItem" url="[controller: 'productCatalog', action:'addProductCatalogItem']"
                                   update="productCatalogItems" onSuccess="onSuccess(data,textStatus)" onComplete="onComplete()">
 
                         <g:hiddenField name="productCatalog.id" value="${productCatalogInstance.id}"/>
@@ -54,7 +54,7 @@
 
                         <button class="button">${warehouse.message(code:'default.button.add.label')}</button>
 
-                    </g:formRemote>
+                    </g:form>
                 </td>
             </tr>
         </tfoot>

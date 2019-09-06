@@ -10,6 +10,7 @@
 package org.pih.warehouse.user
 
 import grails.util.GrailsUtil
+import grails.util.Holders
 import org.apache.commons.mail.EmailException
 import org.pih.warehouse.core.MailService
 import org.pih.warehouse.core.Role
@@ -22,7 +23,6 @@ class AuthController {
 	MailService mailService;
     def userService
     def authService
-    def grailsApplication
 	
     static allowedMethods = [login: "GET", doLogin: "POST", logout: "GET"];
     
@@ -48,7 +48,7 @@ class AuthController {
      * Allows user to log into the system.
      */
     def login = {
-        if (session.user) {
+        if (session.user != null) {
             flash.message = "You have already logged in."
             redirect(controller: "dashboard", action: "index")
         }
@@ -175,7 +175,7 @@ class AuthController {
 
                 // Attempt to add default roles to user instance
                 try {
-                    def defaultRoles = grailsApplication.config.openboxes.signup.defaultRoles
+                    def defaultRoles = Holders.config.openboxes.signup.defaultRoles
                     if (!defaultRoles.isEmpty()) {
                         println "Default roles: " + defaultRoles
                         def roleTypes = defaultRoles.split(",")

@@ -1,3 +1,4 @@
+<%@ page import="grails.util.Holders" %>
 <div class="summary">
 	<table id="shipmentSummary" border="0">
 		<tbody>
@@ -15,7 +16,7 @@
 				<g:if test="${actionName != 'showDetails'}">
 					<td width="1%" class="middle">
 						<div>
-							<g:render template="../shipment/actions" />
+							<g:render template="/shipment/actions" />
 						</div>
 					</td>
 				</g:if>
@@ -116,7 +117,7 @@
 								<warehouse:message code="shipping.totalValue.label"/>:
 								<label>
 									<g:formatNumber format="###,###,##0.00" number="${shipmentInstance?.totalValue ?: 0.00 }" />
-									${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+									${grails.util.Holders.config.openboxes.locale.defaultCurrencyCode}
 								</label>
 							</span>
 						</g:if>

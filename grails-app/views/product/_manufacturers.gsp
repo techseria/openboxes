@@ -1,3 +1,4 @@
+<%@ page import="grails.util.Holders" %>
 <g:form action="update" method="post">
     <g:hiddenField name="action" value="save"/>
     <g:hiddenField name="id" value="${productInstance?.id}" />
@@ -125,11 +126,11 @@
                 <td class="name middle"><label for="pricePerUnit"><warehouse:message
                         code="product.pricePerUnit.label"/></label></td>
                 <td class="value middle ${hasErrors(bean: productInstance, field: 'pricePerUnit', 'errors')}">
-                    <g:textField name="pricePerUnit" placeholder="Price per unit (${grailsApplication.config.openboxes.locale.defaultCurrencyCode})"
+                    <g:textField name="pricePerUnit" placeholder="Price per unit (${grails.util.Holders.config.openboxes.locale.defaultCurrencyCode})"
                                  value="${g.formatNumber(number:productInstance?.pricePerUnit, format:'###,###,##0.####') }"
                                  class="text" size="50" />
 
-                    <span class="fade">${grailsApplication.config.openboxes.locale.defaultCurrencyCode}</span>
+                    <span class="fade">${Holders.config.openboxes.locale.defaultCurrencyCode}</span>
 
                 </td>
             </tr>

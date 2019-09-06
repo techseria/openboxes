@@ -11,6 +11,11 @@ package org.pih.warehouse.product
 
 class ProductComponentController {
 
-    def scaffold = true
+    static scaffold = ProductComponent
 
+    def list={
+      def productComponentInstance = ProductComponent.list()
+        def total = productComponentInstance.size()
+        [productComponentInstanceList:productComponentInstance,productComponentInstanceTotal:total]
+    }
 }

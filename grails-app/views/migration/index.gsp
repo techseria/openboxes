@@ -2,6 +2,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="layout" content="custom">
+    <title>Techseria</title>
 </head>
 <body>
 
@@ -42,9 +43,9 @@
                         <g:link controller="organization" action="index" class="button">List</g:link>
                         %{--<g:remoteLink action="migrateOrganizations" params="[preview:true]" class="button" update="status"--}%
                                       %{--onLoading="onLoading()" onComplete="onComplete()">Preview</g:remoteLink>--}%
-                        <g:remoteLink action="migrateOrganizations" class="button" update="status"
-                            onLoading="onLoading()" onComplete="onComplete()">Migrate</g:remoteLink>
-                        <g:remoteLink action="deleteOrganizations" class="button" update="status">Delete</g:remoteLink>
+                        <g:link action="migrateOrganizations" class="button" update="status"
+                            onLoading="onLoading()" onComplete="onComplete()">Migrate</g:link>
+                        <g:link action="deleteOrganizations" class="button" update="status">Delete</g:link>
                     </td>
                 </tr>
                 <tr class="prop">
@@ -56,10 +57,10 @@
                         <g:link controller="productSupplier" action="index" class="button">List</g:link>
                         %{--<g:remoteLink action="migrateProductSuppliers" params="[preview:true]" class="button" update="status"--}%
                                       %{--onLoading="onLoading()" onComplete="onComplete()">Preview</g:remoteLink>--}%
-                        <g:remoteLink action="migrateProductSuppliers" class="button" update="status"
-                                      onLoading="onLoading()" onComplete="onComplete()">Migrate</g:remoteLink>
-                        <g:remoteLink action="deleteProductSuppliers" class="button" update="status"
-                                      onLoading="onLoading()" onComplete="onComplete()">Delete</g:remoteLink>
+                        <g:link action="migrateProductSuppliers" class="button" update="status"
+                                      onLoading="onLoading()" onComplete="onComplete()">Migrate</g:link>
+                        <g:link action="deleteProductSuppliers" class="button" update="status"
+                                      onLoading="onLoading()" onComplete="onComplete()">Delete</g:link>
                     </td>
                 </tr>
                 <tr class="prop">

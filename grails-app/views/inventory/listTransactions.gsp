@@ -6,6 +6,8 @@
         <g:set var="entityName" value="${warehouse.message(code: 'transaction.label', default: 'Transaction')}" />
 
         <title><warehouse:message code="transaction.list.label"/></title>
+        <asset:javascript src="application.js"/>
+        <asset:javascript src="application.css"/>
     </head>
 
 	<body>

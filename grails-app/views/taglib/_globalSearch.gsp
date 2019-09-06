@@ -1,3 +1,4 @@
+<%@ page import="grails.util.Holders" %>
 <span>
 	<g:form method="GET" controller="dashboard" action="globalSearch" style="display: inline;">
 		<g:textField id="${attrs.id}" name="searchTerms" class="globalSearch top" type="text" size="${attrs.size}"
@@ -13,8 +14,8 @@
 <script>
     $(document).ready(function() {
         $("#${attrs.id}").autocomplete( {
-            delay: ${grailsApplication.config.openboxes.typeahead.delay},
-            minLength: ${grailsApplication.config.openboxes.typeahead.minLength},
+            delay: ${grails.util.Holders.config.openboxes.typeahead.delay},
+            minLength: ${Holders.config.openboxes.typeahead.minLength},
             source: function(req, resp) {
 
 				$.getJSON('${attrs.jsonUrl}', req, function(data) {

@@ -1,3 +1,4 @@
+<%@ page import="grails.util.Holders" %>
 <g:hasRoleFinance>
 <div class="box">
     <h2>
@@ -79,7 +80,7 @@
                         <tfoot>
                         <tr>
                             <th colspan="3">
-                                <div class="fade">All values in ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}</div>
+                                <div class="fade">All values in ${grails.util.Holders.config.openboxes.locale.defaultCurrencyCode}</div>
                             </th>
                         </tr>
                         </tfoot>

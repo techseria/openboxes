@@ -10,8 +10,8 @@
 package org.pih.warehouse.api
 
 import grails.converters.JSON
-import org.codehaus.groovy.grails.web.json.JSONArray
-import org.codehaus.groovy.grails.web.json.JSONObject
+import org.grails.web.json.JSONArray
+import org.grails.web.json.JSONObject
 import org.pih.warehouse.core.Constants
 import org.pih.warehouse.core.Location
 import org.pih.warehouse.inventory.AdjustStockCommand
@@ -48,17 +48,17 @@ class StockAdjustmentApiController {
     }
 
 
-    void bindStockAdjustmentData(List<StockAdjustment> stockAdjustments, JSONArray jsonArray) {
+    protected void bindStockAdjustmentData(List<StockAdjustment> stockAdjustments, JSONArray jsonArray) {
         jsonArray.each {
             stockAdjustments << bindStockAdjustmentData(new StockAdjustment(), it)
         }
     }
 
-    void bindStockAdjustmentData(List<StockAdjustment> stockAdjustments, JSONObject jsonObject) {
+    protected void bindStockAdjustmentData(List<StockAdjustment> stockAdjustments, JSONObject jsonObject) {
         stockAdjustments << bindStockAdjustmentData(new StockAdjustment(), jsonObject)
     }
 
-    StockAdjustment bindStockAdjustmentData(StockAdjustment stockAdjustment, JSONObject jsonObject) {
+    protected StockAdjustment bindStockAdjustmentData(StockAdjustment stockAdjustment, JSONObject jsonObject) {
         bindData(stockAdjustment, jsonObject)
 
         if (!stockAdjustment.inventoryItem) {

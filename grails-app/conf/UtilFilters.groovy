@@ -40,7 +40,7 @@ class UtilFilters {
 
                     request?.actionDuration = actionDuration
                     request?.viewDuration = viewDuration
-                    log.info("Request duration for (${controllerName}/${actionName}): ${actionDuration}ms/${viewDuration}ms")
+                    println("Request duration for (${controllerName}/${actionName}): ${actionDuration}ms/${viewDuration}ms")
                 }
             }
         }

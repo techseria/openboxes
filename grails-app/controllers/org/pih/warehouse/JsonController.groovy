@@ -10,15 +10,14 @@
 package org.pih.warehouse
 
 import grails.converters.JSON
-import grails.plugin.springcache.annotations.CacheFlush
-import grails.plugin.springcache.annotations.Cacheable
+import grails.util.Holders
 import groovy.sql.Sql
 import groovy.time.TimeCategory
 import org.apache.commons.lang.StringEscapeUtils
+import org.grails.web.json.JSONObject
 import org.hibernate.FetchMode
 import org.hibernate.annotations.Cache
 import org.pih.warehouse.core.*
-import org.codehaus.groovy.grails.web.json.JSONObject
 import org.pih.warehouse.core.ApiException
 import org.pih.warehouse.core.Constants
 import org.pih.warehouse.core.Localization
@@ -44,6 +43,7 @@ import org.pih.warehouse.requisition.RequisitionItemSortByCode
 import org.pih.warehouse.shipping.Container
 import org.pih.warehouse.shipping.Shipment
 import org.pih.warehouse.util.LocalizationUtil
+import org.springframework.cache.annotation.Cacheable
 
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -115,7 +115,6 @@ class JsonController {
                 }
             }
         }
-        log.info(json as JSON)
         render json as JSON
     }
 
@@ -131,7 +130,6 @@ class JsonController {
             def requisitionItems = requisition."${sortByCode.methodName}"?.collect { it.toStockListDetailsJson() }
             json = [aaData: requisitionItems]
         }
-        log.info(json as JSON)
         render json as JSON
     }
 
@@ -181,7 +179,6 @@ class JsonController {
             requisitionItem.delete()
             json = [success: true]
         }
-        log.info(json as JSON)
         render json as JSON
     }
 
@@ -290,7 +287,6 @@ class JsonController {
 		else {
 			jsonResponse = [success: false, errors: localization.errors]
 		}
-		log.info(jsonResponse as JSON)
 		render jsonResponse as JSON
 		//def localization = new Localization(params)
 		return true
@@ -312,8 +308,8 @@ class JsonController {
         render jsonResponse as JSON
     }
 
-    @Cacheable("inventoryBrowserCache")
-	def getQuantityToReceive = {
+
+    def getQuantityToReceive = {
 		def product = Product.get(params?.product?.id)
 		def location = Location.get(params?.location?.id)
 		def quantityToReceive = inventoryService.getQuantityToReceive(location, product)
@@ -321,8 +317,8 @@ class JsonController {
 		render (quantityToReceive?:"0")
 	}
 
-    @Cacheable("inventoryBrowserCache")
-	def getQuantityToShip = {
+
+    def getQuantityToShip = {
 		def product = Product.get(params?.product?.id)
 		def location = Location.get(params?.location?.id)
 		def quantityToShip = inventoryService.getQuantityToShip(location, product)
@@ -330,8 +326,8 @@ class JsonController {
 		render (quantityToShip?:"0")
 	}
 
-    @Cacheable("inventoryBrowserCache")
-	def getQuantityOnHand = {
+
+    def getQuantityOnHand = {
 		def product = Product.get(params?.product?.id)
 		def location = Location.get(params?.location?.id)
 		def quantityOnHand = inventoryService.getQuantityOnHand(location, product)
@@ -339,13 +335,13 @@ class JsonController {
         //println "${createLink(controller:'inventoryItem', action: 'showStockCard', id: product.id)}"
 		render (quantityOnHand?:"0")
 	}
-    @Cacheable("inventoryBrowserCache")
+
+
     def flushInventoryBrowserCache = {
         redirect(controller: "inventory", action: "browse")
     }
 
 
-    @Cacheable("dashboardCache")
     def getGenericProductSummary = {
         def startTime = System.currentTimeMillis()
         def location = Location.get(session?.warehouse?.id)
@@ -416,7 +412,6 @@ class JsonController {
     }
 
 
-    @CacheFlush("dashboardTotalStockValueCache")
     def refreshTotalStockValue = {
         render ([success:true] as JSON)
     }
@@ -584,7 +579,6 @@ class JsonController {
 	}
 
 	def getQuantity = {
-		log.info params
 		def quantity = 0
 		def location = Location.get(session.warehouse.id);
 		def lotNumber = (params.lotNumber) ? (params.lotNumber) : "";
@@ -641,7 +635,6 @@ class JsonController {
 	 * Returns inventory items for the given location, lot number, and product.
 	 */
 	def findInventoryItems = {
-		log.info params
         long startTime = System.currentTimeMillis()
 		def inventoryItems = []
 		def location = Location.get(session.warehouse.id);
@@ -651,7 +644,7 @@ class JsonController {
 			def tempItems = inventoryService.findInventoryItems(params.term)
 
 			if (tempItems) {
-                def maxResults = grailsApplication.config.openboxes.shipping.search.maxResults?:1000
+                def maxResults = Holders.config.openboxes.shipping.search.maxResults?:1000
                 if (tempItems.size() > maxResults) {
                     def message = "${warehouse.message(code:'inventory.tooManyItemsFound.message', default: 'Found {1} items for term "{0}". Too many items so disabling QoH. Try searching by product code.', args: [params.term, tempItems.size()])}"
                     inventoryItems << [id: 'null', value: message]
@@ -848,7 +841,6 @@ class JsonController {
 
 	def findProductByName = {
 
-		log.info("find products by name " + params)
 		def dateFormat = new SimpleDateFormat(Constants.SHORT_MONTH_YEAR_DATE_FORMAT);
 		def products = new TreeSet()
 
@@ -932,7 +924,7 @@ class JsonController {
 
 	def findRequestItems = {
 
-		log.info("find request items by name " + params)
+
 
 		//def items = new TreeSet();
 		def items = []
@@ -1073,7 +1065,6 @@ class JsonController {
             */
 
         }
-        log.info result
         render result.sort { "${it.group}${it.value}" } as JSON
     }
 
@@ -1101,7 +1092,7 @@ class JsonController {
 
 	def globalSearch = {
 
-        def minLength = grailsApplication.config.openboxes.typeahead.minLength
+        def minLength = Holders.config.openboxes.typeahead.minLength
         if (params.term && params.term.size()<minLength) {
             render([:] as JSON)
             return
@@ -1146,12 +1137,12 @@ class JsonController {
 		render json as JSON
 	}
 
-    @CacheFlush("quantityOnHandCache")
+
     def flushQuantityOnHandCache = {
         redirect(controller:"inventory", action: "analyze")
     }
 
-    @Cacheable("quantityOnHandCache")
+
     def calculateQuantityOnHandByProduct = {
 
         log.info "Calculating quantity on hand by product ..." + params
@@ -1235,7 +1226,7 @@ class JsonController {
         def totalValue = 0
         totalValue = aaData.sum { it.totalValue?:0 }
         NumberFormat numberFormat = NumberFormat.getNumberInstance()
-        String currencyCode = grailsApplication.config.openboxes.locale.defaultCurrencyCode?:"USD"
+        String currencyCode = Holders.config.openboxes.locale.defaultCurrencyCode?:"USD"
         numberFormat.currency = Currency.getInstance(currencyCode)
         numberFormat.maximumFractionDigits = 2
         numberFormat.minimumFractionDigits = 2
@@ -1323,7 +1314,6 @@ class JsonController {
      * Stock Card > Snapshot graph
      */
     def getQuantityOnHandByMonth = {
-        log.info params;
         def dates = []
         def format = "MMM-yy"
         def numMonths = (params.numMonths as int)?:12
@@ -1452,7 +1442,7 @@ class JsonController {
             date.clearTime()
         }
         def location = Location.get(params?.location?.id?:session?.warehouse?.id)
-        def data = dashboardService.getFastMovers(location, date, params.max as int)
+        def data = dashboardService.getFastMovers(location, date, 0)
 
         render ([aaData: data?.results?:[]] as JSON)
     }

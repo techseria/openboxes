@@ -9,6 +9,7 @@
 **/
 package org.pih.warehouse.shipping
 
+import grails.plugins.csv.CSVWriter
 import grails.validation.ValidationException
 import groovy.sql.Sql
 import org.krysalis.barcode4j.impl.code128.Code128Bean
@@ -18,7 +19,6 @@ import org.pih.warehouse.inventory.TransactionException
 import org.pih.warehouse.product.Product
 import org.pih.warehouse.receiving.Receipt
 import org.pih.warehouse.receiving.ReceiptItem;
-import au.com.bytecode.opencsv.CSVWriter
 
 class ShipmentController {
 
@@ -625,7 +625,7 @@ class ShipmentController {
             def subject = "${warehouse.message(code:'shipment.hasBeenReceived.message',args:[shipmentType, shipmentName, shipmentDate])}"
             def body = g.render(template:"/email/shipmentReceived", model:[shipmentInstance:shipmentInstance, userInstance:userInstance])
             def toList = recipients?.collect { it?.email }?.unique()
-            log.info("Mailing shipment emails to ${toList} with subject ${subject}")
+            println("Mailing shipment emails to ${toList} with subject ${subject}")
 
             try {
                 mailService.sendHtmlMail(subject, body.toString(), toList)
@@ -769,7 +769,7 @@ class ShipmentController {
 			// If the user removed the recipient, we need to make sure that the whole object is removed (not just the ID)
 			for (def shipmentItem : containerInstance?.shipmentItems) {
 				if (!shipmentItem?.recipient?.id) {
-					log.info("item recipient: " + shipmentItem?.recipient?.id)
+					println("item recipient: " + shipmentItem?.recipient?.id)
 					shipmentItem.recipient = null;
 				}
 			}

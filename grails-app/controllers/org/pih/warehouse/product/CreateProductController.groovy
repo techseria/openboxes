@@ -41,7 +41,7 @@ class CreateProductController {
     	search {
 			//on("error").to("error")
 			on("search") { ProductSearchCommand search ->
-				log.info("search: " + params)
+				println("search: " + params)
 				if (search.hasErrors()) { 
 					flash.message = "Validation exception"
 					flow.search = search
@@ -70,7 +70,7 @@ class CreateProductController {
 		results { 
 			//on("error").to("error")
 			on("search") { ProductSearchCommand search ->
-				log.info("results: " + params)				
+				println("results: " + params)				
 				if (search.hasErrors()) { 
 					flow.search = search
 					return error();
@@ -95,7 +95,7 @@ class CreateProductController {
 			}.to("results")
 			
 			on("select") {
-				log.info("select: " + params)
+				println("select: " + params)
 				def product = Product.get(params.id)
 				if (!product) { 
 					
@@ -154,16 +154,16 @@ class CreateProductController {
 		verify { 
 			//on("error").to("error")
 			on("next") { ProductDetailsCommand command -> 
-				log.info("VERIFY: next")
+				println("VERIFY: next")
 				
-				log.info("flow.product.category: " + flow.product.category)
-				log.info("flow.product.description: " + flow.product.description)
-				log.info("flow.product.title: " + flow.product.title)
-				log.info("flow.product.gtin: " + flow.product.gtin)
-				log.info("command.category: " + command.category)
-				log.info("command.description: " + command.description)
-				log.info("command.title: " + command.title)
-				log.info("command.gtin: " + command.gtin)
+				println("flow.product.category: " + flow.product.category)
+				println("flow.product.description: " + flow.product.description)
+				println("flow.product.title: " + flow.product.title)
+				println("flow.product.gtin: " + flow.product.gtin)
+				println("command.category: " + command.category)
+				println("command.description: " + command.description)
+				println("command.title: " + command.title)
+				println("command.gtin: " + command.gtin)
 
 				
 				flow.product = command
@@ -191,7 +191,7 @@ class CreateProductController {
 				
 				if(!productInstance.hasErrors() && productInstance.save(flush: true)){	
 					flash.message = "${message(code: 'success.adding.product')}"
-					log.info("Saved product " + productInstance?.name + " with ID " + productInstance?.id )
+					println("Saved product " + productInstance?.name + " with ID " + productInstance?.id )
 					flow.productInstance = productInstance
 					//return success()
 				}

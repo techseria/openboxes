@@ -15,7 +15,7 @@
 	<jqvalui:renderErrors/>			
 
 		
-	<g:form id="addPerson" name="addPerson" action="createShipment">
+	<g:form id="addPerson" name="addPerson" action="savePerson">
 		<table>
 			<tbody>
 				<g:if test="${personInstance}">

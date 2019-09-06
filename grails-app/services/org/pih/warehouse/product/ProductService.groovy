@@ -75,25 +75,25 @@ class ProductService {
 		ndcList.NDC.each {
 			ndc ->
 
-			if (ndc.NDCCode) {
-				println "NDC: " + ndc
-				def product = new ProductDetailsCommand()
-				product.title = ndc.PackageDescription.text()
-				product.ndcCode = ndc.NDCCode
-				product.productType = ndc.ProductTypeName.text()
-				product.packageDescription = ndc.PackageDescription.text()
-				product.ndcCode = ndc.NDCCode.text()
-				product.productNdcCode = ndc.ProductNDC.text()
-				product.labelerName = ndc.LabelerName.text()
-				product.strengthNumber = ndc.StrengthNumber.text()
-				product.strengthUnit = ndc.StrengthUnit.text()
-				product.pharmClasses = ndc.PharmClasses.text()
-				product.dosageForm = ndc.DosageFormName.text()
-				product.route = ndc.RouteName.text()
-				product.proprietaryName = ndc.ProprietaryName.text()
-				product.nonProprietaryName = ndc.NonProprietaryName.text()
-				results << product
-			}
+				if (ndc.NDCCode) {
+					println "NDC: " + ndc
+					def product = new ProductDetailsCommand()
+					product.title = ndc.PackageDescription.text()
+					product.ndcCode = ndc.NDCCode
+					product.productType = ndc.ProductTypeName.text()
+					product.packageDescription = ndc.PackageDescription.text()
+					product.ndcCode = ndc.NDCCode.text()
+					product.productNdcCode = ndc.ProductNDC.text()
+					product.labelerName = ndc.LabelerName.text()
+					product.strengthNumber = ndc.StrengthNumber.text()
+					product.strengthUnit = ndc.StrengthUnit.text()
+					product.pharmClasses = ndc.PharmClasses.text()
+					product.dosageForm = ndc.DosageFormName.text()
+					product.route = ndc.RouteName.text()
+					product.proprietaryName = ndc.ProprietaryName.text()
+					product.nonProprietaryName = ndc.NonProprietaryName.text()
+					results << product
+				}
 		}
 		return results;
 	}
@@ -151,7 +151,7 @@ class ProductService {
 		boolean spellingEnabled = search.spellingEnabled
 
 		def urlString = "https://www.googleapis.com/shopping/search/v1/public/products?" +
-		"key=${googleProductSearchKey}&country=US&q=${q.encodeAsURL()}&alt=atom&crowdBy=brand:1";
+				"key=${googleProductSearchKey}&country=US&q=${q.encodeAsURL()}&alt=atom&crowdBy=brand:1";
 		if (startIndex > 0) {
 			urlString += "&startIndex=" + startIndex
 		}
@@ -174,42 +174,42 @@ class ProductService {
 			feed.entry.each {
 				entry ->
 
-				def product = new ProductDetailsCommand()
+					def product = new ProductDetailsCommand()
 
-				product.link = entry[ns.product][ns.link].text()
-				product.author = entry.author.name.text()
+					product.link = entry[ns.product][ns.link].text()
+					product.author = entry.author.name.text()
 
 
-				entry.link.each {
-					link ->
-					product.links[link.'@rel'] = link.'@href'
-				}
-				//println "categories: " + entry[ns.product][ns.categories][ns.category]
+					entry.link.each {
+						link ->
+							product.links[link.'@rel'] = link.'@href'
+					}
+					//println "categories: " + entry[ns.product][ns.categories][ns.category]
 
-				product.id = entry.id.text()
-				product.googleId = entry[ns.product][ns.googleId].text()
-				product.title = entry[ns.product][ns.title].text()
-				product.description = entry[ns.product][ns.description].text()
-				product.brand = entry[ns.product][ns.brand].text()
-				//product.gtins << entry[ns.product][ns.gtin].text()
-				// HACK iterates over all images, but only keeps the last one
-				// Need to add these to product->documents
-				//def imageLinks = ""
-				product.gtin = entry[ns.product][ns.gtin].text()
-				entry[ns.product][ns.gtins][ns.gtin].each { gtin ->
-					product.gtins << gtin.text()
-				}
-				entry[ns.product][ns.images][ns.image].each { image ->
-					product.images << image.'@link'
-				}
-				search.results << product
+					product.id = entry.id.text()
+					product.googleId = entry[ns.product][ns.googleId].text()
+					product.title = entry[ns.product][ns.title].text()
+					product.description = entry[ns.product][ns.description].text()
+					product.brand = entry[ns.product][ns.brand].text()
+					//product.gtins << entry[ns.product][ns.gtin].text()
+					// HACK iterates over all images, but only keeps the last one
+					// Need to add these to product->documents
+					//def imageLinks = ""
+					product.gtin = entry[ns.product][ns.gtin].text()
+					entry[ns.product][ns.gtins][ns.gtin].each { gtin ->
+						product.gtins << gtin.text()
+					}
+					entry[ns.product][ns.images][ns.image].each { image ->
+						product.images << image.'@link'
+					}
+					search.results << product
 			}
 		}
 		else {
-			log.info("URL: " + url)
-			log.info("Response Code: " + connection.responseCode)
-			log.info("Response Message: " + connection.responseMessage)
-			//log.info("Response: " + connection.content)
+			println("URL: " + url)
+			println("Response Code: " + connection.responseCode)
+			println("Response Message: " + connection.responseMessage)
+			//println("Response: " + connection.content)
 			throw new ApiException("Unable to connect to Google Product Search API using connection URL [" + urlString + "]: " + connection.responseMessage)
 		}
 
@@ -225,7 +225,7 @@ class ProductService {
 		// Get all products, including hidden ones
 		def products = Product.list()
 		def searchResults = Product.createCriteria().list() {
-            eq("active", true)
+			eq("active", true)
 			or {
 				or {
 					searchTerms.each {
@@ -266,7 +266,7 @@ class ProductService {
 		return searchResults;
 	}
 
-    /*
+	/*
     def getProducts(List ids) {
         return getProducts(ids.toArray())
 
@@ -277,37 +277,43 @@ class ProductService {
 	 * @deprecated
 	 * @return
 	 */
-    List<Product> getProducts(String query, Category category, List<Tag> tags, boolean includeInactive, params) {
-        return getProducts(category, tags, includeInactive, params)
-    }
+	List<Product> getProducts(String query, Category category, List<Tag> tags, boolean includeInactive, params) {
+		return getProducts(category, tags, includeInactive, params)
+	}
 
-    /**
-     * Get all products that match the given product identifiers.
-     *
-     * @param ids
-     * @return
-     */
+	/**
+	 * Get all products that match the given product identifiers.
+	 *
+	 * @param ids
+	 * @return
+	 */
 	List<Product> getProducts(String [] ids) {
 		def products = []
 		if (ids) {
 			products = Product.createCriteria().list() {
-                eq("active", true)
-                'in'("id", ids)
-            }
+				eq("active", true)
+				'in'("id", ids)
+			}
 		}
 		return products
 	}
 
-    /**
-     * Get all products that match category, tags, and search parameters.
-     * @param category
-     * @param tags
-     * @param params
-     * @return
-     */
-    List<Product> getProducts(Category category, List<Tag> tags, Map params) {
-        return getProducts(category, tags, false, params)
-    }
+	Product getProductById(String id){
+		Product product =  Product.findById(id)
+		return  product
+	}
+
+
+	/**
+	 * Get all products that match category, tags, and search parameters.
+	 * @param category
+	 * @param tags
+	 * @param params
+	 * @return
+	 */
+	List<Product> getProducts(Category category, List<Tag> tags, Map params) {
+		return getProducts(category, tags, false, params)
+	}
 
 	/**
 	 * Get all products that match category, tags, and search parameters.
@@ -320,25 +326,25 @@ class ProductService {
 		return getProducts(category, [], tags, includeInactive, params)
 	}
 
-    /**
-     * Get all products that match category, tags, and other search parameters.
-     *
-     * @param category
+	/**
+	 * Get all products that match category, tags, and other search parameters.
+	 *
+	 * @param category
 	 * @param catalogs
-     * @param tags
-     * @param params
-     * @return
-     */
+	 * @param tags
+	 * @param params
+	 * @return
+	 */
 	List<Product> getProducts(Category category, List<ProductCatalog> catalogsInput, List<Tag> tagsInput, boolean includeInactive, Map params) {
-        log.info "get products where category=" + category + ", catalogs=" + catalogsInput + ", tags=" + tagsInput + ", params=" + params
+		log.info "get products where category=" + category + ", catalogs=" + catalogsInput + ", tags=" + tagsInput + ", params=" + params
 
-        int max = params.max ? params.int("max") : 10
-        int offset = params.offset ? params.int("offset") : 0
-        String sortColumn = params.sort?:"name"
-        String sortOrder = params.order?:"asc"
+		int max = params.max ? params.int("max") : 10
+		int offset = params.offset ? params.int("offset") : 0
+		String sortColumn = params.sort?:"name"
+		String sortOrder = params.order?:"asc"
 
-        //max:params.max?:10, offset:params.offset?:0, sort:params.sort?:"name", order:params.order?:"asc"
-        def results = Product.createCriteria().list(max: max, offset: offset) {
+		//max:params.max?:10, offset:params.offset?:0, sort:params.sort?:"name", order:params.order?:"asc"
+		def results = Product.createCriteria().list(max: max, offset: offset) {
 
 			def fields = params.fields ? params.fields.split(",") : null
 			log.info "Fields: " + fields
@@ -349,24 +355,24 @@ class ProductService {
 					}
 				}
 			}
-            if (!includeInactive) {
-                eq("active", true)
-            }
-            and {
-                if (category) {
-                    if (params.includeCategoryChildren) {
-                        def categories = category.children?:[]
-                        categories << category
-                        //categories = categories.collect { it.id }
+			if (!includeInactive) {
+				eq("active", true)
+			}
+			and {
+				if (category) {
+					if (params.includeCategoryChildren) {
+						def categories = category.children?:[]
+						categories << category
+						//categories = categories.collect { it.id }
 
-                        println "Categories to search in " + categories
-                        'in'("category", categories)
-                    }
-                    else {
-                        println "Equality search " + category
-                        eq("category", category)
-                    }
-                }
+						println "Categories to search in " + categories
+						'in'("category", categories)
+					}
+					else {
+						println "Equality search " + category
+						eq("category", category)
+					}
+				}
 
 
 				or {
@@ -383,41 +389,41 @@ class ProductService {
 					}
 				}
 
-                or {
-                    if (params.name) ilike("name", "%" + params.name.replaceAll(" ", "%") + "%")
-                    if (params.description) ilike("description", params.description + "%")
-                    if (params.brandName) ilike("brandName", "%" + params?.brandName?.trim() + "%")
-                    if (params.manufacturer) ilike("manufacturer", "%" + params?.manufacturer?.trim() + "%")
-                    if (params.manufacturerCode) ilike("manufacturerCode", "%" + params?.manufacturerCode?.trim() + "%")
-                    if (params.vendor) ilike("vendor", "%" + params?.vendor?.trim() + "%")
-                    if (params.vendorCode) ilike("vendorCode", "%" + params?.vendorCode?.trim() + "%")
-                    if (params.productCode) ilike("productCode", "%" + params.productCode + "%")
-                    if (params.unitOfMeasure) ilike("unitOfMeasure", "%" + params.unitOfMeasure + "%")
-                    if (params.createdById) eq("createdBy.id", params.createdById)
-                    if (params.updatedById) eq("updatedBy.id", params.updatedById)
+				or {
+					if (params.name) ilike("name", "%" + params.name.replaceAll(" ", "%") + "%")
+					if (params.description) ilike("description", params.description + "%")
+					if (params.brandName) ilike("brandName", "%" + params?.brandName?.trim() + "%")
+					if (params.manufacturer) ilike("manufacturer", "%" + params?.manufacturer?.trim() + "%")
+					if (params.manufacturerCode) ilike("manufacturerCode", "%" + params?.manufacturerCode?.trim() + "%")
+					if (params.vendor) ilike("vendor", "%" + params?.vendor?.trim() + "%")
+					if (params.vendorCode) ilike("vendorCode", "%" + params?.vendorCode?.trim() + "%")
+					if (params.productCode) ilike("productCode", "%" + params.productCode + "%")
+					if (params.unitOfMeasure) ilike("unitOfMeasure", "%" + params.unitOfMeasure + "%")
+					if (params.createdById) eq("createdBy.id", params.createdById)
+					if (params.updatedById) eq("updatedBy.id", params.updatedById)
 
-                    if (params.unitOfMeasureIsNull) isNull("unitOfMeasure")
-                    if (params.productCodeIsNull) isNull("productCode")
-                    if (params.brandNameIsNull) isNull("brandName")
-                    if (params.manufacturerIsNull) isNull("manufacturer")
-                    if (params.manufacturerCodeIsNull) isNull("manufacturerCode")
-                    if (params.vendorIsNull) isNull("vendor")
-                    if (params.vendorCodeIsNull) isNull("vendorCode")
-                }
-            }
-            if (offset) firstResult(offset)
-            if (max) maxResults(max)
-            if (sortColumn) order(sortColumn, sortOrder)
-        }
+					if (params.unitOfMeasureIsNull) isNull("unitOfMeasure")
+					if (params.productCodeIsNull) isNull("productCode")
+					if (params.brandNameIsNull) isNull("brandName")
+					if (params.manufacturerIsNull) isNull("manufacturer")
+					if (params.manufacturerCodeIsNull) isNull("manufacturerCode")
+					if (params.vendorIsNull) isNull("vendor")
+					if (params.vendorCodeIsNull) isNull("vendorCode")
+				}
+			}
+			if (offset) firstResult(offset)
+			if (max) maxResults(max)
+			if (sortColumn) order(sortColumn, sortOrder)
+		}
 
-        return results.unique()
-    }
+		return results.unique()
+	}
 
-    /**
-     * Get the root category.
-     *
-     * @return
-     */
+	/**
+	 * Get the root category.
+	 *
+	 * @return
+	 */
 	Category getRootCategory() {
 		def rootCategory = Category.getRootCategory()
 		if (!rootCategory) {
@@ -443,7 +449,7 @@ class ProductService {
 		String quickCategoryConfig = grailsApplication.config.inventoryBrowser.quickCategories;
 		if (quickCategoryConfig) {
 			quickCategoryConfig.split(",").each {
-				Category c = Category.findByName(it);
+				Category c = Category.findByName(it)
 				if (c != null) {
 					quickCategories.add(c);
 				}
@@ -452,11 +458,11 @@ class ProductService {
 		return quickCategories;
 	}
 
-    /**
-     * Validate the data in the given import command object.
-     *
-     * @param command
-     */
+	/**
+	 * Validate the data in the given import command object.
+	 *
+	 * @param command
+	 */
 	void validateData(ImportDataCommand command) {
 		log.info "validate data test "
 		// Iterate over each row and validate values
@@ -481,10 +487,10 @@ class ProductService {
 
 	}
 
-    /**
-     * Import the data in the given import command object
-     * @param command
-     */
+	/**
+	 * Import the data in the given import command object
+	 * @param command
+	 */
 	void importData(ImportDataCommand command) {
 		log.info "import data"
 
@@ -521,19 +527,19 @@ class ProductService {
 
 	}
 
-    /**
-     * Search product and product groups by name.
-     *
-     * @param term
-     * @return
-     */
-    def searchProductAndProductGroup(String term) {
-        return searchProductAndProductGroup(term, false)
-    }
+	/**
+	 * Search product and product groups by name.
+	 *
+	 * @param term
+	 * @return
+	 */
+	def searchProductAndProductGroup(String term) {
+		return searchProductAndProductGroup(term, false)
+	}
 
 	/**
 	 * Search product and product groups by name using wildcard search.
-     *
+	 *
 	 * @param term
 	 * @return
 	 */
@@ -541,7 +547,7 @@ class ProductService {
 		long startTime = System.currentTimeMillis()
 		def text = (wildcards) ? "%${term.toLowerCase()}%" : "${term.toLowerCase()}%"
 		def products = Product.executeQuery(
-			"""select p.id, p.name, p.productCode 
+				"""select p.id, p.name, p.productCode 
 				from Product as p 				
 				where lower(p.name) like ? 
 				or lower(p.productCode) like ?""", [text, text])
@@ -552,8 +558,8 @@ class ProductService {
 	}
 
 	/**
-     * Get the column delimiter used in the given data set.
-     *
+	 * Get the column delimiter used in the given data set.
+	 *
 	 * @param data
 	 * @return
 	 */
@@ -563,7 +569,7 @@ class ProductService {
 		def delimiters = [",", "\t", ";"]
 		for (def delimiter : delimiters) {
 			def headerColumns = lines[0].split(delimiter)
-            println "*** Actual:   " + headerColumns + " [" + headerColumns.size() + "]"
+			println "*** Actual:   " + headerColumns + " [" + headerColumns.size() + "]"
 			if (headerColumns.size() == Constants.EXPORT_PRODUCT_COLUMNS.size()) {
 				return delimiter
 			}
@@ -574,8 +580,8 @@ class ProductService {
 	}
 
 	/**
-     * Get a list of columns for the data set using the default column delimiter.
-     *
+	 * Get a list of columns for the data set using the default column delimiter.
+	 *
 	 * @param csv
 	 * @return
 	 */
@@ -585,8 +591,8 @@ class ProductService {
 	}
 
 	/**
-     * Get a list of columns for the data set using the given column delimiter.
-     *
+	 * Get a list of columns for the data set using the given column delimiter.
+	 *
 	 * @param csv
 	 * @param delimiter
 	 * @return
@@ -614,7 +620,7 @@ class ProductService {
 
 	/**
 	 * Gets a list of products that already exist in the database.
-     *
+	 *
 	 * @param csv
 	 * @param delimiter
 	 * @return
@@ -625,11 +631,11 @@ class ProductService {
 		// Iterate over each line and either update an existing product or create a new product
 		csv.toCsvReader(['skipLines':1, 'separatorChar':delimiter]).eachLine { tokens ->
 			def product = Product.findByIdOrProductCode(tokens[0], tokens[1])
-            println "GET EXISTING PRODUCT " + tokens[0] + " OR " + tokens[1]
+			println "GET EXISTING PRODUCT " + tokens[0] + " OR " + tokens[1]
 			//def product = Product.findById(tokens[0])
 			if (product) {
 				product = Product.get(product.id)
-                println "FOUND EXISTING PRODUCT " + product?.id + " " + product?.name
+				println "FOUND EXISTING PRODUCT " + product?.id + " " + product?.name
 				products << product
 			}
 		}
@@ -684,13 +690,13 @@ class ProductService {
 			def categoryName = tokens[3]
 			def description = tokens[4]
 			def unitOfMeasure = tokens[5]
-            def productTags = tokens[6]?.split(",")
-            def pricePerUnit
-            try {
+			def productTags = tokens[6]?.split(",")
+			def pricePerUnit
+			try {
 				pricePerUnit = tokens[7]?Float.valueOf(tokens[7]):null
-            } catch (NumberFormatException e) {
-                throw new RuntimeException("Unit price for product '${productCode}' at row ${rowCount} must be a valid decimal (value = '${tokens[7]}')", e)
-            }
+			} catch (NumberFormatException e) {
+				throw new RuntimeException("Unit price for product '${productCode}' at row ${rowCount} must be a valid decimal (value = '${tokens[7]}')", e)
+			}
 			def manufacturer = tokens[8]
 			def brandName = tokens[9]
 			def manufacturerCode = tokens[10]
@@ -746,112 +752,112 @@ class ProductService {
 	}
 
 
-    def importProducts(products) {
-        return importProducts(products, null)
-    }
+	def importProducts(products) {
+		return importProducts(products, null)
+	}
 
-    def importProducts(products, tags) {
-        log.info ("Importing products " + products + " tags: " + tags)
+	def importProducts(products, tags) {
+		log.info ("Importing products " + products + " tags: " + tags)
 
 		// Create all tags that don't already exist
-        tags.each { tagName ->
+		tags.each { tagName ->
 			Tag tag = Tag.findByTag(tagName)
 			if (!tag) {
 				log.info "Tag ${tagName} does not exist so creating it"
 				tag = new Tag(tag: tagName)
 				tag.save(flush:true)
 			}
-        }
+		}
 
-        products.each { productProperties ->
+		products.each { productProperties ->
 
-            log.info "Import product code = " + productProperties.productCode + ", name = " + productProperties.name
-            // Update existing
-            def product = Product.findByIdOrProductCode(productProperties.id, productProperties.productCode)
-            if (product) {
-                product.properties = productProperties
-            }
-            // ... or create a new product
-            else {
-                product = new Product(productProperties)
-            }
+			log.info "Import product code = " + productProperties.productCode + ", name = " + productProperties.name
+			// Update existing
+			def product = Product.findByIdOrProductCode(productProperties.id, productProperties.productCode)
+			if (product) {
+				product.properties = productProperties
+			}
+			// ... or create a new product
+			else {
+				product = new Product(productProperties)
+			}
 
-            if (!product.validate()) {
-                throw new ValidationException("Product is invalid", product.errors)
-            }
+			if (!product.validate()) {
+				throw new ValidationException("Product is invalid", product.errors)
+			}
 
-            addTagsToProduct(product, tags)
-            addTagsToProduct(product, productProperties.tags)
+			addTagsToProduct(product, tags)
+			addTagsToProduct(product, productProperties.tags)
 
-            if (!product.save(flush:true)) {
-                throw new ValidationException("Could not save product '" + product.name + "'", product.errors)
-            }
-        }
-    }
+			if (!product.save(flush:true)) {
+				throw new ValidationException("Could not save product '" + product.name + "'", product.errors)
+			}
+		}
+	}
 
 
 	/**
 	 * Export all products in the database.
-     *
+	 *
 	 * @return
 	 */
 	String exportProducts() {
-        def products = Product.list()
+		def products = Product.list()
 		return exportProducts(products)
 	}
 
 
 	/**
 	 * Export given products.
-     *
+	 *
 	 * @param products
 	 * @return
 	 */
 	String exportProducts(products) {
 
-        def rows = []
-        def formatDate = new SimpleDateFormat("dd/MMM/yyyy hh:mm:ss")
+		def rows = []
+		def formatDate = new SimpleDateFormat("dd/MMM/yyyy hh:mm:ss")
 		def attributes = Attribute.findAllByExportableAndActive(true, true)
-        def formatTagLib = grailsApplication.mainContext.getBean('org.pih.warehouse.FormatTagLib')
+		def formatTagLib = grailsApplication.mainContext.getBean('org.pih.warehouse.FormatTagLib')
 		boolean hasRoleFinance = userService.hasRoleFinance()
 		products.each { product ->
 			def row =  [
-				Id: product?.id,
-				ProductCode: product.productCode?:'',
-				Name: product.name,
-				Category: product?.category?.name,
-				Description: product?.description?:'',
-				UnitOfMeasure: product.unitOfMeasure?:'',
-                Tags: product.tagsToString()?:'',
-                UnitCost: hasRoleFinance?(product.pricePerUnit?:''):'',
-				Manufacturer: product.manufacturer?:'',
-				BrandName: product.brandName?:'',
-				ManufacturerCode: product.manufacturerCode?:'',
-				ManufacturerName: product.manufacturerName?:'',
-				Vendor: product.vendor?:'',
-				VendorCode: product.vendorCode?:'',
-				VendorName: product.vendorName?:'',
-				ColdChain: product.coldChain?:Boolean.FALSE,
-				UPC: product.upc?:'',
-				NDC: product.ndc?:'',
-				Created: product.dateCreated?"${formatDate.format(product.dateCreated)}":"",
-				Updated: product.lastUpdated?"${formatDate.format(product.lastUpdated)}":"",
+					Id: product?.id,
+					ProductCode: product.productCode?:'',
+					Name: product.name,
+					Category: product?.category?.name,
+					Description: product?.description?:'',
+					UnitOfMeasure: product.unitOfMeasure?:'',
+					Tags: product.tagsToString()?:'',
+					UnitCost: hasRoleFinance?(product.pricePerUnit?:''):'',
+					Manufacturer: product.manufacturer?:'',
+					BrandName: product.brandName?:'',
+					ManufacturerCode: product.manufacturerCode?:'',
+					ManufacturerName: product.manufacturerName?:'',
+					Vendor: product.vendor?:'',
+					VendorCode: product.vendorCode?:'',
+					VendorName: product.vendorName?:'',
+					ColdChain: product.coldChain?:Boolean.FALSE,
+					UPC: product.upc?:'',
+					NDC: product.ndc?:'',
+					Created: product.dateCreated?"${formatDate.format(product.dateCreated)}":"",
+					Updated: product.lastUpdated?"${formatDate.format(product.lastUpdated)}":"",
 			]
 
-            attributes.eachWithIndex { attribute, index ->
-                def productAttribute = product.getProductAttribute(attribute)
-                def attributeName = formatTagLib.metadata(obj:attribute)
-                row << [ "${attributeName}":productAttribute?.value?:'' ]
-            }
-            rows << row
+			attributes.eachWithIndex { attribute, index ->
+				def productAttribute = product.getProductAttribute(attribute)
+				def attributeName = formatTagLib.metadata(obj:attribute)
+				row << [ "${attributeName}":productAttribute?.value?:'' ]
+			}
+			rows << row
 
 		}
 		return ReportUtil.getCsvForListOfMapEntries(rows)
-    }
+	}
 
 	/**
 	 * Find or create a category with the given name.
-     *
+	 *
 	 * @param categoryName
 	 * @return
 	 */
@@ -859,7 +865,7 @@ class ProductService {
 		def rootCategory = Category.getRootCategory()
 
 		if (!categoryName)
-		return rootCategory
+			return rootCategory
 
 		def category = Category.findByName(categoryName)
 		if (!category) {
@@ -871,7 +877,7 @@ class ProductService {
 
 	/**
 	 * Find all top-level categories (e.g. children of the root category)
-     *
+	 *
 	 * @return
 	 */
 	def getTopLevelCategories() {
@@ -880,9 +886,9 @@ class ProductService {
 	}
 
 	/**
-     *
-     * Get all unique and active tags in the database.
-     *
+	 *
+	 * Get all unique and active tags in the database.
+	 *
 	 * @return all tag labels
 	 */
 	def getAllTagLabels() {
@@ -890,13 +896,13 @@ class ProductService {
 	}
 
 	/**
-     * Get all active tags in the database.
-     *
+	 * Get all active tags in the database.
+	 *
 	 * @return	all tags
 	 */
 	def getAllTags() {
 		def tags = Tag.findAllByIsActive(true);
-        return tags;
+		return tags;
 	}
 
 	/**
@@ -909,8 +915,8 @@ class ProductService {
 	}
 
 	/**
-     * Get all popular tags
-     *
+	 * Get all popular tags
+	 *
 	 * @return  all tags that have a product
 	 */
 	def getPopularTags(Integer limit) {
@@ -925,14 +931,14 @@ class ProductService {
             """
 
 
-        // FIXME Convert the query above to HQL so we don't have to worry about N+1 query below
+		// FIXME Convert the query above to HQL so we don't have to worry about N+1 query below
 		def sqlQuery = sessionFactory.currentSession.createSQLQuery(sql)
-        if (limit > 0) {
-            sqlQuery.setMaxResults(limit)
-        }
-        def list = sqlQuery.list()
+		if (limit > 0) {
+			sqlQuery.setMaxResults(limit)
+		}
+		def list = sqlQuery.list()
 		list.each {
-            Tag tag = Tag.load(it[0])
+			Tag tag = Tag.load(it[0])
 			popularTags[tag] = it[2]
 		}
 		return popularTags
@@ -943,74 +949,74 @@ class ProductService {
 	}
 
 
-    /**
-     * Add a list of tags to each of the given products.
-     *
-     * @param products
-     * @param tags
-     * @return
-     */
-    def addTagsToProducts(products, tags) {
-        log.info "Add tags ${tags} to products ${products}"
-        products.each { product ->
-            addTagsToProduct(product, tags)
-        }
-    }
+	/**
+	 * Add a list of tags to each of the given products.
+	 *
+	 * @param products
+	 * @param tags
+	 * @return
+	 */
+	def addTagsToProducts(products, tags) {
+		log.info "Add tags ${tags} to products ${products}"
+		products.each { product ->
+			addTagsToProduct(product, tags)
+		}
+	}
 
 	/**
-     * Add the list of tags to the given product.
-     *
+	 * Add the list of tags to the given product.
+	 *
 	 * @param product
 	 * @param tags
 	 */
 	def addTagsToProduct(product, tags) {
-        log.info "Add tags ${tags} to product ${product}"
+		log.info "Add tags ${tags} to product ${product}"
 		if (tags) {
 			tags.each { tagName ->
-                if (tagName) {
-                    addTagToProduct(product, tagName)
-                }
+				if (tagName) {
+					addTagToProduct(product, tagName)
+				}
 			}
 		}
 	}
 
-    /**
-     * Add the given tag to the given product.
-     *
-     * @param product
-     * @param tagName
-     * @return
-     */
-    def addTagToProduct(product, tagName) {
-        log.info "Add tags ${tagName} to product ${product}"
+	/**
+	 * Add the given tag to the given product.
+	 *
+	 * @param product
+	 * @param tagName
+	 * @return
+	 */
+	def addTagToProduct(product, tagName) {
+		log.info "Add tags ${tagName} to product ${product}"
 
-        // Check if the product already has the given tag
-        def tag = product.tags.find { it.tag == tagName }
+		// Check if the product already has the given tag
+		def tag = product.tags.find { it.tag == tagName }
 
-        if (!tag) {
-            // Otherwise try to find an existing tag that matches the tag
-            //Tag.withNewSession {
-            tag = Tag.findByTag(tagName)
+		if (!tag) {
+			// Otherwise try to find an existing tag that matches the tag
+			//Tag.withNewSession {
+			tag = Tag.findByTag(tagName)
 
-            // Or create a brand new one
-            if (!tag) {
-                log.info "Tag ${tagName} does not exist so creating it"
-                tag = new Tag(tag: tagName)
-                tag.save(flush:true)
-            }
-            product.addToTags(tag)
-            product.save(flush:true)
-        }
-        else {
-            log.info "Product ${product} already contains tag ${tag}"
-        }
-    }
+			// Or create a brand new one
+			if (!tag) {
+				log.info "Tag ${tagName} does not exist so creating it"
+				tag = new Tag(tag: tagName)
+				tag.save(flush:true)
+			}
+			product.addToTags(tag)
+			product.save(flush:true)
+		}
+		else {
+			log.info "Product ${product} already contains tag ${tag}"
+		}
+	}
 
 
 
 	/**
 	 * Delete a tag from the given product and delete the tag.
-     *
+	 *
 	 * @param product
 	 * @param tag
 	 * @return
@@ -1020,80 +1026,80 @@ class ProductService {
 		tag.delete();
 	}
 
-    /**
-     * Ensure that the given product code does not exist
-     *
-     * @param productCode
-     * @return
-     */
+	/**
+	 * Ensure that the given product code does not exist
+	 *
+	 * @param productCode
+	 * @return
+	 */
 	def validateProductIdentifier(productCode) {
-        if (!productCode) return false
-        def count = Product.executeQuery( "select count(p.productCode) from Product p where productCode = :productCode", [productCode: productCode] );
-        return count ? (count[0] == 0) : false
-    }
+		if (!productCode) return false
+		def count = Product.executeQuery( "select count(p.productCode) from Product p where productCode = :productCode", [productCode: productCode] );
+		return count ? (count[0] == 0) : false
+	}
 
 	/**
 	 * Generate a product identifier.
-     *
+	 *
 	 * @return
 	 */
 	def generateProductIdentifier() {
-        def productCode
+		def productCode
 
-        try {
-            productCode = identifierService.generateProductIdentifier()
-            if (validateProductIdentifier(productCode)) {
-                return productCode
-            }
+		try {
+			productCode = identifierService.generateProductIdentifier()
+			if (validateProductIdentifier(productCode)) {
+				return productCode
+			}
 
-        } catch (Exception e) {
-            log.warn("Error generating unique product code " + e.message, e)
-        }
-        return productCode
+		} catch (Exception e) {
+			log.warn("Error generating unique product code " + e.message, e)
+		}
+		return productCode
 	}
 
-    /**
-     * Download a document at the given URL.
-     *
-     * @param url
-     */
+	/**
+	 * Download a document at the given URL.
+	 *
+	 * @param url
+	 */
 	def downloadDocument(url) {
 		// move code from ProductController
 	}
 
-    /**
-     * Save the given product
-     *
-     * @param product
-     * @return
-     */
-    def saveProduct(Product product) {
-        return saveProduct(product, null)
-    }
+	/**
+	 * Save the given product
+	 *
+	 * @param product
+	 * @return
+	 */
+	def saveProduct(Product product) {
+		return saveProduct(product, null)
+	}
 
 	/**
 	 * Saves the given product
 	 * @param product
-     * @param tags
-     *
+	 * @param tags
+	 *
 	 * @return
 	 */
 	def saveProduct(Product product, String tags) {
 		//def productInstance = Product.get(product.id)
 		if (product) {
 
-            // Generate product code if it doesn't already exist
-            if (!product.productCode) {
-                product.productCode = generateProductIdentifier();
-            }
+			// Generate product code if it doesn't already exist
+			if (!product.productCode) {
+				product.productCode = generateProductIdentifier();
+			}
 			// Handle tags
 			try {
 				if (tags) {
 					tags.split(",").each { tagText ->
-                        def tag = findOrCreateTag(tagText)
-                        if (tag) {
-                            product.addToTags(tag)
-                        }
+						def tag = findOrCreateTag(tagText)
+						if (tag) {
+							product.addToTags(tag)
+						}
 					}
 				}
 			} catch (Exception e) {
@@ -1127,12 +1133,12 @@ class ProductService {
 			*/
 
 			/*
-			log.info("Categories " + productInstance?.categories);
+			println("Categories " + productInstance?.categories);
 
 			// find the phones that are marked for deletion
 			def _toBeDeleted = productInstance.categories.findAll {(it?.deleted || (it == null))}
 
-			log.info("toBeDeleted: " + _toBeDeleted )
+			println("toBeDeleted: " + _toBeDeleted )
 
 			// if there are phones to be deleted remove them all
 			if (_toBeDeleted) {
@@ -1148,27 +1154,27 @@ class ProductService {
 		}
 	}
 
-    /**
-     * Find or create a tag with the given tag text.
-     *
-     * @param tagText
-     * @return
-     */
-    def findOrCreateTag(tagText) {
-        Tag tag = Tag.findByTagAndIsActive(tagText, true)
-        if (!tag) {
-            tag = new Tag(tag:tagText)
-            tag.save();
-        }
-        return tag;
-    }
+	/**
+	 * Find or create a tag with the given tag text.
+	 *
+	 * @param tagText
+	 * @return
+	 */
+	def findOrCreateTag(tagText) {
+		Tag tag = Tag.findByTagAndIsActive(tagText, true)
+		if (!tag) {
+			tag = new Tag(tag:tagText)
+			tag.save();
+		}
+		return tag;
+	}
 
-    /**
-     * Find products that are similar to the given product.
-     *
-     * @param product
-     * @return
-     */
+	/**
+	 * Find products that are similar to the given product.
+	 *
+	 * @param product
+	 * @return
+	 */
 	def findSimilarProducts(Product product) {
 		def similarProducts = []
 		/*
@@ -1210,33 +1216,33 @@ class ProductService {
 			def componentProduct = Product.get(componentProductId)
 			if (componentProduct) {
 				def unitOfMeasure = UnitOfMeasure.get(unitOfMeasureId)
-                log.info "Adding " + componentProduct.name + " to " + assemblyProduct.name
+				log.info "Adding " + componentProduct.name + " to " + assemblyProduct.name
 
 				ProductComponent productComponent = new ProductComponent(componentProduct: componentProduct,
-                        quantity: quantity, unitOfMeasure: unitOfMeasure, assemblyProduct: assemblyProduct)
+						quantity: quantity, unitOfMeasure: unitOfMeasure, assemblyProduct: assemblyProduct)
 				assemblyProduct.addToProductComponents(productComponent)
-                assemblyProduct.save(flush:true, failOnError: true)
+				assemblyProduct.save(flush:true, failOnError: true)
 			}
 		}
 		return assemblyProduct
 	}
 
 	List parseProductCatalogItems(def csv) {
-        List rows = []
+		List rows = []
 
-        // Iterate over each line and either update an existing product or create a new product
-        csv.toCsvReader(['skipLines':1]).eachLine { tokens ->
+		// Iterate over each line and either update an existing product or create a new product
+		csv.toCsvReader(['skipLines':1]).eachLine { tokens ->
 
-            def productCatalogCode = tokens[0]
-            def productCatalog = ProductCatalog.findByCode(productCatalogCode)
+			def productCatalogCode = tokens[0]
+			def productCatalog = ProductCatalog.findByCode(productCatalogCode)
 
-            def productCode = tokens[1]
-            def product = Product.findByIdOrProductCode(productCode, productCode)
+			def productCode = tokens[1]
+			def product = Product.findByIdOrProductCode(productCode, productCode)
 
-            rows << [productCatalog: productCatalog, product: product]
-        }
+			rows << [productCatalog: productCatalog, product: product]
+		}
 
-        return rows;
+		return rows;
 	}
 
 
@@ -1289,28 +1295,12 @@ class ProductService {
 						ilike("upc", "%" + term + "%")
 						ilike("ndc", "%" + term + "%")
 						ilike("unitOfMeasure", "%" + term + "%")
-
-						productSuppliers {
-                            or {
-                                ilike("name", "%" + term + "%")
-                                ilike("code", "%" + term + "%")
-                                ilike("productCode", "%" + term + "%")
-                                ilike("manufacturerCode", "%" + term + "%")
-                                ilike("manufacturerName", "%" + term + "%")
-                                ilike("supplierCode", "%" + term + "%")
-                                ilike("supplierName", "%" + term + "%")
-                            }
-						}
-
-						inventoryItems {
-							ilike("lotNumber", "%" + term + "%")
-						}
 					}
 				}
 			}
 		}
 
-		return results;
+		return results
 	}
 
 

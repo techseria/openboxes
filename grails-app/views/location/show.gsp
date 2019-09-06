@@ -10,6 +10,8 @@
 		<content tag="pageTitle"><warehouse:message code="default.edit.label" args="[entityName]" /></content>
 		<link rel="stylesheet" href="${createLinkTo(dir:'js/jquery',file:'jquery.colorpicker.css')}" type="text/css" media="screen, projection" />
 		<script src="${createLinkTo(dir:'js/jquery/', file:'jquery.colorpicker.js')}" type="text/javascript" ></script>
+		<asset:javascript src="application.js"/>
+		<asset:javascript src="application.css"/>
     </head>
     <body>
         <div class="body">
@@ -81,7 +83,7 @@
 							<g:each var="transaction" in="${locationInstance?.transactions }" status="i">
 								<tr class="${i%2?'odd':'even' }">
 									<td>
-										<g:render template="../transaction/actions" model="[transactionInstance:transaction]"/>
+										<g:render template="/transaction/actions" model="[transactionInstance:transaction]"/>
 									</td>
 									<td>${transaction.id }</td>
 									<td>${transaction.transactionDate }</td>
@@ -114,7 +116,7 @@
 							<g:each var="shipment" in="${locationInstance?.shipments }" status="i">
 								<tr class="${i%2?'odd':'even' }">
 									<td>
-										<g:render template="../shipment/actions" model="[shipmentInstance:shipment]"/>
+										<g:render template="/shipment/actions" model="[shipmentInstance:shipment]"/>
 									</td>
 									<td>${shipment.id }</td>
 									<td>${shipment.shipmentType?.name }</td>

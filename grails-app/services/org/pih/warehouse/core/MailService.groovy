@@ -9,7 +9,8 @@
 **/
 package org.pih.warehouse.core
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder;
+import grails.util.Holders
+
 
 // import javax.mail.internet.InternetAddress
 
@@ -27,7 +28,7 @@ class MailService {
 	boolean transactional = false
 	def userService
 	def grailsApplication
-	def config = ConfigurationHolder.config
+	def config = Holders.config
 
     String getDefaultFrom() {
         return config.grails.mail.from
@@ -58,7 +59,7 @@ class MailService {
     }
 
     def addBccAddresses(email) {
-		def bccAddresses = "${grailsApplication.config.grails.mail.bcc}"
+		def bccAddresses = "${Holders.config.grails.mail.bcc}"
 		println "Add BCC addresses to email: " + bccAddresses
 		if (bccAddresses) {
 			bccAddresses.split(",").each {
@@ -73,7 +74,7 @@ class MailService {
 
 	/*
 	def addCcAddresses(email) {
-		def ccAddresses = grailsApplication.config.grails.mail.cc
+		def ccAddresses = Holders.config.grails.mail.cc
 		println "Add CC addresses to email: " + ccAddresses
 		if (ccAddresses && ccAddresses.size()) {
 			ccAddresses.each {
@@ -92,8 +93,8 @@ class MailService {
 	 * @return
 	 */
 	def isMailEnabled() {
-		log.info "grailsApplication.config.grails.mail.enabled '" + grailsApplication.config.grails.mail.enabled + "'"
-		Boolean isMailEnabled = grailsApplication.config?.grails?.mail?.enabled?.toBoolean()
+		log.info "Holders.config.grails.mail.enabled '" + Holders.config.grails.mail.enabled + "'"
+		Boolean isMailEnabled = Holders.config?.grails?.mail?.enabled?.toBoolean()
 		log.info (isMailEnabled ? "Mail is enabled" : "Mail is disabled")
 		return isMailEnabled
 	}
@@ -115,7 +116,7 @@ class MailService {
 	 * @return
 	 */
 	def sendMail(String subject, String msg, Collection to, Integer port) {
-		//def mailEnabled = Boolean.valueOf(grailsApplication.config.grails.mail.enabled)
+		//def mailEnabled = Boolean.valueOf(Holders.config.grails.mail.enabled)
 		if (isMailEnabled()) {
 			log.info "Sending text email '" + subject + "' to " + to;
 			try {
@@ -201,7 +202,7 @@ class MailService {
 	 */
 	def sendHtmlMail(String subject, String body, Collection to, Integer port, Boolean override) {
 		log.info "Sending email with subject ${subject} to ${to}"
-		//def mailEnabled = Boolean.valueOf(grailsApplication.config.grails.mail.enabled)
+		//def mailEnabled = Boolean.valueOf(Holders.config.grails.mail.enabled)
 		if (isMailEnabled() || override) {
 			log.info "Sending html email '" + subject + "' to " + to;
 			try {
@@ -339,7 +340,7 @@ class MailService {
 	def sendHtmlMailWithAttachment(User fromUser, Collection toList, Collection ccList, String subject, String body, List<Attachment> attachments, Integer port) {
 		log.info ("Sending email with attachment " + toList)
 
-		//def mailEnabled = Boolean.valueOf(grailsApplication.config.grails.mail.enabled)
+		//def mailEnabled = Boolean.valueOf(Holders.config.grails.mail.enabled)
 		if (isMailEnabled()) {
 			try {
 				// Create the email message
@@ -409,7 +410,7 @@ class MailService {
     def sendHtmlMailWithAttachment(message) {
         log.info ("Sending email with attachment " + message.to)
 
-        //def mailEnabled = Boolean.valueOf(grailsApplication.config.grails.mail.enabled)
+        //def mailEnabled = Boolean.valueOf(Holders.config.grails.mail.enabled)
         if (isMailEnabled()) {
             try {
                 // Create the email message
@@ -453,7 +454,7 @@ class MailService {
 	 */
 	def sendAlertMail(String subject, Throwable throwable) {
 
-		//def mailEnabled = Boolean.valueOf(grailsApplication.config.grails.mail.enabled)
+		//def mailEnabled = Boolean.valueOf(Holders.config.grails.mail.enabled)
 		if (isMailEnabled()) {
 			log.info "Sending HTML email '" + subject;
 			try {
@@ -478,7 +479,7 @@ class MailService {
 	/*
 	def sendMailWithAttachment(User userInstance) {
 		log.info ("Sending email with attachment " + userInstance?.email)
-		if (Boolean.valueOf(grailsApplication.config.grails.mail.enabled)) {
+		if (Boolean.valueOf(Holders.config.grails.mail.enabled)) {
 			try {
 
 				sendMail {

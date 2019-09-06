@@ -1,18 +1,16 @@
 package org.pih.warehouse.jobs
 
-
+import grails.util.Holders
 import org.pih.warehouse.core.Location
-import org.pih.warehouse.inventory.Transaction
-import org.pih.warehouse.inventory.TransactionEntry
-import org.pih.warehouse.product.Product
-import org.quartz.DisallowConcurrentExecution
 import org.quartz.JobExecutionContext
-import util.LiquibaseUtil
 
-@DisallowConcurrentExecution
+// import org.quartz.DisallowConcurrentExecution
+// import org.quartz.JobExecutionContext
+
+// @DisallowConcurrentExecution
 class RefreshInventorySnapshotJob {
 
-    def grailsApplication
+   // def grailsApplication
     def inventorySnapshotService
 
     // Should never be triggered on a schedule - should only be triggered by persistence event listener
@@ -20,10 +18,10 @@ class RefreshInventorySnapshotJob {
 
     def execute(JobExecutionContext context) {
 
-        Boolean enabled = grailsApplication.config.openboxes.jobs.refreshInventorySnapshotJob.enabled
+        Boolean enabled = Holders.config.openboxes.jobs.refreshInventorySnapshotJob.enabled
 
         if (enabled) {
-            log.info("Refresh inventory snapshots with data: " + context.mergedJobDataMap)
+            println("Refresh inventory snapshots with data: " + context.mergedJobDataMap)
 
             def startTime = System.currentTimeMillis()
             def startDate = context.mergedJobDataMap.get('startDate')

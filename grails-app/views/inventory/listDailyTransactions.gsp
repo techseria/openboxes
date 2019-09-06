@@ -7,7 +7,9 @@
         
         <title><warehouse:message code="transaction.dailyTransactions.label"/></title>    
         <link rel="stylesheet" href="${createLinkTo(dir:'css',file:'scrolltable.css')}" type="text/css" media="screen, projection" />
-    </head>    
+        <asset:javascript src="application.js"/>
+        <asset:javascript src="application.css"/>
+    </head>
 
 	<body>
        <div class="body">

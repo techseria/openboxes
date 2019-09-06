@@ -32,10 +32,10 @@
                         </g:link>
                     </td>
                     <td>
-                        <g:remoteLink action="removeFromProductCatalog" id="${product.id}" params="['productCatalog.id':productCatalog.id]"
+                        <g:link action="removeFromProductCatalog" id="${product.id}" params="['productCatalog.id':productCatalog.id]"
                                       class="button" update="productCatalogs">
                             <g:message code="default.button.delete.label"/>
-                        </g:remoteLink>
+                        </g:link>
                     </td>
                 </tr>
             </g:each>
@@ -59,7 +59,7 @@
         </table>
 
         <div>
-            <g:formRemote name="addToProductCatalog"
+            <g:form name="addToProductCatalog"
                           update="productCatalogs" onSuccess="onSuccess(data,textStatus)" onComplete="onComplete()"
                           url="[controller: 'product', action:'addToProductCatalog']">
                 <g:hiddenField name="product.id" value="${product?.id}"/>
@@ -78,7 +78,7 @@
                     </tr>
                 </table>
 
-            </g:formRemote>
+            </g:form>
 
         </div>
     </div>

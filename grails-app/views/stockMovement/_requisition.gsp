@@ -20,7 +20,7 @@
                 </thead>
                 <tbody>
                 <g:each var="requisitionItem" in="${stockMovement?.requisition?.originalRequisitionItems.sort()}" status="i">
-                    <g:render template="../requisition/showRequisitionItem" model="[i:i,requisitionItem:requisitionItem]"/>
+                    <g:render template="/requisition/showRequisitionItem" model="[i:i,requisitionItem:requisitionItem]"/>
 
                 </g:each>
                 </tbody>

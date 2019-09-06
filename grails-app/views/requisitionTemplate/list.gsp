@@ -6,6 +6,8 @@
         <title>
 	        <warehouse:message code="requisition.label"/>
 		</title>
+        <asset:javascript src="application.js"/>
+        <asset:javascript src="application.css"/>
     </head>
     <body>
         <div class="body">

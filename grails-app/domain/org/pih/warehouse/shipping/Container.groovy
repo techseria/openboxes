@@ -182,8 +182,7 @@ class Container implements Comparable, java.io.Serializable {
 	}
 	
 	Float totalWeightInKilograms() {
-		log.info("Container " + this.name + " weighs " + weight + " " + weightUnits)
-		if (weight) { 
+		if (weight) {
 			return ("kg".equals(weightUnits)) ? weight : weight * Constants.KILOGRAMS_PER_POUND;
 		}
 		else if (containers) { 

@@ -9,6 +9,7 @@
 **/
 package org.pih.warehouse.shipping
 
+import grails.databinding.BindingFormat
 import groovy.time.TimeCategory
 import groovy.time.TimeDuration
 import org.pih.warehouse.auth.AuthService
@@ -54,8 +55,12 @@ class Shipment implements Comparable, Serializable {
     String id
 	String name 					// user-defined name of the shipment
 	String description
-	String shipmentNumber			// an auto-generated shipment number
+	String shipmentNumber 			// an auto-generated shipment number
+
+	@BindingFormat("MM/dd/yyyy")
 	Date expectedShippingDate		// the date the origin expects to ship the goods (required)
+
+	@BindingFormat("MM/dd/yyyy")
 	Date expectedDeliveryDate		// the date the destination should expect to receive the goods (optional)
 	Float statedValue
 	Float totalValue				// the total value of all items in the shipment
@@ -156,7 +161,8 @@ class Shipment implements Comparable, Serializable {
 		name(nullable:false, blank: false, maxSize: 255)
 		description(nullable:true, blank: true)
 		shipmentNumber(nullable:true, blank: false, maxSize: 255)
-		origin(nullable:false) // validator: { value, obj -> !value.equals(obj.destination)})
+		origin(nullable:false)
+		//,validator: { value, obj -> !value.equals(obj.destination)}
 		destination(nullable:false)
 		expectedShippingDate(nullable:false,
 			validator: { value, obj-> !obj.expectedDeliveryDate || value.before(obj.expectedDeliveryDate + 1)})

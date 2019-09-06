@@ -9,6 +9,7 @@
 	<style>
 		input, button { width: 100%; font-size: 2em; text-align: center; padding: 10px; }
 	</style>
+    <asset:javascript src="application.js"/>
 </head>
 <body>
 	<div class="body">
@@ -76,9 +77,8 @@
 		</g:form>
 	</div>
 	
-	<script type="text/javascript"> 	
+	<script>
 		$(document).ready(function() {
-
 			var timezone = jzTimezoneDetector.determine_timezone().timezone; // Now you have an instance of the TimeZone object.
 			$("#browserTimezone").val(timezone.olson_tz); // Set the user timezone offset as a hidden input
             $("#username").watermark("${warehouse.message(code:'login.username.label')}");
@@ -87,6 +87,6 @@
 
             openboxes.expireFromLocal();
 		});
-	</script>	
+	</script>
 </body>
 </html>

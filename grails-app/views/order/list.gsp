@@ -1,4 +1,4 @@
-<%@ page import="org.pih.warehouse.order.OrderItemStatusCode; org.pih.warehouse.order.OrderTypeCode" %>
+<%@ page import="grails.util.Holders; org.pih.warehouse.order.OrderItemStatusCode; org.pih.warehouse.order.OrderTypeCode" %>
 <html>
 	<head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -10,6 +10,8 @@
             <g:set var="entityName" value="${warehouse.message(code: 'orders.label', default: 'Purchase orders')}" />
         </g:else>
         <title><warehouse:message code="default.list.label" args="[entityName]" /></title>
+		<asset:javascript src="application.js"/>
+		<asset:javascript src="application.css"/>
    	</head>
 	<body>
 
@@ -28,7 +30,7 @@
 
 					<div class="box">
 						<h2><warehouse:message code="default.list.label" args="[entityName]" /> <small>(<g:formatNumber number="${totalPrice}"/>
-                            ${grailsApplication.config.openboxes.locale.defaultCurrencyCode})</small></h2>
+                            ${grails.util.Holders.config.openboxes.locale.defaultCurrencyCode})</small></h2>
 						<table class="${orders?'dataTable':''}">
 							<thead>
 								<tr>
@@ -112,7 +114,7 @@
 									<div class="text large">
 
 										<g:formatNumber number="${totalPrice}"/>
-										${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+										${Holders.config.openboxes.locale.defaultCurrencyCode}
 
 									</div>
 								</th>

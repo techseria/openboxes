@@ -9,6 +9,7 @@
 **/
 package org.pih.warehouse.core
 
+import grails.util.Holders
 import org.apache.commons.collections.comparators.NullComparator
 import org.apache.poi.hssf.usermodel.HSSFSheet
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
@@ -151,7 +152,7 @@ class LocationService {
 
         // Get all locations that match the required activity (using inclusive OR)
 		def locations = new HashSet()
-		def requiredActivities = ConfigHelper.listValue(grailsApplication.config.openboxes.chooseLocation.requiredActivities)
+		def requiredActivities = ConfigHelper.listValue(Holders.config.openboxes.chooseLocation.requiredActivities)
 		if (requiredActivities) {
 			requiredActivities.each { activity ->
 				locations += getAllLocations()?.findAll { it.supports(activity) }
@@ -416,7 +417,7 @@ class LocationService {
 	}
 
 	String getReceivingLocationName(String identifier) {
-		String receivingLocationPrefix = grailsApplication.config.openboxes.receiving.receivingLocation.prefix
+		String receivingLocationPrefix = Holders.config.openboxes.receiving.receivingLocation.prefix
 		return "${receivingLocationPrefix}-${identifier}"
 	}
 

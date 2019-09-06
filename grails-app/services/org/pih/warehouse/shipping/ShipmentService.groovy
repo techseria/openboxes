@@ -511,7 +511,7 @@ class ShipmentService {
 		if (!shipment.shipmentNumber) {
 			shipment.shipmentNumber = identifierService.generateShipmentIdentifier()
 		}
-		shipment.save()
+		shipment.save(flush:true)
 	}
 
 	/**
@@ -523,7 +523,7 @@ class ShipmentService {
 		if (!container.recipient) {
 			container.recipient = (container?.parentContainer?.recipient)?:container.shipment.recipient;
 		}
-		container.save()
+		container.save(flush:true)
 	}
 
 	/**
@@ -549,7 +549,7 @@ class ShipmentService {
 			if (containerId.equals("trash")) {
 				log.info "Removing item " + shipmentItem + " from " + shipmentItem?.container
 				shipmentItem.container = null;
-				shipmentItem.shipment.removeFromShipmentItems(shipmentItem)
+				/*shipmentItem.shipment.removeFromShipmentItems(shipmentItem)*/
 				shipmentItem.delete(flush: true);
 			} else {
 				def container = Container.get(containerId);
@@ -731,7 +731,7 @@ class ShipmentService {
 	 * @param item
 	 */
 	boolean saveShipmentItem(ShipmentItem shipmentItem) {
-        return shipmentItem.save()
+        return shipmentItem.save(flush:true)
 	}
 
 
@@ -753,7 +753,8 @@ class ShipmentService {
 
 		if (validated) {
 			shipment.addToShipmentItems(shipmentItem);
-			shipment.save()
+			shipmentItem.save(flush:true)
+			shipment.save(flush:true)
 		}
 	}
 
@@ -819,7 +820,7 @@ class ShipmentService {
         shipment.shipmentItems.each { shipmentItem ->
             shipmentItem.binLocation = null
         }
-        return shipment.save()
+        return shipment.save(flush:true)
 
     }
 
@@ -849,7 +850,7 @@ class ShipmentService {
      */
     boolean validateShipmentItem(ShipmentItem shipmentItem, boolean binLocationRequired) {
         def origin = Location.get(shipmentItem?.shipment?.origin?.id);
-        log.info("Validating shipment item at ${origin?.name} for product=${shipmentItem.product}, lotNumber=${shipmentItem.inventoryItem}, binLocation=${shipmentItem.binLocation}, binLocationRequired=${binLocationRequired}")
+        println("Validating shipment item at ${origin?.name} for product=${shipmentItem.product}, lotNumber=${shipmentItem.inventoryItem}, binLocation=${shipmentItem.binLocation}, binLocationRequired=${binLocationRequired}")
 
         // Location must be locally managed and
         if (origin.requiresOutboundQuantityValidation()) {
@@ -865,7 +866,7 @@ class ShipmentService {
 
             log.info "Shipment item quantity ${shipmentItem.quantity} vs quantity on hand ${quantityOnHand} vs duplicated shipment items quantity ${duplicatedShipmentItemsQuantity}"
 
-            log.info("Checking shipment item ${shipmentItem?.inventoryItem} quantity [" +
+            println("Checking shipment item ${shipmentItem?.inventoryItem} quantity [" +
                     shipmentItem.quantity + "] <= quantity on hand [" + quantityOnHand + "]");
             if (duplicatedShipmentItemsQuantity > quantityOnHand) {
                 shipmentItem.errors.rejectValue("quantity", "shipmentItem.quantity.cannotExceedAvailableQuantity",
@@ -1047,6 +1048,7 @@ class ShipmentService {
                     } else {
                         container.shipmentItemsFromSession.each { shipmentItem ->
                             shipment.removeFromShipmentItems(shipmentItem)
+                            shipment.save(flush:true)
                             shipmentItem.delete()
                         }
                     }
@@ -1129,8 +1131,9 @@ class ShipmentService {
 	void deleteShipmentItem(ShipmentItem shipmentItem) {
 		if (shipmentItem) {
 			def shipment = Shipment.get(shipmentItem.shipment.id)
-			shipment.removeFromShipmentItems(shipmentItem)
-			shipmentItem.delete(flush: true)
+            shipmentItem.shipment.removeFromShipmentItems(shipmentItem)
+			shipmentItem.shipment.save(flush:true)
+			shipmentItem.delete()
 		}
 	}
 
@@ -1399,7 +1402,7 @@ class ShipmentService {
 			createShipmentEvent(shipment, new Date(), EventCode.RECEIVED, location);
 
 			// Save updated shipment instance
-			shipment.save();
+			shipment.save(flush:true);
 
 		} catch (Exception e) {
 			throw new ShipmentException(message: e.message);
@@ -1810,12 +1813,12 @@ class ShipmentService {
 					try {
 						validateShipmentItem(shipmentItem);
 					} catch (ShipmentItemException e) {
-						log.info("Validation exception " + e.message);
+						println("Validation exception " + e.message);
 						throw new ValidationException(e.message, e.shipmentItem.errors);
 					}
 				}
 				else {
-					log.info("Creating new shipment item ...");
+					println("Creating new shipment item ...");
 					// def inventoryItem = inventoryService.findInventoryItemByProductAndLotNumber(it.product, it.lotNumber)
 					shipmentItem = new ShipmentItem(shipment: it.shipment, container: it.container,
 						inventoryItem: it.inventoryItem, product: it.product, lotNumber: it.lotNumber, quantity: it.quantity);
@@ -1920,7 +1923,7 @@ class ShipmentService {
             shipment?.receipts.toArray().each { Receipt receipt ->
                 shipment.removeFromReceipts(receipt)
                 receipt.delete()
-                shipment.save()
+                shipment.save(flush:true)
             }
 		}
 	}
@@ -1954,14 +1957,14 @@ class ShipmentService {
 		eventInstance.delete()
         shipmentInstance.currentEvent = null
         shipmentInstance.currentStatus = null
-		shipmentInstance.save()
+		shipmentInstance.save(flush:true)
 	}
 
 
     void refreshCurrentStatus(String id) {
         def shipment = Shipment.get(id)
         shipment.lastUpdated = new Date()
-        shipment.save()
+        shipment.save(flush:true)
     }
 
 
@@ -2028,7 +2031,13 @@ class ShipmentService {
             if(itemToMove.quantity == 0) {
                 shipment.removeFromShipmentItems(itemToMove);
             }
-        }
+			if (!shipment.hasErrors() ) {
+				saveShipment(shipment)
+			} else {
+				throw new RuntimeException("shipment has errors " + shipment.errors)
+			}
+
+		}
 
         return true;
     }
@@ -2193,7 +2202,7 @@ class ShipmentService {
 			// item in stock before we add it to the shipment. If the location is a supplier, we don't care.
 			if (location?.isWarehouse()) {
 				def onHandQuantity = inventoryService.getQuantity(location, product, item.lotNumber)
-				log.info("Checking shipment item quantity [" + item.quantity + "] vs onhand quantity [" + onHandQuantity + "]");
+				println("Checking shipment item quantity [" + item.quantity + "] vs onhand quantity [" + onHandQuantity + "]");
 
 				if (item.quantity > onHandQuantity) {
 					throw new RuntimeException("Quantity to ship exceeds quantity on hand for item " + item.productCode + " at location " + location?.name)
@@ -2269,7 +2278,7 @@ class ShipmentService {
 
                 // Find or create an inventory item given the product, lot number, and expiration date
                 InventoryItem inventoryItem = inventoryService.findOrCreateInventoryItem(item.product, item.lotNumber, item.expirationDate)
-                log.info("Inventory item: " + inventoryItem)
+                println("Inventory item: " + inventoryItem)
 
                 // Find or create the pallet and box (if provided). Items are added to Unpacked Items by default.
                 Container pallet = item.palletName ? shipment.findOrCreatePallet(item.palletName) : null

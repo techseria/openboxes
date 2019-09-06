@@ -8,7 +8,8 @@
     .selected { color: #666; }
     .unselected { color: #ccc; }
     </style>
-
+    <asset:javascript src="application.js"/>
+    <asset:javascript src="application.css"/>
 </head>
 <body>
 <div class="body">

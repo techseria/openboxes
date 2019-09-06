@@ -3,7 +3,8 @@
     <head>
          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
          <meta name="layout" content="custom" />
-         <title><warehouse:message code="shipping.enterTrackingDetails.label"/></title>         
+         <title><warehouse:message code="shipping.enterTrackingDetails.label"/></title>
+        <asset:javascript src="application.js"/>
     </head>
     <body>
         <div class="body">
@@ -17,23 +18,23 @@
 				</div>
 			</g:hasErrors> 
 			
-	 		<g:if test="${addPerson}">
-	 			<g:render template="addPerson" model="['personInstance':personInstance]"/>
+	 		<g:if test="${flash.addPerson}">
+	 			<g:render template="addPerson" model="['personInstance':flash.personInstance]"/>
 	 		</g:if>
-	 		<g:if test="${addShipper}">
-	 			<g:render template="addShipper" model="['shipperInstance':shipperInstance]"/>
+	 		<g:if test="${flash.addShipper}">
+	 			<g:render template="addShipper" model="['shipperInstance':flash.shipperInstance]"/>
 	 		</g:if>
 			
 			
 			<g:form action="createShipment" method="post">
 				<g:hiddenField name="id" value="${shipmentInstance?.id}"/>
-				<g:render template="../shipment/summary" />	
+				%{--<g:render template="/shipment/summary" />--}%
 				<g:render template="flowHeader" model="['currentState':'Tracking']"/>
 				
 				<div class="dialog box">
                     <h2><warehouse:message code="shipping.enterTrackingDetails.label"/></h2>
 					<table>
-	                    <tbody>		
+	                    <tbody>
 
 	                    	<g:if test="${!shipmentWorkflow?.isExcluded('carrier')}">
 								<tr class="prop">
@@ -57,17 +58,14 @@
 									<td valign="top" class="name"><label><warehouse:message
 										code="shipping.freightForwarder.label" /></label>
 
-										<g:link action="createShipment" event="addShipper" params="[target:'shipper']">
+										<g:link action="addShipper"  params="[target:'shipper']">
 											<img src="${createLinkTo(dir:'images/icons/silk',file:'lorry_add.png')}" alt="Add a shipper" class="middle"/>
 										</g:link>
 									</td>
 									<td valign="top" class="value">
-									
 										<g:selectShipper id="shipperInput" 
 											name="shipperInput.id" class="chzn-select-deselect" value="${shipmentInstance?.shipmentMethod?.shipper?.id }"
                                             noSelection="['null':'']"/>
-										
-
 									</td>
 								</tr>
 							</g:if>
@@ -81,7 +79,7 @@
 											valueId="${shipmentInstance?.recipient?.id}" 
 											valueName="${shipmentInstance?.recipient?.name}"/>		
 											
-										<g:link action="createShipment" event="addPerson" params="[target:'recipient']">
+										<g:link action="addPerson" params="[target:'recipient']">
 											<img src="${createLinkTo(dir:'images/icons/silk',file:'user_add.png')}" alt="Add a person" class="middle"/>
 										</g:link>
 									</td>
@@ -138,10 +136,10 @@
                		</table>
 				</div>
 				<div class="buttons">
-					<button name="_eventId_back" class="button">&lsaquo; <warehouse:message code="default.button.back.label"/></button>
-					<button name="_eventId_next" class="button"><warehouse:message code="default.button.next.label"/> &rsaquo;</button>
-					<button name="_eventId_save" class="button"><warehouse:message code="default.button.saveAndExit.label"/></button>
-					<button name="_eventId_cancel" class="button"><warehouse:message code="default.button.cancel.label"/></button>
+					<button name="_eventId_back" value="trackingDeatilsBack" class="button">&lsaquo; <warehouse:message code="default.button.back.label"/></button>
+					<button name="_eventId_next" value="trackingDeatilsNext" class="button"><warehouse:message code="default.button.next.label"/> &rsaquo;</button>
+					<button name="_eventId_save" value="trackingDeatilsSave" class="button"><warehouse:message code="default.button.saveAndExit.label"/></button>
+					<button name="_eventId_cancel" value="cancle" class="button"><warehouse:message code="default.button.cancel.label"/></button>
 				</div>
 				
 			</g:form>

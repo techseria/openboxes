@@ -1,4 +1,4 @@
-<%@ page import="util.ConfigHelper" %>
+<%@ page import="grails.util.Holders; util.ConfigHelper" %>
 <div id="consumption">
     <div class="box">
 
@@ -284,7 +284,7 @@ $(function () {
 });
 </script>
 <div id="consumption-config-dialog" title="${warehouse.message(code:'consumption.configuration.label', default:'Configuration')}">
-    <g:formRemote name="consumption" onLoading="showLoading()" onComplete="hideLoading()"
+    <g:form name="consumption" onLoading="showLoading()" onComplete="hideLoading()"
                   url="[controller: 'inventoryItem', action: 'showConsumption', params: [id: commandInstance?.product?.id]]"
                   update="consumption">
 
@@ -294,7 +294,7 @@ $(function () {
                     <warehouse:message code="reasonCode.label" default="Reason Code"/>
                 </td>
                 <td class="value">
-                    <g:set var="defaultReasonCodes" value="${ConfigHelper.listValue(grailsApplication.config.openboxes.stockCard.consumption.reasonCodes)}"/>
+                    <g:set var="defaultReasonCodes" value="${ConfigHelper.listValue(grails.util.Holders.config.openboxes.stockCard.consumption.reasonCodes)}"/>
 
                     <ul>
                         <li><g:checkBox id="reasonCode-ALL" name="reasonCode" value="ALL"/> <label for="reasonCode-ALL">All reason codes</label></li>
@@ -336,5 +336,5 @@ $(function () {
                 </td>
             </tr>
         </table>
-    </g:formRemote>
+    </g:form>
 </div>

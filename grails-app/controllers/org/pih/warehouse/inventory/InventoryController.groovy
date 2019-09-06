@@ -11,8 +11,6 @@
 package org.pih.warehouse.inventory
 
 import grails.converters.JSON
-import grails.plugin.springcache.annotations.CacheFlush
-import grails.plugin.springcache.annotations.Cacheable
 import grails.validation.ValidationException
 import groovy.time.TimeCategory
 import org.apache.commons.collections.FactoryUtils
@@ -52,7 +50,6 @@ class InventoryController {
     def manage = { ManageInventoryCommand command ->
         [command: command]
     }
-
     def binLocations = {
         Location location = Location.load(session.warehouse.id)
         List binLocations = inventorySnapshotService.getQuantityOnHandByBinLocation(location)
@@ -100,14 +97,12 @@ class InventoryController {
                 }
             }
 
-            log.info("size " + transaction?.transactionEntries?.size())
 
             if (!transaction?.transactionEntries) {
                 //transaction.errors.reject("default.errors.nonEmpty.message", "List must not be empty")
                 throw new ValidationException("Transaction entries must not be empty", transaction.errors)
             }
 
-            log.info("validate: " + transaction.validate())
 
             if (transaction.validate() && transaction.save()) {
                 flash.message = "Transaction ${transaction.id} saved"
@@ -133,7 +128,7 @@ class InventoryController {
     }
 
 
-	/**
+	/**manage
 	 * Allows a user to browse the inventory for a particular warehouse.
 	 */
     //@Cacheable("inventoryControllerCache")
@@ -253,8 +248,6 @@ class InventoryController {
 
 
         def elapsedTime = (System.currentTimeMillis() - startTime)
-        log.info("Show current inventory: " + (System.currentTimeMillis() - startTime) + " ms");
-        //def inventoryMapping = inventoryInstance.inventoryItems.groupBy{ it?.product }
         [
             //inventoryMapping: inventoryMapping,
             location: location,
@@ -779,11 +772,11 @@ class InventoryController {
 	}
 
 
-    def getCsvForInventoryMap(map) {
+    protected def getCsvForInventoryMap(map) {
         return getCsvForInventoryMap(map, [:])
     }
 
-    def getCsvForInventoryMap(map, statusMap) {
+    protected def getCsvForInventoryMap(map, statusMap) {
         def csv = "";
         csv += '"' + "${warehouse.message(code: 'inventoryLevel.status.label')}" + '"' + ","
         csv += '"' + "${warehouse.message(code: 'product.productCode.label')}" + '"' + ","
@@ -836,11 +829,11 @@ class InventoryController {
         return csv
     }
 
-    def getCsvForProductMap(map) {
+   protected def getCsvForProductMap(map) {
         return getCsvForProductMap(map, [:])
     }
 
-    def getCsvForProductMap(map, statusMap) {
+   protected def getCsvForProductMap(map, statusMap) {
         def hasRoleFinance = userService.hasRoleFinance(session.user)
 
         def csv = "";
@@ -1132,7 +1125,7 @@ class InventoryController {
     }
 
     def createTransaction = {
-		log.info("createTransaction: " + params)
+		println("createTransaction: " + params)
 		def command = new TransactionCommand();
 		def warehouseInstance = Location.get(session?.warehouse?.id);
 		def transactionInstance = new Transaction(params);
@@ -1188,7 +1181,7 @@ class InventoryController {
 	/**
 	 * Save a transaction that sets the current inventory level for stock.
 	 */
-    @CacheFlush("inventoryBrowserCache")
+   // @CacheFlush("inventoryBrowserCache")
 	def saveInventoryTransaction = { TransactionCommand command ->
 		log.info ("Saving inventory adjustment " + params)
         log.info "Command: " + command
@@ -1268,10 +1261,10 @@ class InventoryController {
 	 * TRANSFER_OUT, CONSUMED, DAMAGED, EXPIRED
 	 */
 
-    @CacheFlush("inventoryBrowserCache")
+//    @CacheFlush("inventoryBrowserCache")
 	def saveDebitTransaction = { TransactionCommand command ->
 		log.info ("Saving debit transactions " + params)
-		log.info("size: " + command?.transactionEntries?.size());
+		println("size: " + command?.transactionEntries?.size());
 
 
         // Get the products involved
@@ -1353,7 +1346,7 @@ class InventoryController {
 	 *
 	 * TRANSFER_IN
 	 */
-    @CacheFlush("inventoryBrowserCache")
+//    @CacheFlush("inventoryBrowserCache")
 	def saveCreditTransaction = { TransactionCommand command ->
 
 		log.debug("Saving credit transaction: " + params)
@@ -1437,7 +1430,6 @@ class InventoryController {
 
 			// Populate the command object and render the form view.
 			command.warehouseInstance = warehouseInstance
-
 			render(view: "createTransaction", model: [command: command]);
 		}
 	}
@@ -1445,11 +1437,13 @@ class InventoryController {
 	def editTransaction = {
         def startTime = System.currentTimeMillis()
 		log.info "edit transaction: " + params
+        def model
+        def warehouseInstance = Location.get(session?.warehouse?.id)
+        if(params?.id){
 		def transactionInstance = Transaction.get(params?.id)
-		def warehouseInstance = Location.get(session?.warehouse?.id);
         def products = transactionInstance?.transactionEntries.collect { it.inventoryItem.product }
 		def inventoryItems = InventoryItem.findAllByProductInList(products)
-		def model = [
+		 model = [
 			inventoryItemsMap: inventoryItems.groupBy { it.product?.id } ,
 			transactionInstance: transactionInstance?:new Transaction(),
 			transactionTypeList: TransactionType.list(),
@@ -1457,7 +1451,18 @@ class InventoryController {
 			quantityMap: [:],//inventoryService.getQuantityForInventory(warehouseInstance?.inventory),
 			warehouseInstance: warehouseInstance
         ]
-
+        }
+        else
+        {
+            model = [
+                    inventoryItemsMap: null  ,
+                    transactionInstance: null ,
+                    transactionTypeList: TransactionType.list(),
+                    locationInstanceList: Location.findAllByParentLocationIsNull(),
+                    quantityMap: [:],//inventoryService.getQuantityForInventory(warehouseInstance?.inventory),
+                    warehouseInstance: warehouseInstance
+            ]
+        }
         println "Edit transaction " + (System.currentTimeMillis() - startTime) + " ms"
 
 		render(view: "editTransaction", model: model)

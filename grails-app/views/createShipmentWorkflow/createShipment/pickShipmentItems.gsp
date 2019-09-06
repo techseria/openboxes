@@ -13,6 +13,7 @@
              .different-product { border-top: 3px solid lightgrey; }
              .body { min-height: 800px; }
          </style>
+        <asset:javascript src="application.js"/>
     </head>
     <body>
         <div class="body">
@@ -23,7 +24,7 @@
                 <div class="message">${message}</div>
             </g:if>
 
-            <g:render template="../shipment/summary" />
+           %{-- <g:render template="../shipment/summary" />--}%
             <g:render template="flowHeader" model="['currentState':'Picking']"/>
 
             <g:set var="shipmentItemsSorted" value="${shipmentInstance.sortShipmentItems()}"/>
@@ -225,10 +226,10 @@
 
                         </div>
                         <div class="buttons">
-                            <button name="_eventId_back" class="button">&lsaquo; <warehouse:message code="default.button.back.label"/></button>
-                            <button name="_eventId_next" class="button"><warehouse:message code="default.button.next.label"/> &rsaquo;</button>
-                            <button name="_eventId_save" class="button"><warehouse:message code="default.button.saveAndExit.label"/></button>
-                            <button name="_eventId_cancel" class="button"><warehouse:message code="default.button.cancel.label"/></button>
+                            <button name="_eventId_back" value = "pickShipmentBack" class="button">&lsaquo; <warehouse:message code="default.button.back.label"/></button>
+                            <button name="_eventId_next" value = "pickShipmentNext" class="button"><warehouse:message code="default.button.next.label"/> &rsaquo;</button>
+                            <button name="_eventId_save" value = "pickShipmentSave" class="button"><warehouse:message code="default.button.saveAndExit.label"/></button>
+                            <button name="_eventId_cancel" value = "cancle" class="button"><warehouse:message code="default.button.cancel.label"/></button>
                         </div>
 
                     </g:form>

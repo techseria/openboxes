@@ -10,16 +10,18 @@
 package org.pih.warehouse.picklist
 
 import grails.converters.JSON
+import grails.plugins.rendering.pdf.PdfRenderingService
+import grails.util.Holders
 import org.pih.warehouse.core.Location
 import org.pih.warehouse.requisition.Requisition
 import org.xml.sax.SAXParseException
 
 class PicklistController {
 
-	def scaffold = true
+//	def scaffold = true
 
 	def picklistService
-    def pdfRenderingService
+    PdfRenderingService pdfRenderingService
 
 	def save = {
 		def jsonRequest = request.JSON
@@ -48,7 +50,7 @@ class PicklistController {
         //def filename = "Picklist - ${requisition.requestNumber}"
         //[requisition:requisition, picklist: picklist, location:location]
 
-        //def defaultLocale = new Locale(grailsApplication.config.openboxes.locale.defaultLocale)
+        //def defaultLocale = new Locale(Holders.config.openboxes.locale.defaultLocale)
         //def locale = session?.user?.locale ?: session.locale ?: defaultLocale;
 
         //println "location ${location}"
@@ -81,7 +83,7 @@ class PicklistController {
 
     def renderHtml = {
 
-        def defaultLocale = new Locale(grailsApplication.config.openboxes.locale.defaultLocale)
+        def defaultLocale = new Locale(Holders.config.openboxes.locale.defaultLocale)
         def locale = session?.user?.locale ?: session.locale ?: defaultLocale;
         def requisition = Requisition.get(params.id)
         def picklist = Picklist.findByRequisition(requisition)

@@ -19,8 +19,6 @@ import org.pih.warehouse.core.UnitOfMeasure
 
 import javax.activation.MimetypesFileTypeMap
 import java.sql.SQLException
-import org.apache.commons.io.FilenameUtils
-import org.codehaus.groovy.grails.web.context.ServletContextHolder
 import org.pih.warehouse.core.Document
 import org.pih.warehouse.core.Location
 import org.pih.warehouse.core.RoleType
@@ -55,7 +53,7 @@ class ProductController {
 	}
 
 	def redirect = {
-        log.info("Redirecting to product " + params.id)
+        println("Redirecting to product " + params.id)
 		redirect(controller: "inventoryItem", action: "showStockCard", id: params.id)
 	}
 
@@ -160,7 +158,7 @@ class ProductController {
 
 	def list = {
 		def productInstanceList = []
-		def productInstanceTotal = 0;
+		def productInstanceTotal = 0
 
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 
@@ -254,7 +252,7 @@ class ProductController {
 		// find the phones that are marked for deletion
 		def _toBeDeleted = productInstance.categories.findAll {(it?.deleted || (it == null))}
 
-		log.info("toBeDeleted: " + _toBeDeleted )
+		println("toBeDeleted: " + _toBeDeleted )
 
 		// if there are phones to be deleted remove them all
 		if (_toBeDeleted) {
@@ -271,7 +269,7 @@ class ProductController {
         }
 
 		if (!productInstance.hasErrors() && productInstance.save(flush: true)) {
-            log.info("saved product " + productInstance.errors)
+            println("saved product " + productInstance.errors)
             def warehouseInstance = Location.get(session.warehouse.id);
             def inventoryInstance = warehouseInstance?.inventory;
 			flash.message = "${warehouse.message(code: 'default.created.message', args: [warehouse.message(code: 'product.label', default: 'Product'), format.product(product:productInstance)])}"
@@ -361,12 +359,12 @@ class ProductController {
                 updateTags(productInstance, params)
                 updateAttributes(productInstance, params)
 
-                log.info("Categories " + productInstance?.categories);
+                println("Categories " + productInstance?.categories);
 
                 // find the categories that are marked for deletion
                 def _toBeDeleted = productInstance.categories.findAll { (it?.deleted || (it == null)) }
 
-                log.info("toBeDeleted: " + _toBeDeleted)
+                println("toBeDeleted: " + _toBeDeleted)
 
                 // if there are categories to be deleted remove them all
                 if (_toBeDeleted) {
@@ -476,7 +474,7 @@ class ProductController {
             }
             else {
                 if (existingAttribute?.attribute?.active) {
-                    log.info("removing attribute ${existingAttribute.attribute.name}")
+                    println("removing attribute ${existingAttribute.attribute.name}")
                     productInstance.removeFromAttributes(existingAttribute)
                     existingAttribute.delete()
                     productInstance.save()
@@ -1188,7 +1186,7 @@ class ProductController {
     }
 
 	def addToProductCatalog = { ProductCatalogCommand command ->
-		log.info("Add product ${command.product} to ${command.productCatalog}" + params)
+		println("Add product ${command.product} to ${command.productCatalog}" + params)
 		def product = command.product
 		def productCatalog = command.productCatalog
         if (product && productCatalog) {

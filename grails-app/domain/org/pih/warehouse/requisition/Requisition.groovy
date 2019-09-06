@@ -9,6 +9,7 @@
  * */
 package org.pih.warehouse.requisition
 
+import grails.databinding.BindingFormat
 import org.pih.warehouse.auth.AuthService;
 import org.pih.warehouse.core.Location;
 import org.pih.warehouse.core.Person;
@@ -40,14 +41,23 @@ class Requisition implements Comparable<Requisition>, Serializable {
     String requestNumber     // an auto-generated reference number
 
     // Dates
+    @BindingFormat("MM/dd/yyyy")
     Date dateRequested = new Date()
-    Date dateReviewed
-    Date dateVerified
-    Date dateChecked
-    Date dateDelivered
-    Date dateIssued
-    Date dateReceived
 
+    @BindingFormat("MM/dd/yyyy")
+    Date dateReviewed
+
+    Date dateVerified
+
+    @BindingFormat("MM/dd/yyyy")
+    Date dateChecked
+    @BindingFormat("MM/dd/yyyy")
+    Date dateDelivered
+    @BindingFormat("MM/dd/yyyy")
+    Date dateIssued
+    @BindingFormat("MM/dd/yyyy")
+    Date dateReceived
+    @BindingFormat("MM/dd/yyyy")
     Date requestedDeliveryDate = new Date()
 
     // Frequency - for stock requisitions we should know how often (monthly, weekly, daily)
@@ -125,7 +135,6 @@ class Requisition implements Comparable<Requisition>, Serializable {
     static mapping = {
         id generator: 'uuid'
         requisitionItems cascade: "all-delete-orphan", sort: "orderIndex", order: 'asc', batchSize: 100
-
         //week formula('WEEK(date_requested)')    //provide the exact column name of the date field
         //month formula('MONTH(date_requested)')
         monthRequested formula: "date_format(date_requested, '%M %Y')"

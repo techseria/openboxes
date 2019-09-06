@@ -10,17 +10,13 @@
 package org.pih.warehouse.inventory
 
 import grails.converters.JSON
-import grails.plugin.springcache.annotations.Cacheable
 import org.pih.warehouse.core.Location
 import org.pih.warehouse.core.User
 import org.pih.warehouse.data.DataService
 import org.pih.warehouse.jobs.CalculateQuantityJob
-import org.pih.warehouse.jobs.RefreshInventorySnapshotJob
 import org.pih.warehouse.product.Product
-import org.springframework.http.HttpStatus
 
 import java.text.DateFormat
-import java.text.ParseException
 import java.text.SimpleDateFormat
 
 class InventorySnapshotController {
@@ -75,6 +71,7 @@ class InventorySnapshotController {
         date.clearTime()
         Product product = Product.get(params.productId)
         Location location = Location.get(session.warehouse.id)
+        inventorySnapshotService.deleteInventorySnapshots(date, location, product)
         inventorySnapshotService.populateInventorySnapshots(date, location, product)
         render ([status: "OK"] as JSON)
     }

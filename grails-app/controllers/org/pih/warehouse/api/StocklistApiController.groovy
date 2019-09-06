@@ -10,7 +10,7 @@
 package org.pih.warehouse.api
 
 import grails.converters.JSON
-import org.codehaus.groovy.grails.web.json.JSONObject
+import org.grails.web.json.JSONObject
 import org.hibernate.ObjectNotFoundException
 import org.pih.warehouse.requisition.Requisition
 
@@ -25,7 +25,6 @@ class StocklistApiController {
     def list = {
         Requisition requisition = new Requisition(params)
         requisition.isTemplate = true
-        requisition.isPublished = true
         List<Requisition> requisitions = requisitionService.getAllRequisitionTemplates(requisition, params)
         render ([data:requisitions] as JSON)
     }

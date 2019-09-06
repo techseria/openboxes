@@ -3,6 +3,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="custom" />
         <title>${warehouse.message(code: 'dashboard.chooseLocation.label')}</title>
+        <asset:javascript src="application.js"/>
     </head>
     <body>        
 		<div class="body">

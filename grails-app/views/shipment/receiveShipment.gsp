@@ -8,6 +8,7 @@
     <style>
         .border-top { border-top: 3px lightgrey solid; }
     </style>
+    <asset:javascript src="application.js"/>
 </head>
 
 <body>
@@ -33,7 +34,7 @@
 
         <div class="buttons">
             <div class="button-container" style="text-align: left">
-                <g:render template="../shipment/actions" model="[shipmentInstance:shipmentInstance]" />
+                <g:render template="/shipment/actions" model="[shipmentInstance:shipmentInstance]" />
                 <g:render template="buttons"/>
 
                 <g:link controller="shipment" action="deleteReceipt" id="${receiptInstance?.id}" class="button">

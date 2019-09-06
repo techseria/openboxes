@@ -5,6 +5,7 @@
 			style="vertical-align: middle" />
 	</button>
 	<div class="actions">
+	<div class="actions">
 		<div class="action-menu-item">
 			<g:link class="list" action="list">
 				<img src="${createLinkTo(dir:'images/icons/silk',file:'table.png')}" class="middle"/>&nbsp;

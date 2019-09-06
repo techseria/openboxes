@@ -13,6 +13,7 @@
 <%--
     <gvisualization:apiImport/>
 --%>
+<asset:javascript src="application.js"/>
 </head>
 <body>
 	<div class="body">	
@@ -33,7 +34,7 @@
 				<g:renderErrors bean="${flash.errors}" as="list" />
 			</div>
 		</g:hasErrors>
-		<g:render template="../product/summary" model="[productInstance:commandInstance?.product,
+		<g:render template="/product/summary" model="[productInstance:commandInstance?.product,
 			inventoryInstance:commandInstance?.inventory,
 			inventoryLevelInstance: commandInstance?.inventoryLevel,
 			totalQuantity: commandInstance?.totalQuantity]"/>

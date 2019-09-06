@@ -1,4 +1,4 @@
-<%@ page import="org.pih.warehouse.product.Product"%>
+<%@ page import="grails.util.Holders; org.pih.warehouse.product.Product"%>
 <%@ page import="org.pih.warehouse.inventory.InventoryStatus" %>
 
 <g:if test="${message}">
@@ -14,11 +14,11 @@
 		<g:renderErrors bean="${command}" as="list" />
 	</div>
 </g:hasErrors>
-<g:hasErrors bean="${flash.itemInstance}">
+%{--<g:hasErrors bean="${flash.itemInstance}">
 	<div class="errors dialog">
 		<g:renderErrors bean="${flash.itemInstance}" as="list" />
 	</div>
-</g:hasErrors>
+</g:hasErrors>--}%
 
 <g:if test="${commandInstance?.inventoryLevel?.status == InventoryStatus.SUPPORTED }">
 	<div id="transactionLogTabs" class="tabs">												
@@ -31,7 +31,7 @@
 			<li><a href="${request.contextPath}/inventoryItem/showPending/${commandInstance?.product?.id}?type=INBOUND"><warehouse:message code="stockCard.pendingInbound.label" default="Pending Inbound"/></a></li>
 			<li><a href="${request.contextPath}/inventoryItem/showPending/${commandInstance?.product?.id}?type=OUTBOUND"><warehouse:message code="stockCard.pendingOutbound.label" default="Pending Outbound"/></a></li>
             <li><a href="${request.contextPath}/inventoryItem/showConsumption/${commandInstance?.product?.id}"><warehouse:message code="inventory.consumption.label" default="Consumption"/></a></li>
-			<g:if test="${grailsApplication.config.openboxes.forecasting.enabled}">
+			<g:if test="${grails.util.Holders.config.openboxes.forecasting.enabled}">
 				<g:isSuperuser>
 					<li><a href="${request.contextPath}/inventoryItem/showProductDemand/${commandInstance?.product?.id}"><warehouse:message code="forecasting.demand.label" default="Consumption"/></a></li>
 				</g:isSuperuser>

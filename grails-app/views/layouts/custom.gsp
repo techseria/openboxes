@@ -1,4 +1,4 @@
-<%@ page import="java.util.Locale" %>
+<%@ page import="grails.util.Holders; java.util.Locale" %>
 <?xml version="1.0" encoding="UTF-8"?>
 <html lang="en">
 <head>
@@ -33,6 +33,7 @@
     <jqvalui:resources />
 
     <link rel="stylesheet" href="${resource(dir:'css',file:'openboxes.css')}" type="text/css" media="all" />
+    <link rel="stylesheet" href="${resource(dir:'css',file:'grids.css')}" type="text/css" media="all" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'loading.css')}" type="text/css" media="all" />
 
     <!-- jquery validation messages -->
@@ -55,9 +56,9 @@
 <g:render template="/common/customVariables"/>
 <div id="doc3">
 
-    <g:if test="${grailsApplication.config.openboxes.system.notification.enabled}">
+    <g:if test="${grails.util.Holders.config.openboxes.system.notification.enabled}">
         <div class="notice">
-            ${grailsApplication.config.openboxes.system.notification.message}
+            ${Holders.config.openboxes.system.notification.message}
         </div>
     </g:if>
     <g:if test="${session.impersonateUserId}">
@@ -136,11 +137,6 @@
 
 
 <!-- YUI "footer" block that includes footer information -->
-    <g:if test="${session?.user && session?.warehouse}">
-        <div id="ft" role="contentinfo">
-            <g:render template="/common/footer" />
-        </div>
-    </g:if>
 </div>
 <div id="dlgShowDialog" class="dialog hidden">
     <div id="dlgShowDialogContent" class="empty center">
@@ -175,8 +171,8 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.js" type="text/javascript"></script>
 
 <!-- JIRA Issue Collector -->
-<g:if test="${session.user && Boolean.valueOf(grailsApplication.config.openboxes.jira.issue.collector.enabled)}">
-    <script type="text/javascript" src="${grailsApplication.config.openboxes.jira.issue.collector.url}"></script>
+<g:if test="${session.user && Boolean.valueOf(Holders.config.openboxes.jira.issue.collector.enabled)}">
+    <script type="text/javascript" src="${Holders.config.openboxes.jira.issue.collector.url}"></script>
 </g:if>
 
 <!-- Localization -->
@@ -502,7 +498,7 @@
     });
 </script>
 
-<g:if test="${session.user && Boolean.valueOf(grailsApplication.config.openboxes.scannerDetection.enabled)}">
+<g:if test="${session.user && Boolean.valueOf(Holders.config.openboxes.scannerDetection.enabled)}">
     <script src="${createLinkTo(dir:'js/jquery.scannerdetection', file:'jquery.scannerdetection.js')}" type="text/javascript" ></script>
     <script>
         $(document).ready(function() {
@@ -543,7 +539,7 @@
         });
     </script>
 </g:if>
-<g:if test="${session.user && Boolean.valueOf(grailsApplication.config.openboxes.uservoice.widget.enabled)}">
+<g:if test="${session.user && Boolean.valueOf(Holders.config.openboxes.uservoice.widget.enabled)}">
     <script type="text/javascript">
         // Include the UserVoice JavaScript SDK (only needed once on a page)
         UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/YkvS1YXcD9o2f8tiOphf5Q.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
@@ -587,7 +583,7 @@
         UserVoice.push(['addTrigger', {
             mode: 'contact',
             trigger_style: 'tab',
-            trigger_position: '${grailsApplication.config.openboxes.uservoice.widget.position?:"bottom-right"}',
+            trigger_position: '${Holders.config.openboxes.uservoice.widget.position?:"bottom-right"}',
             //accent_color: '#448dd6',
             //trigger_color: '#448dd6',
             trigger_background_color: '#448dd6',
@@ -602,13 +598,13 @@
     </script>
 </g:if>
 <!-- Live Chat -->
-<g:if test="${grailsApplication.config.openboxes.zopim.widget.enabled}">
+<g:if test="${Holders.config.openboxes.zopim.widget.enabled}">
     <!--Start of Zopim Live Chat Script-->
     <script type="text/javascript">
         window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
                 d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
                 _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
-            $.src="${grailsApplication.config.openboxes.zopim.widget.url}";z.t=+new Date;$.
+            $.src="${Holders.config.openboxes.zopim.widget.url}";z.t=+new Date;$.
                     type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
     </script>
     <!--End of Zopim Live Chat Script-->

@@ -9,19 +9,12 @@
 **/ 
 package org.pih.warehouse.jobs
 
-import grails.converters.JSON
-import grails.plugin.quartz2.TriggerHelper
-import org.quartz.CronTrigger
-import org.quartz.JobDataMap
+// import grails.plugin.quartz2.TriggerHelper
 import org.quartz.JobDetail
 import org.quartz.JobKey
-import org.quartz.Scheduler
 import org.quartz.Trigger
-import org.quartz.TriggerBuilder
 import org.quartz.TriggerKey
-import org.quartz.core.QuartzScheduler
 import org.quartz.impl.StdScheduler
-import org.quartz.impl.StdSchedulerFactory
 
 import java.text.ParseException
 
@@ -65,8 +58,8 @@ class JobsController {
         JobKey jobKey = JobKey.jobKey(params.id)
         JobDetail jobDetail = quartzScheduler.getJobDetail(jobKey)
 
-        log.info(jobKey);
-        log.info(jobDetail);
+        println(jobKey);
+        println(jobDetail);
         def triggers = quartzScheduler.getTriggersOfJob(jobKey)
 
         [jobDetail:jobDetail, jobKey: jobKey, triggers:triggers]

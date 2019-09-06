@@ -1,3 +1,4 @@
+<%@ page import="grails.util.Holders" %>
 <g:form controller="productSupplier" method="post">
 
     <g:hiddenField name="id" value="${productSupplier?.id}"></g:hiddenField>
@@ -128,7 +129,7 @@
                 <td class="value ">
                     <g:hasRoleFinance onAccessDenied="${g.message(code:'errors.userNotGrantedPermission.message', args: [session.user.username])}">
                         <g:textField name="unitPrice" size="80" class="medium text" value="${productSupplier?.unitPrice}" />
-                        ${grailsApplication.config.openboxes.locale.defaultCurrencyCode}
+                        ${grails.util.Holders.config.openboxes.locale.defaultCurrencyCode}
                     </g:hasRoleFinance>
                 </td>
             </tr>

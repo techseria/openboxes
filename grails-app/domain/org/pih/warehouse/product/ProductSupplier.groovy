@@ -82,7 +82,7 @@ class ProductSupplier implements Comparable<ProductSupplier>{
     Date lastUpdated
 
     static mapping = {
-        description type: 'text'
+        id generator: 'uuid'
     }
 
     static constraints = {

@@ -21,28 +21,6 @@ class Doc4jController {
 	def documentService
 	def shipmentService
 
-	def viewPackingList = {
-		log.info params
-		def shipmentInstance = Shipment.get(params.id)
-		Location currentLocation = Location.get(session.warehouse.id)
-
-		if (!shipmentInstance) {
-			throw new Exception("Unable to locate shipment with ID ${params.id}")
-		}
-
-		[shipment:shipmentInstance, currentLocation:currentLocation]
-	}
-
-	def viewCertificateOfDonation = {
-		def shipmentInstance = Shipment.get(params.id);
-
-		if (!shipmentInstance) {
-			throw new Exception("Unable to locate shipment with ID ${params.id}")
-		}
-
-		[shipment: shipmentInstance]
-	}
-
 	def downloadLetter = {
 		def shipmentInstance = Shipment.get(params.id);
 
@@ -71,15 +49,33 @@ class Doc4jController {
 		response.setHeader("Content-disposition", "attachment; filename=\"${filename}\"");
 		response.setContentType("application/pdf")
 		//response.outputStream = outputStream;
-		return;
+		return response
 	}
 
+	def viewPackingList = {
+		def shipmentInstance = Shipment.get(params.id)
+		Location currentLocation = Location.get(session.warehouse.id)
 
-	/**
+		if (!shipmentInstance) {
+			throw new Exception("Unable to locate shipment with ID ${params.id}")
+		}
+
+		[shipment:shipmentInstance, currentLocation:currentLocation]
+	}
+
+    def viewCertificateOfDonation = {
+        def shipmentInstance = Shipment.get(params.id);
+
+        if (!shipmentInstance) {
+            throw new Exception("Unable to locate shipment with ID ${params.id}")
+        }
+
+        [shipment: shipmentInstance]
+    }
+ 	/**
 	 *
 	 */
 	def downloadPackingList = {
-		log.info params
 		def shipmentInstance = Shipment.get(params.id);
 
 		if (!shipmentInstance) {
@@ -87,7 +83,6 @@ class Doc4jController {
 		}
 
 		// For some reason, this needs to be here or we get a File Not Found error (ERR_FILE_NOT_FOUND)
-		render ""
 
 		def filename = "Packing List - " + shipmentInstance?.name?.trim() + ".xls"
 		log.info ("filename " + filename )
@@ -95,7 +90,7 @@ class Doc4jController {
 		response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
 		documentService.generatePackingList(response.outputStream, shipmentInstance)
 		//response.outputStream << tempFile.readBytes()
-		return;
+		return response;
 
 	}
 
@@ -115,7 +110,7 @@ class Doc4jController {
 		response.setHeader("Content-disposition", "attachment; filename=\"${filename}\"");
 		response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
 		documentService.generateCertificateOfDonation(response.outputStream, shipmentInstance)
-		return;
+		return response;
 
 	}
 
